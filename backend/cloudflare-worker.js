@@ -1,6 +1,11 @@
 /**
  * 2026 台灣六都選情觀測站 — 民意調查箱 Serverless 後端 (Cloudflare Worker + KV)
  *
+ * 已對應您的 Cloudflare KV 設定：
+ * - Namespace 名稱 (Binding): ELECTION_BALLOT_KV
+ * - Namespace ID: 7a8600a9984b42888435f8836f0a67c6
+ * - 前端頁面網址: https://monochromelab.idv.tw/2026-Taiwan-Election-Neural-Visualizer/
+ *
  * 功能：
  * 1. 全網共用真實票數累計（儲存於 Cloudflare KV: ELECTION_BALLOT_KV）
  * 2. 嚴格「每人 1 天 1 次」防重複投票：
@@ -37,15 +42,34 @@ export default {
       return new Response(null, { headers: CORS_HEADERS });
     }
 
+    if (!env.ELECTION_BALLOT_KV) {
+      return new Response(
+        JSON.stringify({ ok: false, error: 'KV binding ELECTION_BALLOT_KV not found' }),
+        { status: 500, headers: CORS_HEADERS }
+      );
+    }
+
     const url = new URL(request.url);
     const cityId = url.searchParams.get('cityId') || 'taipei';
+    const fp = url.searchParams.get('fp') || 'unknown_fp';
+    const dateKey = url.searchParams.get('dateKey') || new Date().toISOString().slice(0, 10);
+    const clientIp = request.headers.get('CF-Connecting-IP') || '0.0.0.0';
 
     if (request.method === 'GET') {
-      const stored = await env.ELECTION_BALLOT_KV.get(`votes_${cityId}`, 'json');
-      const votesMap = stored || INITIAL_VOTES[cityId] || INITIAL_VOTES.taipei;
-      return new Response(JSON.stringify({ ok: true, cityId, votesMap }), {
-        headers: CORS_HEADERS
-      });
+      let votesMap = await env.ELECTION_BALLOT_KV.get(`votes_${cityId}`, 'json');
+      if (!votesMap) {
+        votesMap = INITIAL_VOTES[cityId] || INITIAL_VOTES.taipei;
+        await env.ELECTION_BALLOT_KV.put(`votes_${cityId}`, JSON.stringify(votesMap));
+      }
+
+      const lockHash = await sha256Hex(`${clientIp}|${fp}|${cityId}|${dateKey}`);
+      const lockKey = `lock_${cityId}_${dateKey}_${lockHash}`;
+      const votedOpt = await env.ELECTION_BALLOT_KV.get(lockKey);
+
+      return new Response(
+        JSON.stringify({ ok: true, cityId, votesMap, votedOpt: votedOpt || null }),
+        { headers: CORS_HEADERS }
+      );
     }
 
     if (request.method === 'POST') {
@@ -53,12 +77,11 @@ export default {
       const targetCity = body.cityId || 'taipei';
       const optId = body.optId || 'kmt';
       const fingerprint = body.fingerprint || 'unknown_fp';
-      const dateKey = body.dateKey || new Date().toISOString().slice(0, 10);
-      const clientIp = request.headers.get('CF-Connecting-IP') || '0.0.0.0';
+      const postDateKey = body.dateKey || new Date().toISOString().slice(0, 10);
 
       // 以 IP + 裝置指紋 + 選區 + 台灣日期 產生不可逆雜湊鎖
-      const lockHash = await sha256Hex(`${clientIp}|${fingerprint}|${targetCity}|${dateKey}`);
-      const lockKey = `lock_${targetCity}_${dateKey}_${lockHash}`;
+      const lockHash = await sha256Hex(`${clientIp}|${fingerprint}|${targetCity}|${postDateKey}`);
+      const lockKey = `lock_${targetCity}_${postDateKey}_${lockHash}`;
 
       const alreadyVoted = await env.ELECTION_BALLOT_KV.get(lockKey);
       const currentVotes = (await env.ELECTION_BALLOT_KV.get(`votes_${targetCity}`, 'json')) ||
@@ -71,7 +94,8 @@ export default {
             ok: false,
             reason: 'ALREADY_VOTED_TODAY',
             cityId: targetCity,
-            votesMap: currentVotes
+            votesMap: currentVotes,
+            votedOpt: alreadyVoted
           }),
           { status: 429, headers: CORS_HEADERS }
         );
@@ -87,7 +111,8 @@ export default {
         JSON.stringify({
           ok: true,
           cityId: targetCity,
-          votesMap: currentVotes
+          votesMap: currentVotes,
+          votedOpt: optId
         }),
         { headers: CORS_HEADERS }
       );

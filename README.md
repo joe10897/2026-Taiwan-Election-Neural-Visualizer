@@ -1,6 +1,8 @@
 # 2026 台灣六都選情觀測站
 
 > **給每一位關心台灣未來的選民：用最直觀的視覺，看懂民調數字背後的真相，並投下您真實的一票。**
+>
+> **線上觀測站網址：[https://monochromelab.idv.tw/2026-Taiwan-Election-Neural-Visualizer/](https://monochromelab.idv.tw/2026-Taiwan-Election-Neural-Visualizer/)**
 
 距離 **2026 年 11 月 28 日九合一縣市長大選** 越來越近，每天都有不同機構發布民調、每天都有鋪天蓋地的新聞與社群討論。為什麼同一場選舉，不同機構做出的民調會差這麼多？您支持的人選現在領先還是落後？
 

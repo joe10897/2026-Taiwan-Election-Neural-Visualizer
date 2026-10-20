@@ -4,6 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <title>2026 台灣六都選情觀測站｜民調競速・互動地圖・民意調查・即時新聞</title>
+  <link rel="canonical" href="https://monochromelab.idv.tw/2026-Taiwan-Election-Neural-Visualizer/" />
+  <meta property="og:title" content="2026 台灣六都選情觀測站｜民調競速・互動地圖・民意調查" />
+  <meta property="og:description" content="整合 TVBS、信民協會等跨機構民調、六都互動地圖、全網即時同步民意調查箱與選情新聞。" />
+  <meta property="og:url" content="https://monochromelab.idv.tw/2026-Taiwan-Election-Neural-Visualizer/" />
+  <meta property="og:type" content="website" />
   <!-- Google Fonts: Editorial Serif + Clean Sans + Numeric Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1771,7 +1776,11 @@
         <h2 class="section-title" style="font-size:18px;">跨機構抽樣與政黨加權分析</h2>
         <div class="section-sub" style="margin-top:4px;">拉動滑桿時，右側全頁地圖與民調將即時同步變動</div>
       </div>
-      <button class="drawer-close-btn" id="btnCloseDrawer" title="收合面板">✕</button>
+      <button class="drawer-close-btn" id="btnCloseDrawer" title="收合面板" aria-label="收合面板">
+        <svg class="morph-svg" viewBox="0 0 24 24" style="width:15px; height:15px;">
+          <path d="M18 6L6 18M6 6l12 12" />
+        </svg>
+      </button>
     </div>
 
     <div class="drawer-body">
@@ -2049,7 +2058,12 @@
             </div>
             <div class="ballot-single-hint">
               <span>* 單選</span>
-              <span class="cloud-sync-tag" id="cloudSyncBadge">● 全網雲端即時同步</span>
+              <span class="cloud-sync-tag" id="cloudSyncBadge">
+                <svg class="morph-svg" viewBox="0 0 24 24" style="width:12px; height:12px;">
+                  <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z" />
+                </svg>
+                <span id="cloudSyncText">全網雲端即時同步</span>
+              </span>
             </div>
 
             <div class="ballot-options" id="ballotOptionsList">
@@ -2229,7 +2243,11 @@
           <h3 class="section-title" id="shareModalTitle" style="font-size:19px;">分享選情摘要圖卡</h3>
           <div class="section-sub">自動產生當前選區最新民調與全網民意調查箱即時數據</div>
         </div>
-        <button class="drawer-close-btn" id="btnCloseShareModal" aria-label="關閉分享視窗">✕</button>
+        <button class="drawer-close-btn" id="btnCloseShareModal" aria-label="關閉分享視窗">
+          <svg class="morph-svg" viewBox="0 0 24 24" style="width:15px; height:15px;">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
       </div>
 
       <div class="share-canvas-wrap">
@@ -2241,7 +2259,7 @@
       <div class="share-actions-grid">
         <button class="share-action-btn primary-share" id="btnCopyShareText">
           <svg class="morph-svg" viewBox="0 0 24 24" style="width:16px; height:16px;">
-            <path d="M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1M8 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M8 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2m0 0h2a2 2 0 0 1 2 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+            <path id="copyShareIconPath" d="M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1M8 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M8 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2m0 0h2a2 2 0 0 1 2 2v3" />
           </svg>
           <span id="btnCopyShareLabel">複製選情文字與連結</span>
         </button>
@@ -2254,14 +2272,24 @@
         </button>
 
         <a class="share-action-btn" id="linkShareLine" href="#" target="_blank" rel="noopener noreferrer">
+          <svg class="morph-svg" viewBox="0 0 24 24" style="width:15px; height:15px;">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+          </svg>
           <span>分享至 LINE</span>
         </a>
 
         <a class="share-action-btn" id="linkShareThreads" href="#" target="_blank" rel="noopener noreferrer">
+          <svg class="morph-svg" viewBox="0 0 24 24" style="width:15px; height:15px;">
+            <circle cx="12" cy="12" r="4" />
+            <path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94" />
+          </svg>
           <span>分享至 Threads</span>
         </a>
 
         <a class="share-action-btn" id="linkShareFb" href="#" target="_blank" rel="noopener noreferrer">
+          <svg class="morph-svg" viewBox="0 0 24 24" style="width:15px; height:15px;">
+            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+          </svg>
           <span>分享至 Facebook</span>
         </a>
       </div>
@@ -2270,9 +2298,14 @@
 
   <script>
     /*************************************************************************
-     * 0. SHARED GLOBAL CLOUD KV ENDPOINT (LIVE OUT-OF-THE-BOX FOR ALL USERS)
-     * 串接雲端共用 KV 資料庫，確保每位開啟網頁的選民皆看到一致且即時累加的真實票數
+     * 0. CANONICAL SITE URL & CLOUDFLARE KV / CLOUD KV DUAL-TIER SYNC
+     * 頁面正式網址：https://monochromelab.idv.tw/2026-Taiwan-Election-Neural-Visualizer/
+     * Cloudflare KV Namespace: ELECTION_BALLOT_KV (ID: 7a8600a9984b42888435f8836f0a67c6)
      *************************************************************************/
+    const CANONICAL_SITE_URL = 'https://monochromelab.idv.tw/2026-Taiwan-Election-Neural-Visualizer/';
+    const CF_KV_NAMESPACE = 'ELECTION_BALLOT_KV';
+    const CF_KV_NAMESPACE_ID = '7a8600a9984b42888435f8836f0a67c6';
+    const CF_WORKER_API_URL = window.CF_WORKER_BALLOT_URL || 'https://monochromelab.idv.tw/api/ballot';
     const CLOUD_KV_BASE = 'https://keyvalue.immanuel.co/api/KeyVal';
     const CLOUD_KV_APP_KEY = 'xztsybjj';
 
@@ -2916,87 +2949,137 @@
     }
 
     // Fetch real-time shared cloud vote counts for a city so all visitors see identical numbers
+    // Priority 1: Cloudflare Worker bound to ELECTION_BALLOT_KV (7a8600a9984b42888435f8836f0a67c6)
+    // Priority 2: Automatic fallback to shared global Cloud KV
     async function fetchCloudVotesForCity(cityId) {
       const cityObj = CITIES_DATA.find(c => c.id === cityId);
       if (!cityObj) return;
 
-      const key = `tw2026_votes_${cityId}`;
       const todayKey = getTaipeiDateKey();
-      const fpLockKey = `tw2026_lock_${cityId}_${todayKey}_${state.deviceFingerprint}`;
+      let syncedViaWorker = false;
 
+      // 1. Try Cloudflare Worker + ELECTION_BALLOT_KV first
       try {
-        const [resVotes, resLock] = await Promise.all([
-          fetch(`${CLOUD_KV_BASE}/GetValue/${CLOUD_KV_APP_KEY}/${key}`),
-          fetch(`${CLOUD_KV_BASE}/GetValue/${CLOUD_KV_APP_KEY}/${fpLockKey}`)
-        ]);
-
-        if (resVotes.ok) {
-          const text = await resVotes.text();
-          const parsed = parseCloudVoteString(text, cityObj);
-          if (parsed) {
-            ballotRecords[cityId].votesMap = parsed;
-          } else {
-            // Seed cloud key if empty
-            const initStr = formatCloudVoteString(ballotRecords[cityId].votesMap);
-            fetch(`${CLOUD_KV_BASE}/UpdateValue/${CLOUD_KV_APP_KEY}/${key}/${initStr}`, { method: 'POST' }).catch(() => {});
+        const cfRes = await fetch(
+          `${CF_WORKER_API_URL}?cityId=${encodeURIComponent(cityId)}&fp=${encodeURIComponent(state.deviceFingerprint)}&dateKey=${encodeURIComponent(todayKey)}`
+        );
+        if (cfRes.ok) {
+          const cfData = await cfRes.json();
+          if (cfData && cfData.ok && cfData.votesMap) {
+            ballotRecords[cityId].votesMap = cfData.votesMap;
+            if (cfData.votedOpt && ['kmt', 'dpp', 'other', 'undecided'].includes(cfData.votedOpt)) {
+              ballotRecords[cityId].lastVotedDate = todayKey;
+              ballotRecords[cityId].lastVotedOpt = cfData.votedOpt;
+              setCookieVote(cityId, todayKey, cfData.votedOpt);
+            }
+            syncedViaWorker = true;
           }
-        }
-
-        // Check if this device fingerprint already voted today on cloud (blocks Incognito mode re-voting)
-        if (resLock.ok) {
-          const lockVal = (await resLock.text()).replace(/"/g, '').trim();
-          if (lockVal && ['kmt', 'dpp', 'other', 'undecided'].includes(lockVal)) {
-            ballotRecords[cityId].lastVotedDate = todayKey;
-            ballotRecords[cityId].lastVotedOpt = lockVal;
-            setCookieVote(cityId, todayKey, lockVal);
-          }
-        }
-
-        saveBallotRecords();
-        if (cityId === state.activeCityId) {
-          renderBallotBox();
         }
       } catch (e) {
-        // Offline fallback uses local cached counts
+        // Worker route not active yet; proceed to shared Cloud KV
+      }
+
+      // 2. Fallback to live shared Cloud KV if Worker route is not active yet
+      if (!syncedViaWorker) {
+        const key = `tw2026_votes_${cityId}`;
+        const fpLockKey = `tw2026_lock_${cityId}_${todayKey}_${state.deviceFingerprint}`;
+
+        try {
+          const [resVotes, resLock] = await Promise.all([
+            fetch(`${CLOUD_KV_BASE}/GetValue/${CLOUD_KV_APP_KEY}/${key}`),
+            fetch(`${CLOUD_KV_BASE}/GetValue/${CLOUD_KV_APP_KEY}/${fpLockKey}`)
+          ]);
+
+          if (resVotes.ok) {
+            const text = await resVotes.text();
+            const parsed = parseCloudVoteString(text, cityObj);
+            if (parsed) {
+              ballotRecords[cityId].votesMap = parsed;
+            } else {
+              const initStr = formatCloudVoteString(ballotRecords[cityId].votesMap);
+              fetch(`${CLOUD_KV_BASE}/UpdateValue/${CLOUD_KV_APP_KEY}/${key}/${initStr}`, { method: 'POST' }).catch(() => {});
+            }
+          }
+
+          if (resLock.ok) {
+            const lockVal = (await resLock.text()).replace(/"/g, '').trim();
+            if (lockVal && ['kmt', 'dpp', 'other', 'undecided'].includes(lockVal)) {
+              ballotRecords[cityId].lastVotedDate = todayKey;
+              ballotRecords[cityId].lastVotedOpt = lockVal;
+              setCookieVote(cityId, todayKey, lockVal);
+            }
+          }
+        } catch (e) {
+          // Offline fallback uses local cached counts
+        }
+      }
+
+      saveBallotRecords();
+      if (cityId === state.activeCityId) {
+        renderBallotBox();
       }
     }
 
-    // Submit vote to global shared Cloud KV and lock device for today
+    // Submit vote to Cloudflare KV (ELECTION_BALLOT_KV) or fallback Cloud KV and lock device for today
     async function submitCloudVote(cityId, optId) {
       const cityObj = CITIES_DATA.find(c => c.id === cityId);
       if (!cityObj) return;
 
-      const key = `tw2026_votes_${cityId}`;
       const todayKey = getTaipeiDateKey();
-      const fpLockKey = `tw2026_lock_${cityId}_${todayKey}_${state.deviceFingerprint}`;
-      const badge = document.getElementById('cloudSyncBadge');
+      const syncText = document.getElementById('cloudSyncText');
+      if (syncText) syncText.textContent = '雲端寫入同步中...';
 
+      let writtenViaWorker = false;
+
+      // 1. Try Cloudflare Worker + ELECTION_BALLOT_KV first
       try {
-        if (badge) badge.textContent = '● 雲端寫入同步中...';
-
-        // 1. Pull latest cloud tally first to avoid race condition
-        const resLatest = await fetch(`${CLOUD_KV_BASE}/GetValue/${CLOUD_KV_APP_KEY}/${key}`);
-        if (resLatest.ok) {
-          const latestText = await resLatest.text();
-          const parsed = parseCloudVoteString(latestText, cityObj);
-          if (parsed) {
-            ballotRecords[cityId].votesMap = parsed;
-          }
+        const cfRes = await fetch(CF_WORKER_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            cityId,
+            optId,
+            fingerprint: state.deviceFingerprint,
+            dateKey: todayKey
+          })
+        });
+        const cfData = await cfRes.json();
+        if (cfData && cfData.votesMap) {
+          ballotRecords[cityId].votesMap = cfData.votesMap;
+          writtenViaWorker = true;
+          if (syncText) syncText.textContent = '全網雲端即時同步';
         }
-
-        // 2. Increment chosen option
-        ballotRecords[cityId].votesMap[optId] = (ballotRecords[cityId].votesMap[optId] || 0) + 1;
-        const updatedStr = formatCloudVoteString(ballotRecords[cityId].votesMap);
-
-        // 3. Push updated tally + device daily lock to global Cloud KV
-        await Promise.all([
-          fetch(`${CLOUD_KV_BASE}/UpdateValue/${CLOUD_KV_APP_KEY}/${key}/${updatedStr}`, { method: 'POST' }),
-          fetch(`${CLOUD_KV_BASE}/UpdateValue/${CLOUD_KV_APP_KEY}/${fpLockKey}/${optId}`, { method: 'POST' })
-        ]);
-
-        if (badge) badge.textContent = '● 全網雲端即時同步';
       } catch (e) {
-        if (badge) badge.textContent = '● 已記錄選票';
+        // Proceed to shared Cloud KV
+      }
+
+      // 2. Fallback to shared Cloud KV if Worker route is not active yet
+      if (!writtenViaWorker) {
+        const key = `tw2026_votes_${cityId}`;
+        const fpLockKey = `tw2026_lock_${cityId}_${todayKey}_${state.deviceFingerprint}`;
+
+        try {
+          const resLatest = await fetch(`${CLOUD_KV_BASE}/GetValue/${CLOUD_KV_APP_KEY}/${key}`);
+          if (resLatest.ok) {
+            const latestText = await resLatest.text();
+            const parsed = parseCloudVoteString(latestText, cityObj);
+            if (parsed) {
+              ballotRecords[cityId].votesMap = parsed;
+            }
+          }
+
+          ballotRecords[cityId].votesMap[optId] = (ballotRecords[cityId].votesMap[optId] || 0) + 1;
+          const updatedStr = formatCloudVoteString(ballotRecords[cityId].votesMap);
+
+          await Promise.all([
+            fetch(`${CLOUD_KV_BASE}/UpdateValue/${CLOUD_KV_APP_KEY}/${key}/${updatedStr}`, { method: 'POST' }),
+            fetch(`${CLOUD_KV_BASE}/UpdateValue/${CLOUD_KV_APP_KEY}/${fpLockKey}/${optId}`, { method: 'POST' })
+          ]);
+
+          if (syncText) syncText.textContent = '全網雲端即時同步';
+        } catch (e) {
+          if (syncText) syncText.textContent = '已記錄選票';
+        }
       }
 
       saveBallotRecords();
@@ -3405,7 +3488,7 @@
         btnText.textContent = '今日已完成投票';
         iconPath.setAttribute('d', 'M20 6L9 17l-5-5');
         const chosenName = city.ballot.options.find(o => o.id === rec.lastVotedOpt)?.name || '';
-        note.innerHTML = `<span style="color:var(--green-badge-fg);">✓ 您今日已於${city.name}投給「${chosenName}」（全網累計 ${totalVotes.toLocaleString()} 票，明日 00:00 後可再投）</span>`;
+        note.innerHTML = `<span style="color:var(--green-badge-fg); display:inline-flex; align-items:center; gap:5px; justify-content:center;"><svg class="morph-svg" viewBox="0 0 24 24" style="width:13px; height:13px; stroke:currentColor;"><path d="M20 6L9 17l-5-5"/></svg>您今日已於${city.name}投給「${chosenName}」（全網累計 ${totalVotes.toLocaleString()} 票，明日 00:00 後可再投）</span>`;
       } else {
         btn.disabled = false;
         btnText.textContent = '投票看結果';
@@ -3686,7 +3769,7 @@
     }
 
     /*************************************************************************
-     * 6B. ONE-CLICK SHARE SNAPSHOT & CANVAS CARD GENERATOR
+     * 6B. ONE-CLICK SHARE SNAPSHOT & CANVAS CARD GENERATOR (UNIFIED VECTOR ICONS)
      *************************************************************************/
     function buildShareSummaryData() {
       const city = state.computedCities.find(c => c.id === state.activeCityId) || state.computedCities[0];
@@ -3701,9 +3784,9 @@
       const leader = isBlue ? city.kmtName : city.dppName;
       const diff = Math.abs(city.kmt - city.dpp).toFixed(1);
 
-      let shareUrl = 'https://2026-tw-election.pages.dev/';
+      let shareUrl = `${CANONICAL_SITE_URL}?city=${city.id}`;
       try {
-        if (window.location.href.startsWith('http')) {
+        if (window.location.href.startsWith('http') && !window.location.href.includes('localhost')) {
           const u = new URL(window.location.href);
           u.searchParams.set('city', city.id);
           shareUrl = u.toString();
@@ -3711,11 +3794,11 @@
       } catch (e) {}
 
       const text =
-        `📊【2026 台灣六都選情觀測站｜${city.name}最新摘要】\n` +
+        `【2026 台灣六都選情觀測站｜${city.name}選情摘要】\n` +
         `・抽樣校正民調：${city.kmtName} ${city.kmt.toFixed(1)}% vs ${city.dppName} ${city.dpp.toFixed(1)}%（${leader}領先 ${diff}pp）\n` +
         `・全網民意調查箱（累計 ${totalVotes.toLocaleString()} 票）：${city.kmtName} ${kmtVotePct}% (${kmtVotes}票) vs ${city.dppName} ${dppVotePct}% (${dppVotes}票)\n` +
         `・選區焦點：${city.note}\n` +
-        `👉 立即查看六都互動地圖與投票：${shareUrl}`;
+        `・線上互動地圖與即時投票：${shareUrl}`;
 
       return { city, kmtVotes, dppVotes, totalVotes, kmtVotePct, dppVotePct, leader, diff, shareUrl, text };
     }
@@ -3739,10 +3822,34 @@
       ctx.lineWidth = 2;
       ctx.strokeRect(14, 14, W - 28, H - 28);
 
-      // Top Header
+      // Top Header Vector Icon (Taiwan Geometric Emblem) + Brand Title
+      ctx.save();
+      ctx.translate(34, 30);
+      ctx.scale(0.08, 0.08);
+      ctx.beginPath();
+      ctx.moveTo(114, 14);
+      ctx.lineTo(138, 26);
+      ctx.lineTo(146, 56);
+      ctx.lineTo(140, 105);
+      ctx.lineTo(126, 168);
+      ctx.lineTo(104, 225);
+      ctx.lineTo(88, 246);
+      ctx.lineTo(76, 238);
+      ctx.lineTo(78, 205);
+      ctx.lineTo(56, 178);
+      ctx.lineTo(42, 142);
+      ctx.lineTo(48, 98);
+      ctx.lineTo(68, 58);
+      ctx.lineTo(92, 26);
+      ctx.closePath();
+      ctx.strokeStyle = '#c2745d';
+      ctx.lineWidth = 22;
+      ctx.stroke();
+      ctx.restore();
+
       ctx.fillStyle = '#c2745d';
       ctx.font = 'bold 13px "Noto Sans TC", sans-serif';
-      ctx.fillText('2026 台灣六都選情觀測站｜即時選情圖卡', 34, 46);
+      ctx.fillText('2026 台灣六都選情觀測站｜即時選情圖卡', 54, 46);
 
       ctx.fillStyle = '#eceae4';
       ctx.font = 'bold 28px "Noto Serif TC", serif';
@@ -3752,10 +3859,21 @@
       ctx.font = '13px "Noto Sans TC", sans-serif';
       ctx.fillText(data.city.note, 34, 108);
 
-      // Section 1: Calibrated Poll Bar
+      // Section 1: Vector Bar-Chart Icon + Calibrated Poll Bar
+      ctx.save();
+      ctx.strokeStyle = '#9cc4f2';
+      ctx.lineWidth = 1.8;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(35, 145); ctx.lineTo(35, 137);
+      ctx.moveTo(41, 145); ctx.lineTo(41, 132);
+      ctx.moveTo(47, 145); ctx.lineTo(47, 135);
+      ctx.stroke();
+      ctx.restore();
+
       ctx.fillStyle = '#eceae4';
       ctx.font = 'bold 14px "Noto Sans TC", sans-serif';
-      ctx.fillText(`綜合民調推估（${data.leader}領先 ${data.diff} 個百分點）`, 34, 145);
+      ctx.fillText(`綜合民調推估（${data.leader}領先 ${data.diff} 個百分點）`, 56, 145);
 
       const barX = 34;
       const barY = 156;
@@ -3778,10 +3896,23 @@
       const dppTextW = ctx.measureText(dppLabel).width;
       ctx.fillText(dppLabel, barX + barW - dppTextW - 12, barY + 22);
 
-      // Section 2: Cloud Ballot Box Bar
+      // Section 2: Vector Ballot-Check Icon + Cloud Ballot Box Bar
+      ctx.save();
+      ctx.strokeStyle = '#96dfb5';
+      ctx.lineWidth = 1.8;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.strokeRect(34, 213, 14, 14);
+      ctx.beginPath();
+      ctx.moveTo(37, 220);
+      ctx.lineTo(40, 223);
+      ctx.lineTo(46, 216);
+      ctx.stroke();
+      ctx.restore();
+
       ctx.fillStyle = '#eceae4';
       ctx.font = 'bold 14px "Noto Sans TC", sans-serif';
-      ctx.fillText(`全網民意調查箱即時票數（累計 ${data.totalVotes.toLocaleString()} 票）`, 34, 226);
+      ctx.fillText(`全網民意調查箱即時票數（累計 ${data.totalVotes.toLocaleString()} 票）`, 56, 226);
 
       const bY = 238;
       const bTotal = Math.max(1, data.kmtVotes + data.dppVotes);
@@ -3800,10 +3931,19 @@
       const bDppW = ctx.measureText(bDppLabel).width;
       ctx.fillText(bDppLabel, barX + barW - bDppW - 12, bY + 22);
 
-      // Footer
+      // Footer Vector Globe Icon + Domain & Date
+      ctx.save();
+      ctx.strokeStyle = '#707887';
+      ctx.lineWidth = 1.4;
+      ctx.beginPath();
+      ctx.arc(40, 321, 6, 0, Math.PI * 2);
+      ctx.moveTo(34, 321); ctx.lineTo(46, 321);
+      ctx.stroke();
+      ctx.restore();
+
       ctx.fillStyle = '#707887';
       ctx.font = '12px "Noto Sans TC", sans-serif';
-      ctx.fillText(`更新日期：${getTaipeiDateKey()} ｜ 資料涵蓋 TVBS、信民協會與全網雲端即時投票`, 34, 326);
+      ctx.fillText(`${getTaipeiDateKey()} ｜ monochromelab.idv.tw/2026-Taiwan-Election-Neural-Visualizer`, 52, 325);
     }
 
     function openShareModal() {
@@ -3910,9 +4050,10 @@
     document.getElementById('btnCopyShareText').addEventListener('click', async () => {
       const data = buildShareSummaryData();
       const lbl = document.getElementById('btnCopyShareLabel');
+      const iconPath = document.getElementById('copyShareIconPath');
+      const defaultPath = 'M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1M8 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M8 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2m0 0h2a2 2 0 0 1 2 2v3';
       try {
         await navigator.clipboard.writeText(data.text);
-        lbl.textContent = '✓ 已複製選情摘要與連結！';
       } catch (e) {
         const ta = document.createElement('textarea');
         ta.value = data.text;
@@ -3920,9 +4061,11 @@
         ta.select();
         document.execCommand('copy');
         document.body.removeChild(ta);
-        lbl.textContent = '✓ 已複製選情摘要與連結！';
       }
+      if (iconPath) iconPath.setAttribute('d', 'M20 6L9 17l-5-5');
+      lbl.textContent = '已複製選情摘要與連結';
       setTimeout(() => {
+        if (iconPath) iconPath.setAttribute('d', defaultPath);
         lbl.textContent = '複製選情文字與連結';
       }, 2200);
     });

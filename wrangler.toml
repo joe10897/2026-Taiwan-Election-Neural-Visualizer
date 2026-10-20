@@ -1,0 +1,13 @@
+name = "tw2026-election-ballot"
+main = "backend/cloudflare-worker.js"
+compatibility_date = "2026-10-01"
+
+# 已綁定您建立的 Cloudflare KV Namespace
+[[kv_namespaces]]
+binding = "ELECTION_BALLOT_KV"
+id = "7a8600a9984b42888435f8836f0a67c6"
+
+# 若您的網域 monochromelab.idv.tw 由 Cloudflare 代管，可啟用以下路由讓前端自動連通：
+# routes = [
+#   { pattern = "monochromelab.idv.tw/api/ballot*", zone_name = "monochromelab.idv.tw" }
+# ]
