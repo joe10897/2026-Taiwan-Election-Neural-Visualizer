@@ -1,0 +1,2669 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>2026 台灣六都選情觀測站｜民調競速・互動地圖・民意調查・即時新聞</title>
+  <!-- Google Fonts: Editorial Serif + Clean Sans + Numeric Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@600;700;900&display=swap" rel="stylesheet">
+  <!-- Three.js for Artistic 3D Topographic Particle Field & Interactive Redraw Waves -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <style>
+    :root {
+      /* Artistic Dark Gallery Palette */
+      --bg-canvas: #0a0c10;
+      --bg-primary: #0e1117;
+      --bg-card: rgba(20, 24, 32, 0.86);
+      --bg-card-solid: #151922;
+      --bg-elevated: rgba(28, 34, 45, 0.78);
+      --bg-ballot: #1b1918;
+      --bg-ballot-inner: #23201e;
+
+      --fg-primary: #eceae4;
+      --fg-secondary: #a6a9b0;
+      --fg-muted: #6e727d;
+
+      --border-subtle: rgba(255, 255, 255, 0.07);
+      --border-card: rgba(255, 255, 255, 0.11);
+      --border-warm: rgba(196, 122, 98, 0.28);
+
+      /* Low-Saturation Morandi Blue (Pan-Blue / KMT) */
+      --blue-main: #487bb6;
+      --blue-bright: #6699d4;
+      --blue-deep: #2a4769;
+      --blue-badge-bg: rgba(72, 123, 182, 0.20);
+      --blue-badge-fg: #9cc4f2;
+
+      /* Low-Saturation Morandi Green (Pan-Green / DPP) */
+      --green-main: #439256;
+      --green-bright: #60b073;
+      --green-deep: #245230;
+      --green-badge-bg: rgba(67, 146, 86, 0.20);
+      --green-badge-fg: #96dfb5;
+
+      /* Low-Saturation Slate for Neutral/Other Options */
+      --neutral-bar: #6e7685;
+
+      /* Low-Saturation Terracotta / Warm Bronze Accent (Fig.1 & Fig.2) */
+      --terracotta: #c2745d;
+      --terracotta-hover: #d1836c;
+      --terracotta-muted: rgba(194, 116, 93, 0.16);
+
+      /* Neutral Tracks */
+      --track-dark: rgba(255, 255, 255, 0.075);
+      --track-ballot: rgba(255, 255, 255, 0.12);
+
+      --radius-lg: 14px;
+      --radius-md: 10px;
+      --radius-sm: 6px;
+
+      --shadow-art: 0 14px 40px rgba(0, 0, 0, 0.42), 0 1px 0 rgba(255, 255, 255, 0.05) inset;
+      --font-serif: 'Noto Serif TC', Georgia, serif;
+      --font-sans: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-canvas);
+      color: var(--fg-primary);
+    }
+
+    body {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      line-height: 1.55;
+      background-color: var(--bg-canvas);
+      color: var(--fg-primary);
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    /* Three.js Artistic Interactive Background Canvas */
+    #threeBgCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.65;
+    }
+
+    /* Subtle Artistic Film Grain Overlay */
+    .grain-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    /* ==================== HEADER / NAVIGATION ==================== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      background: rgba(10, 12, 16, 0.84);
+      border-bottom: 1px solid var(--border-card);
+      padding: 13px 24px;
+    }
+
+    .header-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-emblem {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, var(--blue-main) 0%, #2a3441 50%, var(--green-main) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      flex-shrink: 0;
+    }
+
+    .brand-title {
+      font-family: var(--font-serif);
+      font-size: clamp(17px, 2.2vw, 22px);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--fg-primary);
+    }
+
+    .brand-subtitle {
+      font-size: 12px;
+      color: var(--fg-secondary);
+      letter-spacing: 0.02em;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* Live Clock & Auto-Refresh Telemetry Pill */
+    .live-clock-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background: rgba(20, 25, 34, 0.85);
+      border: 1px solid var(--border-card);
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--fg-secondary);
+    }
+
+    .live-pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green-bright);
+      box-shadow: 0 0 8px var(--green-bright);
+      animation: pulseGlow 2s infinite ease-in-out;
+      flex-shrink: 0;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.45; transform: scale(0.85); }
+    }
+
+    .clock-time {
+      color: var(--fg-primary);
+      font-weight: 600;
+    }
+
+    .sync-countdown {
+      color: var(--fg-muted);
+      font-size: 11px;
+      border-left: 1px solid var(--border-subtle);
+      padding-left: 8px;
+    }
+
+    /* MorphIcon Interactive Button */
+    .morph-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-elevated);
+      color: var(--fg-primary);
+      border: 1px solid var(--border-card);
+      border-radius: 999px;
+      padding: 7px 15px;
+      font-family: var(--font-sans);
+      font-size: 12.5px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .morph-btn:hover {
+      border-color: var(--terracotta);
+      background: rgba(194, 116, 93, 0.14);
+      transform: translateY(-1px);
+    }
+
+    .morph-btn:active {
+      transform: translateY(0);
+    }
+
+    .morph-svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .morph-btn.spinning .morph-svg {
+      transform: rotate(360deg);
+    }
+
+    /* City Navigation Bar (Scrollable on Mobile) */
+    .city-nav-wrapper {
+      max-width: 1440px;
+      margin: 18px auto 0;
+      padding: 0 24px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .city-nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: var(--bg-card);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      padding: 10px 16px;
+      box-shadow: var(--shadow-art);
+      flex-wrap: wrap;
+    }
+
+    .city-pills-scroll {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 2px 0;
+      max-width: 100%;
+    }
+
+    .city-pills-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .city-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--fg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: 999px;
+      padding: 7px 16px;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.22s ease;
+    }
+
+    .city-pill:hover {
+      color: var(--fg-primary);
+      border-color: rgba(255, 255, 255, 0.22);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .city-pill.active {
+      background: var(--terracotta);
+      color: #ffffff;
+      border-color: var(--terracotta);
+      box-shadow: 0 4px 14px rgba(194, 116, 93, 0.35);
+    }
+
+    .city-pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .city-pill-dot.blue {
+      background: var(--blue-bright);
+    }
+
+    .city-pill-dot.green {
+      background: var(--green-bright);
+    }
+
+    .city-pill.active .city-pill-dot {
+      background: #ffffff;
+    }
+
+    .countdown-tag {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--fg-secondary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .countdown-tag strong {
+      color: var(--terracotta);
+    }
+
+    /* ==================== MAIN CONTENT GRID ==================== */
+    .main-container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 20px 24px 56px;
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .row-grid-2 {
+      display: grid;
+      grid-template-columns: 5fr 7fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .row-grid-ballot {
+      display: grid;
+      grid-template-columns: 5.2fr 6.8fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    /* Card Base */
+    .art-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-art);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--fg-primary);
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title::before {
+      content: "";
+      display: inline-block;
+      width: 4px;
+      height: 18px;
+      border-radius: 2px;
+      background: var(--terracotta);
+    }
+
+    .section-sub {
+      font-size: 12.5px;
+      color: var(--fg-muted);
+    }
+
+    /* ==================== 1. INTERACTIVE TAIWAN MAP VISUALIZATION ==================== */
+    .map-stage {
+      position: relative;
+      width: 100%;
+      min-height: 490px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: radial-gradient(circle at 50% 45%, rgba(45, 62, 85, 0.22) 0%, rgba(12, 15, 20, 0.4) 75%);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      padding: 16px;
+      overflow: hidden;
+    }
+
+    .map-svg-wrap {
+      position: relative;
+      width: 100%;
+      height: 410px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #taiwanMapSvg {
+      width: 100%;
+      height: 100%;
+      max-width: 420px;
+      max-height: 410px;
+      overflow: visible;
+      filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.55));
+    }
+
+    .map-region {
+      stroke: rgba(236, 234, 228, 0.32);
+      stroke-width: 1.2;
+      cursor: pointer;
+      transition: fill 0.35s ease, transform 0.25s ease, filter 0.25s ease, stroke 0.25s ease;
+    }
+
+    .map-region:hover {
+      filter: brightness(1.22);
+      stroke: #ffffff;
+      stroke-width: 2;
+    }
+
+    .map-region.active-region {
+      stroke: var(--terracotta);
+      stroke-width: 2.6;
+      filter: brightness(1.28) drop-shadow(0 0 10px rgba(194, 116, 93, 0.55));
+    }
+
+    .map-region.redraw-stroke {
+      stroke-dasharray: 400;
+      stroke-dashoffset: 400;
+      animation: drawStroke 1.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    @keyframes drawStroke {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    /* Interactive Callout Nodes on Map */
+    .map-callout-group {
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .map-callout-rect {
+      fill: rgba(16, 20, 27, 0.92);
+      stroke: rgba(255, 255, 255, 0.2);
+      stroke-width: 1;
+      rx: 6;
+      transition: all 0.2s ease;
+    }
+
+    .map-callout-group:hover .map-callout-rect,
+    .map-callout-group.active .map-callout-rect {
+      stroke: var(--terracotta);
+      stroke-width: 1.8;
+      fill: rgba(28, 32, 42, 0.98);
+    }
+
+    .map-callout-line {
+      stroke: rgba(255, 255, 255, 0.3);
+      stroke-width: 1;
+      stroke-dasharray: 2, 2;
+    }
+
+    .map-callout-title {
+      fill: var(--fg-primary);
+      font-size: 11px;
+      font-weight: 700;
+      font-family: var(--font-sans);
+    }
+
+    .map-callout-sub {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+
+    /* Map Bottom Active City Summary HUD */
+    .map-hud-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(14, 17, 23, 0.85);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .map-legend {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 12px;
+      color: var(--fg-secondary);
+    }
+
+    .legend-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      margin-right: 5px;
+      vertical-align: middle;
+    }
+
+    /* ==================== 2. FIG.1: 民調競速 (POLL RACE) ==================== */
+    .poll-race-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .poll-race-card {
+      background: rgba(25, 30, 40, 0.72);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .poll-race-card:hover {
+      background: rgba(31, 37, 49, 0.9);
+      border-color: rgba(255, 255, 255, 0.22);
+      transform: translateY(-2px);
+    }
+
+    .poll-race-card.active-poll {
+      border-color: var(--terracotta);
+      box-shadow: 0 0 0 1px rgba(194, 116, 93, 0.4), 0 10px 28px rgba(0, 0, 0, 0.35);
+      background: rgba(32, 36, 46, 0.94);
+    }
+
+    .poll-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 14px;
+      gap: 12px;
+    }
+
+    .poll-source-title {
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--terracotta);
+      letter-spacing: 0.02em;
+      line-height: 1.25;
+    }
+
+    .poll-source-date {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--fg-muted);
+      margin-top: 3px;
+    }
+
+    .leader-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    .leader-badge.blue {
+      background: var(--blue-badge-bg);
+      color: var(--blue-badge-fg);
+      border: 1px solid rgba(102, 153, 212, 0.28);
+    }
+
+    .leader-badge.green {
+      background: var(--green-badge-bg);
+      color: var(--green-badge-fg);
+      border: 1px solid rgba(96, 176, 115, 0.28);
+    }
+
+    .poll-bars-group {
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      margin-bottom: 14px;
+    }
+
+    .poll-bar-line {
+      display: grid;
+      grid-template-columns: 62px 1fr;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .poll-cand-label {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--fg-primary);
+      white-space: nowrap;
+    }
+
+    .poll-bar-track {
+      width: 100%;
+      height: 24px;
+      background: var(--track-dark);
+      border-radius: 5px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .poll-bar-fill {
+      height: 100%;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 10px;
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #ffffff;
+      min-width: 46px;
+      width: 0%;
+      transition: width 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .poll-bar-fill.blue {
+      background: linear-gradient(90deg, var(--blue-deep) 0%, var(--blue-main) 100%);
+      box-shadow: 0 0 12px rgba(72, 123, 182, 0.25);
+    }
+
+    .poll-bar-fill.green {
+      background: linear-gradient(90deg, var(--green-deep) 0%, var(--green-main) 100%);
+      box-shadow: 0 0 12px rgba(67, 146, 86, 0.25);
+    }
+
+    .poll-card-meta {
+      font-size: 13px;
+      color: var(--fg-secondary);
+      line-height: 1.5;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .poll-card-meta .gap-pill {
+      color: var(--fg-primary);
+      font-weight: 600;
+    }
+
+    /* ==================== 3. FIG.2: 民意調查箱 (PERMANENT LOW-SAT BLUE/GREEN BARS) ==================== */
+    .ballot-panel {
+      background: linear-gradient(165deg, #211e1c 0%, #171514 100%);
+      border: 1px solid var(--border-warm);
+      border-radius: var(--radius-lg);
+      padding: 28px 30px;
+      box-shadow: var(--shadow-art);
+      position: relative;
+    }
+
+    .ballot-question-title {
+      font-family: var(--font-serif);
+      font-size: 18.5px;
+      font-weight: 700;
+      color: var(--terracotta);
+      line-height: 1.45;
+      margin-bottom: 8px;
+    }
+
+    .ballot-single-hint {
+      font-size: 12.5px;
+      color: var(--terracotta);
+      margin-bottom: 20px;
+      padding-left: 12px;
+      font-weight: 500;
+      opacity: 0.9;
+    }
+
+    .ballot-options {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-bottom: 26px;
+    }
+
+    .ballot-item {
+      cursor: pointer;
+      user-select: none;
+      padding: 6px 8px;
+      border-radius: var(--radius-sm);
+      transition: background 0.18s ease;
+    }
+
+    .ballot-item:hover:not(.locked) {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .ballot-item.locked {
+      cursor: default;
+    }
+
+    .ballot-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 7px;
+      gap: 8px;
+    }
+
+    .ballot-radio-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ballot-radio-circle {
+      width: 19px;
+      height: 19px;
+      border-radius: 50%;
+      border: 1.8px solid rgba(255, 255, 255, 0.35);
+      background: rgba(0, 0, 0, 0.25);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .ballot-item.selected .ballot-radio-circle {
+      border-color: var(--terracotta);
+      background: rgba(194, 116, 93, 0.15);
+    }
+
+    .ballot-radio-inner {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--terracotta);
+      transform: scale(0);
+      transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .ballot-item.selected .ballot-radio-inner {
+      transform: scale(1);
+    }
+
+    .ballot-opt-name {
+      font-size: 15.5px;
+      font-weight: 600;
+      color: var(--fg-primary);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .camp-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .camp-indicator.blue {
+      background: var(--blue-main);
+    }
+
+    .camp-indicator.green {
+      background: var(--green-main);
+    }
+
+    .ballot-opt-stats {
+      font-family: var(--font-mono);
+      font-size: 15px;
+      color: var(--fg-primary);
+      white-space: nowrap;
+    }
+
+    .ballot-opt-stats strong {
+      font-weight: 700;
+    }
+
+    .ballot-opt-stats .votes-num {
+      font-size: 12.5px;
+      color: var(--fg-secondary);
+    }
+
+    .ballot-bar-bg {
+      margin-left: 29px;
+      width: calc(100% - 29px);
+      height: 7px;
+      background: var(--track-ballot);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .ballot-bar-fg {
+      height: 100%;
+      border-radius: 999px;
+      background: var(--neutral-bar);
+      width: 0%;
+      transition: width 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .ballot-bar-fg.blue-bar {
+      background: linear-gradient(90deg, var(--blue-deep) 0%, var(--blue-main) 100%);
+    }
+
+    .ballot-bar-fg.green-bar {
+      background: linear-gradient(90deg, var(--green-deep) 0%, var(--green-main) 100%);
+    }
+
+    .ballot-info-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      font-size: 13px;
+      color: var(--fg-secondary);
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .ballot-info-item::before {
+      content: "▪";
+      color: var(--terracotta);
+      margin-right: 6px;
+    }
+
+    .ballot-footer-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-vote-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      background: var(--terracotta);
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      padding: 12px 48px;
+      font-size: 15.5px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 16px rgba(194, 116, 93, 0.32);
+    }
+
+    .btn-vote-action:hover:not(:disabled) {
+      background: var(--terracotta-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-vote-action:disabled {
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--fg-secondary);
+      box-shadow: none;
+      cursor: not-allowed;
+      border: 1px solid var(--border-card);
+    }
+
+    .ballot-verify-note {
+      font-size: 12px;
+      color: var(--fg-muted);
+      text-align: center;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ==================== 4. SAMPLING & SIX MUNICIPALITIES MATRIX ==================== */
+    .calibration-controls {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .preset-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      text-align: left;
+      color: var(--fg-secondary);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .preset-card strong {
+      display: block;
+      color: var(--fg-primary);
+      font-size: 13px;
+      margin-bottom: 3px;
+    }
+
+    .preset-card:hover {
+      border-color: rgba(255, 255, 255, 0.22);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .preset-card.active {
+      background: var(--terracotta-muted);
+      border-color: var(--terracotta);
+      color: var(--fg-primary);
+    }
+
+    .preset-card.active strong {
+      color: var(--terracotta);
+    }
+
+    .slider-row {
+      margin-bottom: 14px;
+    }
+
+    .slider-head {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12.5px;
+      margin-bottom: 6px;
+      color: var(--fg-secondary);
+    }
+
+    .slider-head strong {
+      font-family: var(--font-mono);
+      color: var(--fg-primary);
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      background: var(--track-dark);
+      border-radius: 999px;
+      outline: none;
+      border: 1px solid var(--border-subtle);
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--terracotta);
+      border: 2px solid #ffffff;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Six Cities Grid */
+    .six-cities-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .city-summary-card {
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      cursor: pointer;
+      transition: all 0.22s ease;
+    }
+
+    .city-summary-card:hover {
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .city-summary-card.active-city-card {
+      border-color: var(--terracotta);
+      box-shadow: 0 0 0 1px rgba(194, 116, 93, 0.35);
+    }
+
+    .city-summary-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .city-summary-name {
+      font-family: var(--font-serif);
+      font-size: 16.5px;
+      font-weight: 700;
+      color: var(--fg-primary);
+    }
+
+    /* ==================== 5. LIVE POLL & ELECTION NEWS FEED ==================== */
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .news-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: rgba(25, 30, 40, 0.68);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      text-decoration: none;
+      color: var(--fg-primary);
+      transition: all 0.22s ease;
+      gap: 12px;
+    }
+
+    .news-card:hover {
+      border-color: var(--terracotta);
+      background: rgba(32, 38, 50, 0.92);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.32);
+    }
+
+    .news-meta-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+    }
+
+    .news-source-tag {
+      color: var(--terracotta);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .news-time-tag {
+      font-family: var(--font-mono);
+      color: var(--fg-muted);
+      font-size: 11.5px;
+    }
+
+    .news-headline {
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.5;
+      color: var(--fg-primary);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .news-footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 8px;
+      border-top: 1px solid var(--border-subtle);
+      font-size: 12px;
+      color: var(--fg-secondary);
+    }
+
+    .news-city-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 2px 9px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--fg-secondary);
+    }
+
+    /* Responsive Breakpoints (Tablet & Mobile) */
+    @media (max-width: 1120px) {
+      .row-grid-2,
+      .row-grid-ballot {
+        grid-template-columns: 1fr;
+      }
+      .six-cities-grid,
+      .news-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 680px) {
+      .site-header {
+        padding: 12px 16px;
+      }
+      .city-nav-wrapper,
+      .main-container {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+      .art-card,
+      .ballot-panel {
+        padding: 18px 16px;
+      }
+      .poll-race-card {
+        padding: 16px;
+      }
+      .calibration-controls,
+      .six-cities-grid,
+      .news-grid {
+        grid-template-columns: 1fr;
+      }
+      .map-stage {
+        min-height: 400px;
+      }
+      .map-svg-wrap {
+        height: 340px;
+      }
+      .btn-vote-action {
+        width: 100%;
+        padding: 12px 20px;
+      }
+      .live-clock-pill {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Three.js Artistic Interactive Topographic Particle Canvas -->
+  <canvas id="threeBgCanvas"></canvas>
+  <div class="grain-overlay"></div>
+
+  <!-- TOP HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand-group">
+        <div class="brand-emblem" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#eceae4" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="brand-title">2026 台灣六都選情觀測站</h1>
+          <div class="brand-subtitle">跨機構民調競速 × 全台選情交互地圖 × 即時民意調查 × 選情新聞</div>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <!-- Real-Time Clock & 60s Auto-Refresh Status -->
+        <div class="live-clock-pill" title="台灣標準時間與每分鐘自動數據刷新倒數">
+          <span class="live-pulse-dot"></span>
+          <span class="clock-time" id="navLiveClock">--:--:--</span>
+          <span class="sync-countdown" id="navSyncCountdown">60s 刷新</span>
+        </div>
+
+        <button class="morph-btn" id="btnRedrawAll" title="立即同步最新新聞並重繪視覺動態">
+          <svg class="morph-svg" id="iconRedraw" viewBox="0 0 24 24">
+            <path id="morphPathRedraw" d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8m0 0V3m0 5h5m-5 4a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16m0 0h-5m5 0v5" />
+          </svg>
+          <span>重繪視覺動態</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- CITY NAVIGATION BAR -->
+  <nav class="city-nav-wrapper" aria-label="六都選區切換">
+    <div class="city-nav-bar">
+      <div class="city-pills-scroll" id="cityPillsNav">
+        <!-- Populated dynamically -->
+      </div>
+      <div class="countdown-tag">
+        <span>距離 2026/11/28 投票日</span>
+        <strong id="electionCountdown">39 天</strong>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN WORKSPACE -->
+  <main class="main-container">
+
+    <!-- ROW 1: INTERACTIVE TAIWAN MAP + FIG.1 POLL RACE -->
+    <section class="row-grid-2">
+
+      <!-- LEFT: INTERACTIVE TAIWAN MAP VISUALIZATION -->
+      <div class="art-card">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">六都選情交互地圖</h2>
+            <div class="section-sub">點擊地圖選區或指標卡，即時切換該市「民調競速」、「民意調查箱」與「選情新聞」</div>
+          </div>
+        </div>
+
+        <div class="map-stage">
+          <div class="map-svg-wrap">
+            <svg id="taiwanMapSvg" viewBox="0 0 400 430" aria-label="台灣六都選情互動地圖">
+              <defs>
+                <filter id="glowFilter" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="3.5" result="blur" />
+                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+              </defs>
+
+              <!-- Decorative Latitude/Longitude Grid Lines -->
+              <g stroke="rgba(255,255,255,0.04)" stroke-width="1">
+                <line x1="0" y1="90" x2="400" y2="90" />
+                <line x1="0" y1="180" x2="400" y2="180" />
+                <line x1="0" y1="270" x2="400" y2="270" />
+                <line x1="0" y1="360" x2="400" y2="360" />
+                <line x1="120" y1="0" x2="120" y2="430" />
+                <line x1="210" y1="0" x2="210" y2="430" />
+                <line x1="300" y1="0" x2="300" y2="430" />
+              </g>
+
+              <!-- Non-Municipality Background Counties of Taiwan Island -->
+              <g fill="#1c212b" stroke="rgba(255,255,255,0.14)" stroke-width="1">
+                <path d="M188,88 L222,96 L218,145 L172,142 L176,105 Z" />
+                <path d="M150,190 L248,182 L255,268 L142,275 L138,225 Z" />
+                <path d="M258,68 L286,78 L276,175 L252,295 L222,368 L205,360 L238,265 L248,175 Z" />
+                <path d="M168,325 L212,320 L218,402 L195,412 L175,375 Z" />
+              </g>
+
+              <!-- SIX MUNICIPALITIES INTERACTIVE POLYGONS -->
+              <path id="map-newtaipei" class="map-region" data-city="newtaipei"
+                d="M225,26 L268,42 L262,82 L222,96 L195,84 L202,42 Z" />
+              <path id="map-taipei" class="map-region" data-city="taipei"
+                d="M226,46 L246,48 L244,70 L224,70 Z" />
+              <path id="map-taoyuan" class="map-region" data-city="taoyuan"
+                d="M184,56 L220,66 L222,96 L188,92 L176,74 Z" />
+              <path id="map-taichung" class="map-region" data-city="taichung"
+                d="M162,142 L252,140 L254,185 L152,190 Z" />
+              <path id="map-tainan" class="map-region" data-city="tainan"
+                d="M136,272 L196,268 L192,315 L138,312 Z" />
+              <path id="map-kaohsiung" class="map-region" data-city="kaohsiung"
+                d="M144,312 L226,282 L212,358 L162,365 L142,338 Z" />
+
+              <!-- Interactive Callout Badges -->
+              <g id="mapCalloutsLayer"></g>
+            </svg>
+          </div>
+
+          <div class="map-hud-bar">
+            <div class="map-legend">
+              <span><i class="legend-dot" style="background:var(--blue-main);"></i>藍營領先選區</span>
+              <span><i class="legend-dot" style="background:var(--green-main);"></i>綠營領先選區</span>
+            </div>
+            <div id="mapActiveStatus" style="font-size:12.5px; color:var(--fg-primary); font-weight:600;">
+              當前焦點：台北市（蔣萬安 49% vs 沈伯洋 41%）
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: FIG.1 民調競速 (POLL RACE) -->
+      <div class="art-card">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title" id="pollRaceHeading">民調競速・台北市</h2>
+            <div class="section-sub">點擊任一民調機構卡片，可觸發數據重繪並檢視結構差異</div>
+          </div>
+        </div>
+
+        <div class="poll-race-stack" id="pollRaceContainer">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ROW 2: FIG.2 民意調查箱 (BALLOT BOX) + CROSS-CHANNEL CALIBRATION -->
+    <section class="row-grid-ballot">
+
+      <!-- LEFT: FIG.2 民意調查箱 (PERMANENT LOW-SAT BLUE/GREEN BARS + STRICT 1-VOTE-PER-DAY) -->
+      <div>
+        <div class="section-header" style="margin-bottom:12px;">
+          <h2 class="section-title">民意調查箱</h2>
+          <span class="section-sub" id="ballotCityBadge">台北市選區</span>
+        </div>
+
+        <div class="ballot-panel" id="ballotPanel">
+          <div class="ballot-question-title" id="ballotQuestion">
+            【台北市長選情升溫】如果明天投票，你會把票投給誰？
+          </div>
+          <div class="ballot-single-hint">* 單選</div>
+
+          <div class="ballot-options" id="ballotOptionsList">
+            <!-- Populated dynamically -->
+          </div>
+
+          <div class="ballot-info-bar">
+            <span class="ballot-info-item" id="ballotTimeRemaining">剩餘時間： 28天 0小時</span>
+            <span class="ballot-info-item">投票頻率： 1天一次</span>
+          </div>
+
+          <div class="ballot-footer-center">
+            <button class="btn-vote-action" id="btnCastVote">
+              <svg class="morph-svg" id="ballotBtnIcon" viewBox="0 0 24 24" style="width:18px; height:18px;">
+                <path id="ballotBtnIconPath" d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+              </svg>
+              <span id="btnCastVoteText">投票看結果</span>
+            </button>
+            <div class="ballot-verify-note" id="ballotStatusNote">
+              已啟用裝置指紋與單日頻率鎖定（每台裝置每日限投一次）
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: EMPIRICAL SAMPLING CALIBRATION -->
+      <div class="art-card">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">跨機構抽樣與政黨加權分析</h2>
+            <div class="section-sub">調整抽樣表態率與政黨母體加權，觀察不同調查方法對選情的影響</div>
+          </div>
+        </div>
+
+        <div class="calibration-controls" id="presetButtonsGrid">
+          <button class="preset-card active" data-preset="tvbs_raking">
+            <strong>TVBS 政黨母體加權基準</strong>
+            校正回真實藍綠白選民結構（北市：蔣 49.0% / 沈 41.0%）
+          </button>
+          <button class="preset-card" data-preset="shinmin_raw">
+            <strong>信民協會未加權原始樣本</strong>
+            泛綠樣本佔 42.2%、泛藍 26.6%（北市：沈 50.3% / 蔣 33.3%）
+          </button>
+          <button class="preset-card" data-preset="threads_echo">
+            <strong>社群自然高動員抽樣</strong>
+            Threads 聲量佔比 36.6% 同溫層效應（未加權推估）
+          </button>
+          <button class="preset-card" data-preset="debate_1031">
+            <strong>電視辯論表現看好度</strong>
+            10/31 辯論前夕看好度調查（沈 41.0% / 蔣 30.0%）
+          </button>
+        </div>
+
+        <div class="slider-row">
+          <div class="slider-head">
+            <span>抽樣樣本泛綠表態率</span>
+            <strong id="lblGreenSample" style="color:var(--green-bright);">29.0%</strong>
+          </div>
+          <input type="range" id="rngGreenSample" min="25" max="58" step="0.2" value="29.0" />
+        </div>
+
+        <div class="slider-row">
+          <div class="slider-head">
+            <span>政黨傾向母體加權強度 (Raking)</span>
+            <strong id="lblRaking" style="color:var(--blue-bright);">100%</strong>
+          </div>
+          <input type="range" id="rngRaking" min="0" max="100" step="1" value="100" />
+        </div>
+
+        <div class="slider-row" style="margin-bottom:20px;">
+          <div class="slider-head">
+            <span>社群同溫層折減係數</span>
+            <strong id="lblDamping">72%</strong>
+          </div>
+          <input type="range" id="rngDamping" min="0" max="100" step="1" value="72" />
+        </div>
+
+        <!-- Live Calibrated Bar -->
+        <div style="background:rgba(0,0,0,0.28); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:16px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+            <span style="font-weight:700; font-size:14px;" id="calCityTitle">台北市・抽樣校正後推估對比</span>
+            <span class="leader-badge blue" id="calSpreadBadge">蔣萬安領先 8.0pp</span>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; font-size:13.5px; font-weight:600; margin-bottom:8px;">
+            <span style="color:var(--blue-bright);" id="calBlueLabel">蔣萬安 49.0%</span>
+            <span style="color:var(--green-bright);" id="calGreenLabel">沈伯洋 41.0%</span>
+          </div>
+
+          <div style="height:14px; width:100%; background:var(--track-dark); border-radius:999px; display:flex; overflow:hidden; gap:2px;">
+            <div id="calBarBlue" style="background:var(--blue-main); height:100%; width:54.4%; transition:width 0.45s ease;"></div>
+            <div id="calBarGreen" style="background:var(--green-main); height:100%; width:45.6%; transition:width 0.45s ease;"></div>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--fg-muted); margin-top:8px;">
+            <span>有效泛綠母體權重：<strong id="calEffGreen" style="color:var(--fg-primary);">29.0%</strong></span>
+            <span>未表態／其他候選人：<strong id="calUndecided" style="color:var(--fg-primary);">10.0%</strong></span>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ROW 3: LIVE POLL & ELECTION NEWS SECTION -->
+    <section class="art-card">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title" id="newsSectionTitle">即時民調與選情新聞</h2>
+          <div class="section-sub" id="newsSyncSubtitle">串接 Google News 即時新聞 RSS 與公開選情資訊（每 60 秒自動刷新）</div>
+        </div>
+        <button class="morph-btn" id="btnRefreshNews" style="padding:5px 12px; font-size:12px;">
+          <svg class="morph-svg" viewBox="0 0 24 24" style="width:14px; height:14px;">
+            <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8m0 0V3m0 5h5m-5 4a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16m0 0h-5m5 0v5" />
+          </svg>
+          <span>刷新新聞</span>
+        </button>
+      </div>
+
+      <div class="news-grid" id="liveNewsContainer">
+        <!-- Populated dynamically from Google News RSS + empirical fallback -->
+      </div>
+    </section>
+
+    <!-- ROW 4: SIX MUNICIPALITIES COMPLETE MATRIX -->
+    <section class="art-card">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">六都選情總覽</h2>
+          <div class="section-sub">中選會審定 23 位候選人對決態勢與跨機構民調匯總（點擊卡片可切換上方焦點選區）</div>
+        </div>
+      </div>
+
+      <div class="six-cities-grid" id="sixCitiesMatrix">
+        <!-- Populated dynamically -->
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    /*************************************************************************
+     * 0. OPTIONAL CLOUD BACKEND ENDPOINT FOR GLOBAL BALLOT BOX SYNC
+     * 若部署後端 (參見 backend/cloudflare-worker.js)，填入 Worker URL 即可開啟全網共用計票
+     *************************************************************************/
+    const CLOUD_BALLOT_API_URL = '';
+
+    /*************************************************************************
+     * 1. REAL 2026 SIX MUNICIPALITIES POLL, BALLOT & NEWS DATASET
+     *************************************************************************/
+    const CITIES_DATA = [
+      {
+        id: 'taipei',
+        code: 'TPE',
+        name: '台北市',
+        totalApproved: 6,
+        kmtName: '蔣萬安',
+        dppName: '沈伯洋',
+        kmtCand: '蔣萬安 (國)',
+        dppCand: '沈伯洋 (民)',
+        baseKmt: 49.0,
+        baseDpp: 41.0,
+        debateKmt: 30.0,
+        debateDpp: 41.0,
+        rssQuery: '台北市長 民調 蔣萬安 沈伯洋',
+        mapCallout: { x: 282, y: 18, lineX: 236, lineY: 56 },
+        minorCands: '郭璽、蕭文乾、唐新民、林志成',
+        note: '10/31 電視辯論登場｜社群與傳統媒體聲量結構分明',
+        polls: [
+          {
+            agency: 'TVBS',
+            date: '2026.10',
+            kmt: 49,
+            dpp: 41,
+            preset: 'tvbs_raking',
+            note: '2人首度對決，但相較上次TVBS民調沈伯洋落後28個百分點，已追趕至落後8個百分點'
+          },
+          {
+            agency: '信民協會',
+            date: '2026.10',
+            kmt: 33.3,
+            dpp: 50.3,
+            preset: 'shinmin_raw',
+            note: '未進行政黨傾向加權，原始樣本中泛綠支持者佔42.2%、泛藍佔26.6%'
+          },
+          {
+            agency: 'TVBS 辯論看好度',
+            date: '2026.10',
+            kmt: 30,
+            dpp: 41,
+            preset: 'debate_1031',
+            note: '針對10/31電視辯論表現看好度調查，綠營支持者81%看好沈伯洋、藍營61%看好蔣萬安'
+          }
+        ],
+        ballot: {
+          question: '【台北市長選情升溫】如果明天投票，你會把票投給誰？',
+          options: [
+            { id: 'kmt', name: '蔣萬安', camp: 'blue', baseVotes: 4337 },
+            { id: 'dpp', name: '沈伯洋', camp: 'green', baseVotes: 2596 },
+            { id: 'other', name: '其他', camp: 'other', baseVotes: 34 },
+            { id: 'undecided', name: '不知道 / 沒意見', camp: 'other', baseVotes: 85 }
+          ]
+        },
+        fallbackNews: [
+          {
+            title: 'TVBS最新台北市長民調：蔣萬安49%領先、沈伯洋41%追近至8個百分點',
+            source: 'TVBS新聞網',
+            pubDate: '2026-10-20 18:30',
+            city: '台北市',
+            camp: 'blue',
+            link: 'https://news.google.com/search?q=%E5%8F%B0%E5%8C%97%E5%B8%82%E9%95%B7+%E6%B0%91%E8%AA%BF+%E8%94%A3%E8%90%AC%E5%AE%89+%E6%B2%88%E4%BC%AF%E6%B4%8B&hl=zh-TW&gl=TW&ceid=TW:zh-Hant'
+          },
+          {
+            title: '信民協會公布北市選情民調 抽樣政黨傾向加權引發藍綠熱議',
+            source: '聯合新聞網',
+            pubDate: '2026-10-20 15:45',
+            city: '台北市',
+            camp: 'green',
+            link: 'https://news.google.com/search?q=%E4%BF%A1%E6%B0%91%E5%8D%94%E6%9C%83+%E5%8F%B0%E5%8C%97%E5%B8%82%E9%95%B7+%E6%B0%91%E8%AA%BF&hl=zh-TW&gl=TW&ceid=TW:zh-Hant'
+          },
+          {
+            title: '台北市長電視辯論10/31登場 QSearch分析蔣萬安與沈伯洋社群空戰優勢',
+            source: '中央社 CNA',
+            pubDate: '2026-10-19 21:10',
+            city: '台北市',
+            camp: 'neutral',
+            link: 'https://news.google.com/search?q=%E5%8F%B0%E5%8C%97%E5%B8%82%E9%95%B7+%E8%BE%AF%E8%AB%96+%E8%94%A3%E8%90%AC%E5%AE%89+%E6%B2%88%E4%BC%AF%E6%B4%8B&hl=zh-TW&gl=TW&ceid=TW:zh-Hant'
+          }
+        ]
+      },
+      {
+        id: 'newtaipei',
+        code: 'NTP',
+        name: '新北市',
+        totalApproved: 3,
+        kmtName: '李四川',
+        dppName: '蘇巧慧',
+        kmtCand: '李四川 (國/藍白合)',
+        dppCand: '蘇巧慧 (民)',
+        baseKmt: 47.0,
+        baseDpp: 32.0,
+        rssQuery: '新北市長 民調 李四川 蘇巧慧',
+        mapCallout: { x: 282, y: 68, lineX: 248, lineY: 64 },
+        minorCands: '蘇輝湟 (無黨籍)',
+        note: '藍白整合由李四川出線對決蘇巧慧',
+        polls: [
+          {
+            agency: 'TVBS',
+            date: '2026.10',
+            kmt: 47,
+            dpp: 32,
+            preset: 'tvbs_raking',
+            note: '藍白整合後對決，李四川獲白營基層約6成轉移支持，領先蘇巧慧15個百分點'
+          },
+          {
+            agency: '美麗島電子報',
+            date: '2026.09',
+            kmt: 45.2,
+            dpp: 34.8,
+            preset: 'tvbs_raking',
+            note: '蘇巧慧於傳統綠營優勢區追近，李四川於雙和與新店維持領先優勢'
+          }
+        ],
+        ballot: {
+          question: '【新北市長選情升溫】如果明天投票，你會把票投給誰？',
+          options: [
+            { id: 'kmt', name: '李四川', camp: 'blue', baseVotes: 3812 },
+            { id: 'dpp', name: '蘇巧慧', camp: 'green', baseVotes: 2594 },
+            { id: 'other', name: '其他', camp: 'other', baseVotes: 54 },
+            { id: 'undecided', name: '不知道 / 沒意見', camp: 'other', baseVotes: 118 }
+          ]
+        },
+        fallbackNews: [
+          {
+            title: '新北市長選情觀測：藍白整合後李四川支持度47% 蘇巧慧32%全力衝刺溪北',
+            source: 'TVBS新聞網',
+            pubDate: '2026-10-20 16:20',
+            city: '新北市',
+            camp: 'blue',
+            link: 'https://news.google.com/search?q=%E6%96%B0%E5%8C%97%E5%B8%82%E9%95%B7+%E6%B0%91%E8%AA%BF+%E6%9D%8E%E5%9B%9B%E5%B7%9D+%E8%98%87%E5%B7%A7%E6%85%A7&hl=zh-TW&gl=TW&ceid=TW:zh-Hant'
+          },
+          {
+            title: '雙北選戰連動效應！李四川與蘇巧慧網路聲量與地方組織戰全面交鋒',
+            source: '自由時報',
+            pubDate: '2026-10-19 19:05',
+            city: '新北市',
+            camp: 'green',
+            link: 'https://news.google.com/search?q=%E6%9D%8E%E5%9B%9B%E5%B7%9D+%E8%98%87%E5%B7%A7%E6%85%A7+%E6%96%B0%E5%8C%97%E5%B8%82%E9%95%B7&hl=zh-TW&gl=TW&ceid=TW:zh-Hant'
+          }
+        ]
+      },
+      {
+        id: 'taoyuan',
+        code: 'TYN',
+        name: '桃園市',
+        totalApproved: 2,
+        kmtName: '張善政',
+        dppName: '黃世杰',
+        kmtCand: '張善政 (國)',
+        dppCand: '黃世杰 (民)',
+        baseKmt: 55.0,
+        baseDpp: 21.0,
+        rssQuery: '桃園市長 民調 張善政 黃世杰',
+        mapCallout: { x: 26, y: 58, lineX: 192, lineY: 74 },
+        minorCands: '本屆僅 2 人審定合格對決',
+        note: '現任執政優勢穩定，藍綠一對一對決',
+        polls: [
+          {
+            agency: 'TVBS',
+            date: '2026.10',
+            kmt: 55,
+            dpp: 21,
+            preset: 'tvbs_raking',
+            note: '張善政現任施政滿意度穩定，本屆僅藍綠2人登記對決，差距達34個百分點'
+          }
+        ],
+        ballot: {
+          question: '【桃園市長選情升溫】如果明天投票，你會把票投給誰？',
+          options: [
+            { id: 'kmt', name: '張善政', camp: 'blue', baseVotes: 3120 },
+            { id: 'dpp', name: '黃世杰', camp: 'green', baseVotes: 1195 },
+            { id: 'other', name: '其他', camp: 'other', baseVotes: 19 },
+            { id: 'undecided', name: '不知道 / 沒意見', camp: 'other', baseVotes: 92 }
+          ]
+        },
+        fallbackNews: [
+          {
+            title: '桃園市長選情民調：張善政支持度55%領先 黃世杰深耕基層力拼逆轉',
+            source: '聯合新聞網',
+            pubDate: '2026-10-20 14:10',
+            city: '桃園市',
+            camp: 'blue',
+            link: 'https://news.google.com/search?q=%E6%A1%83%E5%9C%92%E5%B8%82%E9%95%B7+%E6%B0%91%E8%AA%BF+%E5%BC%B5%E5%96%84%E6%94%BF&hl=zh-TW&gl=TW&ceid=TW:zh-Hant'
+          }
+        ]
+      },
+      {
+        id: 'taichung',
+        code: 'TXG',
+        name: '台中市',
+        totalApproved: 3,
+        kmtName: '江啟臣',
+        dppName: '何欣純',
+        kmtCand: '江啟臣 (國)',
+        dppCand: '何欣純 (民)',
+        baseKmt: 44.0,
+        baseDpp: 32.0,
+        rssQuery: '台中市長 民調 江啟臣 何欣純',
+        mapCallout: { x: 26, y: 150, lineX: 185, lineY: 165 },
+        minorCands: '洪麗華 (司法正義黨)',
+        note: '盧秀燕兩任屆滿交棒，中台灣指標選區',
+        polls: [
+          {
+            agency: 'TVBS',
+            date: '2026.10',
+            kmt: 44,
+            dpp: 32,
+            preset: 'tvbs_raking',
+            note: '盧秀燕兩任屆滿交棒，江啟臣承接市政滿意度優勢，領先何欣純12個百分點'
+          }
+        ],
+        ballot: {
+          question: '【台中市長選情升溫】如果明天投票，你會把票投給誰？',
+          options: [
+            { id: 'kmt', name: '江啟臣', camp: 'blue', baseVotes: 2945 },
+            { id: 'dpp', name: '何欣純', camp: 'green', baseVotes: 2142 },
+            { id: 'other', name: '其他', camp: 'other', baseVotes: 41 },
+            { id: 'undecided', name: '不知道 / 沒意見', camp: 'other', baseVotes: 104 }
+          ]
+        },
+        fallbackNews: [
+          {
+            title: '台中市長交棒大戰！江啟臣44%對決何欣純32% 屯區與山海線成決勝關鍵',
+            source: '中國時報',
+            pubDate: '2026-10-20 17:00',
+            city: '台中市',
+            camp: 'blue',
+            link: 'https://news.google.com/search?q=%E5%8F%B0%E4%B8%AD%E5%B8%82%E9%95%B7+%E6%B0%91%E8%AA%BF+%E6%B1%9F%E5%95%9F%E8%87%A3+%E4%BD%95%E6%AC%A3%E7%B4%94&hl=zh-TW&gl=TW&ceid=TW:zh-Hant'
+          }
+        ]
+      },
+      {
+        id: 'tainan',
+        code: 'TNN',
+        name: '台南市',
+        totalApproved: 4,
+        kmtName: '謝龍介',
+        dppName: '陳亭妃',
+        kmtCand: '謝龍介 (國)',
+        dppCand: '陳亭妃 (民)',
+        baseKmt: 35.0,
+        baseDpp: 46.0,
+        rssQuery: '台南市長 民調 陳亭妃 謝龍介',
+        mapCallout: { x: 20, y: 278, lineX: 158, lineY: 292 },
+        minorCands: '蕭燐洪、葉人文',
+        note: '黃偉哲屆滿，陳亭妃初選勝出對決謝龍介',
+        polls: [
+          {
+            agency: 'TVBS',
+            date: '2026.10',
+            kmt: 35,
+            dpp: 46,
+            preset: 'tvbs_raking',
+            note: '陳亭妃初選勝出後整合綠營基層，第5度交手謝龍介，目前陳亭妃領先11個百分點'
+          }
+        ],
+        ballot: {
+          question: '【台南市長選情升溫】如果明天投票，你會把票投給誰？',
+          options: [
+            { id: 'kmt', name: '謝龍介', camp: 'blue', baseVotes: 2150 },
+            { id: 'dpp', name: '陳亭妃', camp: 'green', baseVotes: 2826 },
+            { id: 'other', name: '其他', camp: 'other', baseVotes: 38 },
+            { id: 'undecided', name: '不知道 / 沒意見', camp: 'other', baseVotes: 82 }
+          ]
+        },
+        fallbackNews: [
+          {
+            title: '台南市長選情民調：陳亭妃46%領先謝龍介35% 宿敵五度交鋒引爆話題',
+            source: '自由時報',
+            pubDate: '2026-10-20 13:50',
+            city: '台南市',
+            camp: 'green',
+            link: 'https://news.google.com/search?q=%E5%8F%B0%E5%8D%97%E5%B8%82%E9%95%B7+%E6%B0%91%E8%AA%BF+%E9%99%B3%E4%BA%AD%E5%A6%83+%E8%AC%9D%E9%BE%8D%E4%BB%8B&hl=zh-TW&gl=TW&ceid=TW:zh-Hant'
+          }
+        ]
+      },
+      {
+        id: 'kaohsiung',
+        code: 'KHH',
+        name: '高雄市',
+        totalApproved: 5,
+        kmtName: '柯志恩',
+        dppName: '賴瑞隆',
+        kmtCand: '柯志恩 (國)',
+        dppCand: '賴瑞隆 (民)',
+        baseKmt: 39.0,
+        baseDpp: 45.0,
+        rssQuery: '高雄市長 民調 賴瑞隆 柯志恩',
+        mapCallout: { x: 20, y: 352, lineX: 175, lineY: 342 },
+        minorCands: '張靜、王肇民、洪方隆',
+        note: '陳其邁屆滿，賴瑞隆與柯志恩差距進入個位數激戰',
+        polls: [
+          {
+            agency: 'TVBS',
+            date: '2026.10',
+            kmt: 39,
+            dpp: 45,
+            preset: 'tvbs_raking',
+            note: '陳其邁兩任屆滿，賴瑞隆與柯志恩差距收斂至6個百分點，中間選民動向關鍵'
+          }
+        ],
+        ballot: {
+          question: '【高雄市長選情升溫】如果明天投票，你會把票投給誰？',
+          options: [
+            { id: 'kmt', name: '柯志恩', camp: 'blue', baseVotes: 2618 },
+            { id: 'dpp', name: '賴瑞隆', camp: 'green', baseVotes: 3021 },
+            { id: 'other', name: '其他', camp: 'other', baseVotes: 49 },
+            { id: 'undecided', name: '不知道 / 沒意見', camp: 'other', baseVotes: 94 }
+          ]
+        },
+        fallbackNews: [
+          {
+            title: '高雄市長民調拉鋸！賴瑞隆45%對決柯志恩39% 差距縮小至6個百分點',
+            source: 'TVBS新聞網',
+            pubDate: '2026-10-20 17:40',
+            city: '高雄市',
+            camp: 'green',
+            link: 'https://news.google.com/search?q=%E9%AB%98%E9%9B%84%E5%B8%82%E9%95%B7+%E6%B0%91%E8%AA%BF+%E8%B3%B4%E7%91%9E%E9%9A%86+%E6%9F%AF%E5%BF%97%E6%81%A9&hl=zh-TW&gl=TW&ceid=TW:zh-Hant'
+          }
+        ]
+      }
+    ];
+
+    /*************************************************************************
+     * 2. STATE & STRICT 1-VOTE-PER-DAY GUARD (FINGERPRINT + STORAGE + COOKIE)
+     *************************************************************************/
+    const state = {
+      activeCityId: 'taipei',
+      activePollIdx: 0,
+      selectedBallotOpt: 'kmt',
+      preset: 'tvbs_raking',
+      greenSamplePct: 29.0,
+      rakingStrength: 1.00,
+      threadsDamping: 0.72,
+      deviceFingerprint: '',
+      computedCities: [],
+      liveNewsByCity: {},
+      secondsUntilNextSync: 60
+    };
+
+    const VOTE_STORAGE_KEY = 'tw2026_public_ballot_records_v2';
+
+    function computeDeviceFingerprint() {
+      try {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        ctx.textBaseline = 'top';
+        ctx.font = '14px Arial';
+        ctx.fillStyle = '#c2745d';
+        ctx.fillRect(10, 10, 80, 20);
+        ctx.fillStyle = '#487bb6';
+        ctx.fillText('TW2026_FP_GUARD', 12, 12);
+        const canvasData = canvas.toDataURL();
+
+        const rawFeatures = [
+          navigator.userAgent,
+          navigator.language,
+          screen.width + 'x' + screen.height,
+          screen.colorDepth,
+          Intl.DateTimeFormat().resolvedOptions().timeZone,
+          navigator.hardwareConcurrency || 4,
+          canvasData.slice(-64)
+        ].join('|');
+
+        let hash = 2166136261;
+        for (let i = 0; i < rawFeatures.length; i++) {
+          hash ^= rawFeatures.charCodeAt(i);
+          hash = Math.imul(hash, 16777619);
+        }
+        return 'fp_' + (hash >>> 0).toString(16);
+      } catch (e) {
+        return 'fp_fallback_device';
+      }
+    }
+
+    function getTaipeiDateKey() {
+      try {
+        return new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Taipei' });
+      } catch (e) {
+        return new Date().toISOString().slice(0, 10);
+      }
+    }
+
+    function getCookieVote(cityId, dateKey) {
+      const name = `tw2026_v_${cityId}_${dateKey}=`;
+      const parts = document.cookie.split(';');
+      for (let p of parts) {
+        p = p.trim();
+        if (p.indexOf(name) === 0) return p.substring(name.length);
+      }
+      return null;
+    }
+
+    function setCookieVote(cityId, dateKey, optId) {
+      const expires = new Date(Date.now() + 24 * 60 * 60 * 1000).toUTCString();
+      document.cookie = `tw2026_v_${cityId}_${dateKey}=${optId}; expires=${expires}; path=/; SameSite=Lax`;
+    }
+
+    let ballotRecords = {};
+
+    function loadBallotRecords() {
+      state.deviceFingerprint = computeDeviceFingerprint();
+      try {
+        const saved = localStorage.getItem(VOTE_STORAGE_KEY);
+        if (saved) ballotRecords = JSON.parse(saved);
+      } catch (e) {
+        ballotRecords = {};
+      }
+
+      const todayKey = getTaipeiDateKey();
+
+      CITIES_DATA.forEach(city => {
+        if (!ballotRecords[city.id]) {
+          ballotRecords[city.id] = {
+            votesMap: {},
+            lastVotedDate: null,
+            lastVotedOpt: null,
+            lastVotedTs: null,
+            fingerprint: state.deviceFingerprint
+          };
+          city.ballot.options.forEach(o => {
+            ballotRecords[city.id].votesMap[o.id] = o.baseVotes;
+          });
+        }
+        const cookieOpt = getCookieVote(city.id, todayKey);
+        if (cookieOpt && ballotRecords[city.id].lastVotedDate !== todayKey) {
+          ballotRecords[city.id].lastVotedDate = todayKey;
+          ballotRecords[city.id].lastVotedOpt = cookieOpt;
+          ballotRecords[city.id].votesMap[cookieOpt] = (ballotRecords[city.id].votesMap[cookieOpt] || 0) + 1;
+        }
+      });
+    }
+
+    function saveBallotRecords() {
+      try {
+        localStorage.setItem(VOTE_STORAGE_KEY, JSON.stringify(ballotRecords));
+      } catch (e) {}
+    }
+
+    function hasVotedToday(cityId) {
+      const todayKey = getTaipeiDateKey();
+      const rec = ballotRecords[cityId];
+      if (!rec) return false;
+      if (rec.lastVotedDate === todayKey) return true;
+      if (getCookieVote(cityId, todayKey)) return true;
+      return false;
+    }
+
+    // Optional Cloud Ballot Sync when CLOUD_BALLOT_API_URL is configured
+    async function syncCloudBallot(cityId, votePayload = null) {
+      if (!CLOUD_BALLOT_API_URL) return;
+      try {
+        const res = await fetch(CLOUD_BALLOT_API_URL, {
+          method: votePayload ? 'POST' : 'GET',
+          headers: { 'Content-Type': 'application/json' },
+          body: votePayload ? JSON.stringify(votePayload) : undefined
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.votesMap && ballotRecords[cityId]) {
+            ballotRecords[cityId].votesMap = data.votesMap;
+            saveBallotRecords();
+            renderBallotBox();
+          }
+        }
+      } catch (e) {}
+    }
+
+    loadBallotRecords();
+
+    /*************************************************************************
+     * 3. THREE.JS ARTISTIC 3D TOPOGRAPHIC PARTICLE WAVE & REDRAW ENGINE
+     *************************************************************************/
+    let threeScene, threeCamera, threeRenderer, particleSystem;
+    let waveIntensity = 1.0;
+    let targetTint = new THREE.Color(0x487bb6);
+
+    function initThreeArtisticBg() {
+      const canvas = document.getElementById('threeBgCanvas');
+      if (!window.THREE || !canvas) return;
+
+      threeScene = new THREE.Scene();
+      threeCamera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 1, 1000);
+      threeCamera.position.set(0, 55, 135);
+      threeCamera.lookAt(0, 0, 0);
+
+      threeRenderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      threeRenderer.setSize(window.innerWidth, window.innerHeight);
+      threeRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      const cols = 56;
+      const rows = 36;
+      const numParticles = cols * rows;
+      const positions = new Float32Array(numParticles * 3);
+      const colors = new Float32Array(numParticles * 3);
+
+      let idx = 0;
+      for (let ix = 0; ix < cols; ix++) {
+        for (let iy = 0; iy < rows; iy++) {
+          positions[idx] = (ix - cols / 2) * 5.2;
+          positions[idx + 1] = 0;
+          positions[idx + 2] = (iy - rows / 2) * 5.2;
+
+          colors[idx] = 0.28;
+          colors[idx + 1] = 0.48;
+          colors[idx + 2] = 0.71;
+          idx += 3;
+        }
+      }
+
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+      const material = new THREE.PointsMaterial({
+        size: 1.85,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.55
+      });
+
+      particleSystem = new THREE.Points(geometry, material);
+      threeScene.add(particleSystem);
+
+      let clock = 0;
+      function animateThree() {
+        requestAnimationFrame(animateThree);
+        clock += 0.014;
+        waveIntensity += (1.0 - waveIntensity) * 0.04;
+
+        const posArr = particleSystem.geometry.attributes.position.array;
+        const colArr = particleSystem.geometry.attributes.color.array;
+
+        let p = 0;
+        for (let ix = 0; ix < cols; ix++) {
+          for (let iy = 0; iy < rows; iy++) {
+            const height =
+              Math.sin((ix * 0.18) + clock) * 3.8 * waveIntensity +
+              Math.cos((iy * 0.22) + clock * 0.85) * 3.2 * waveIntensity;
+            posArr[p + 1] = height;
+
+            colArr[p] += (targetTint.r - colArr[p]) * 0.03;
+            colArr[p + 1] += (targetTint.g - colArr[p + 1]) * 0.03;
+            colArr[p + 2] += (targetTint.b - colArr[p + 2]) * 0.03;
+            p += 3;
+          }
+        }
+        particleSystem.geometry.attributes.position.needsUpdate = true;
+        particleSystem.geometry.attributes.color.needsUpdate = true;
+        threeRenderer.render(threeScene, threeCamera);
+      }
+
+      animateThree();
+
+      window.addEventListener('resize', () => {
+        threeCamera.aspect = window.innerWidth / window.innerHeight;
+        threeCamera.updateProjectionMatrix();
+        threeRenderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    }
+
+    function triggerArtisticRedraw(isBlueLeading = true) {
+      waveIntensity = 2.8;
+      if (window.THREE) {
+        targetTint = new THREE.Color(isBlueLeading ? 0x487bb6 : 0x439256);
+      }
+
+      const btn = document.getElementById('btnRedrawAll');
+      btn.classList.add('spinning');
+      setTimeout(() => btn.classList.remove('spinning'), 520);
+
+      document.querySelectorAll('.map-region').forEach(el => {
+        el.classList.remove('redraw-stroke');
+        void el.offsetWidth;
+        el.classList.add('redraw-stroke');
+      });
+
+      document.querySelectorAll('[data-target-width]').forEach(bar => {
+        const targetW = bar.getAttribute('data-target-width');
+        bar.style.transition = 'none';
+        bar.style.width = '0%';
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            bar.style.transition = 'width 0.78s cubic-bezier(0.16, 1, 0.3, 1)';
+            bar.style.width = targetW;
+          });
+        });
+      });
+    }
+
+    /*************************************************************************
+     * 4. COMPUTE CALIBRATED POLLS & RENDER ALL SECTIONS
+     *************************************************************************/
+    function computeAllCities() {
+      const G_base = 29.0;
+      const G_sample = state.greenSamplePct;
+      const W_rak = state.rakingStrength;
+      const damp = state.threadsDamping;
+
+      const G_eff = (1 - W_rak) * G_sample + W_rak * G_base;
+      const greenSkew = G_eff - G_base;
+
+      state.computedCities = CITIES_DATA.map(city => {
+        let kmt = city.baseKmt;
+        let dpp = city.baseDpp;
+
+        if (city.id === 'taipei') {
+          if (state.preset === 'debate_1031' && W_rak < 0.3) {
+            kmt = city.debateKmt;
+            dpp = city.debateDpp;
+          } else {
+            const dampFactor = 1 - 0.35 * (damp - 0.72);
+            dpp = 41.0 + 0.704 * greenSkew * dampFactor;
+            kmt = 49.0 - 1.189 * greenSkew * dampFactor;
+          }
+        } else {
+          kmt = city.baseKmt - 0.36 * greenSkew;
+          dpp = city.baseDpp + 0.34 * greenSkew;
+        }
+
+        kmt = Math.max(15.0, Math.min(72.0, kmt));
+        dpp = Math.max(15.0, Math.min(72.0, dpp));
+        const undecided = Math.max(3.0, 100 - kmt - dpp);
+
+        return {
+          ...city,
+          kmt: Number(kmt.toFixed(1)),
+          dpp: Number(dpp.toFixed(1)),
+          undecided: Number(undecided.toFixed(1)),
+          spread: Number((kmt - dpp).toFixed(1))
+        };
+      });
+
+      return G_eff;
+    }
+
+    function renderCityNavPills() {
+      const nav = document.getElementById('cityPillsNav');
+      nav.innerHTML = state.computedCities.map(c => {
+        const isBlue = c.kmt >= c.dpp;
+        const activeClass = c.id === state.activeCityId ? 'active' : '';
+        return `
+          <button class="city-pill ${activeClass}" data-city="${c.id}">
+            <span class="city-pill-dot ${isBlue ? 'blue' : 'green'}"></span>
+            <span>${c.name}</span>
+          </button>
+        `;
+      }).join('');
+
+      nav.querySelectorAll('.city-pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+          selectCity(btn.getAttribute('data-city'));
+        });
+      });
+    }
+
+    function renderTaiwanMap() {
+      const calloutsLayer = document.getElementById('mapCalloutsLayer');
+      const calloutsHtml = [];
+
+      state.computedCities.forEach(c => {
+        const pathEl = document.getElementById(`map-${c.id}`);
+        const isBlue = c.kmt >= c.dpp;
+        const isActive = c.id === state.activeCityId;
+
+        if (pathEl) {
+          pathEl.setAttribute('fill', isBlue ? '#3d6da3' : '#3a824b');
+          pathEl.classList.toggle('active-region', isActive);
+        }
+
+        const co = c.mapCallout;
+        const leaderName = isBlue ? c.kmtName : c.dppName;
+        const leadPct = isBlue ? c.kmt : c.dpp;
+        const colorHex = isBlue ? '#9cc4f2' : '#96dfb5';
+
+        calloutsHtml.push(`
+          <g class="map-callout-group ${isActive ? 'active' : ''}" data-city="${c.id}">
+            <line class="map-callout-line" x1="${co.lineX}" y1="${co.lineY}" x2="${co.x + 48}" y2="${co.y + 18}" />
+            <circle cx="${co.lineX}" cy="${co.lineY}" r="3.5" fill="${isBlue ? '#6699d4' : '#60b073'}" stroke="#fff" stroke-width="1" />
+            <rect class="map-callout-rect" x="${co.x}" y="${co.y}" width="98" height="36" />
+            <text class="map-callout-title" x="${co.x + 8}" y="${co.y + 15}">${c.name}</text>
+            <text class="map-callout-sub" x="${co.x + 8}" y="${co.y + 29}" fill="${colorHex}">${leaderName} ${leadPct}%</text>
+          </g>
+        `);
+      });
+
+      calloutsLayer.innerHTML = calloutsHtml.join('');
+
+      calloutsLayer.querySelectorAll('.map-callout-group').forEach(g => {
+        g.addEventListener('click', () => {
+          selectCity(g.getAttribute('data-city'));
+        });
+      });
+
+      const activeCity = state.computedCities.find(c => c.id === state.activeCityId) || state.computedCities[0];
+      document.getElementById('mapActiveStatus').textContent =
+        `當前焦點：${activeCity.name}（${activeCity.kmtName} ${activeCity.kmt}% vs ${activeCity.dppName} ${activeCity.dpp}%）`;
+    }
+
+    function renderPollRace() {
+      const city = state.computedCities.find(c => c.id === state.activeCityId) || state.computedCities[0];
+      document.getElementById('pollRaceHeading').textContent = `民調競速・${city.name}`;
+
+      const container = document.getElementById('pollRaceContainer');
+      const cards = city.polls.map((p, idx) => {
+        const isBlue = p.kmt >= p.dpp;
+        const leaderName = isBlue ? city.kmtName : city.dppName;
+        const diff = Math.abs(p.kmt - p.dpp);
+        const diffStr = Number.isInteger(diff) ? diff : diff.toFixed(1);
+        const kmtStr = Number.isInteger(p.kmt) ? p.kmt : p.kmt.toFixed(1);
+        const dppStr = Number.isInteger(p.dpp) ? p.dpp : p.dpp.toFixed(1);
+        const activeClass = idx === state.activePollIdx ? 'active-poll' : '';
+
+        return `
+          <div class="poll-race-card ${activeClass}" data-poll-idx="${idx}" data-preset="${p.preset}">
+            <div class="poll-card-header">
+              <div>
+                <div class="poll-source-title">${p.agency}</div>
+                <div class="poll-source-date">${p.date}</div>
+              </div>
+              <span class="leader-badge ${isBlue ? 'blue' : 'green'}">${leaderName}領先</span>
+            </div>
+
+            <div class="poll-bars-group">
+              <div class="poll-bar-line">
+                <span class="poll-cand-label">${city.kmtName}</span>
+                <div class="poll-bar-track">
+                  <div class="poll-bar-fill blue" data-target-width="${p.kmt}%" style="width:${p.kmt}%;">${kmtStr}%</div>
+                </div>
+              </div>
+              <div class="poll-bar-line">
+                <span class="poll-cand-label">${city.dppName}</span>
+                <div class="poll-bar-track">
+                  <div class="poll-bar-fill green" data-target-width="${p.dpp}%" style="width:${p.dpp}%;">${dppStr}%</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="poll-card-meta">
+              <span class="gap-pill">差距：${diffStr}pp</span>
+              <span>備注：${p.note}</span>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = cards.join('');
+
+      container.querySelectorAll('.poll-race-card').forEach(card => {
+        card.addEventListener('click', () => {
+          state.activePollIdx = parseInt(card.getAttribute('data-poll-idx'), 10);
+          const preset = card.getAttribute('data-preset');
+          if (preset) applyPreset(preset, false);
+          renderPollRace();
+          triggerArtisticRedraw(city.kmt >= city.dpp);
+        });
+      });
+    }
+
+    function renderBallotBox() {
+      const city = CITIES_DATA.find(c => c.id === state.activeCityId) || CITIES_DATA[0];
+      const rec = ballotRecords[city.id];
+      const votedToday = hasVotedToday(city.id);
+
+      if (votedToday && rec.lastVotedOpt) {
+        state.selectedBallotOpt = rec.lastVotedOpt;
+      }
+
+      document.getElementById('ballotCityBadge').textContent = `${city.name}選區`;
+      document.getElementById('ballotQuestion').textContent = city.ballot.question;
+
+      const totalVotes = city.ballot.options.reduce((sum, o) => sum + (rec.votesMap[o.id] || 0), 0);
+
+      const listEl = document.getElementById('ballotOptionsList');
+      listEl.innerHTML = city.ballot.options.map(opt => {
+        const count = rec.votesMap[opt.id] || 0;
+        const pct = totalVotes > 0 ? Math.round((count / totalVotes) * 100) : 0;
+        const isSelected = state.selectedBallotOpt === opt.id;
+        const lockedClass = votedToday ? 'locked' : '';
+
+        // Always use low-saturation Blue/Green bars for KMT/DPP options
+        let barColorClass = '';
+        if (opt.camp === 'blue') barColorClass = 'blue-bar';
+        else if (opt.camp === 'green') barColorClass = 'green-bar';
+
+        const campDot = opt.camp === 'blue'
+          ? '<span class="camp-indicator blue"></span>'
+          : opt.camp === 'green'
+          ? '<span class="camp-indicator green"></span>'
+          : '';
+
+        const barW = Math.max(pct, count > 0 ? 1.5 : 0);
+
+        return `
+          <div class="ballot-item ${isSelected ? 'selected' : ''} ${lockedClass}" data-opt="${opt.id}">
+            <div class="ballot-item-header">
+              <div class="ballot-radio-wrap">
+                <span class="ballot-radio-circle"><span class="ballot-radio-inner"></span></span>
+                <span class="ballot-opt-name">${opt.name} ${campDot}</span>
+              </div>
+              <div class="ballot-opt-stats">
+                <strong>${pct}%</strong> <span class="votes-num">(${count}票 )</span>
+              </div>
+            </div>
+            <div class="ballot-bar-bg">
+              <div class="ballot-bar-fg ${barColorClass}" data-target-width="${barW}%" style="width:${barW}%;"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      if (!votedToday) {
+        listEl.querySelectorAll('.ballot-item').forEach(item => {
+          item.addEventListener('click', () => {
+            state.selectedBallotOpt = item.getAttribute('data-opt');
+            renderBallotBox();
+          });
+        });
+      }
+
+      const btn = document.getElementById('btnCastVote');
+      const btnText = document.getElementById('btnCastVoteText');
+      const note = document.getElementById('ballotStatusNote');
+      const iconPath = document.getElementById('ballotBtnIconPath');
+
+      if (votedToday) {
+        btn.disabled = true;
+        btnText.textContent = '今日已完成投票';
+        iconPath.setAttribute('d', 'M20 6L9 17l-5-5');
+        const chosenName = city.ballot.options.find(o => o.id === rec.lastVotedOpt)?.name || '';
+        note.innerHTML = `<span style="color:var(--green-badge-fg);">✓ 您今日已於${city.name}投給「${chosenName}」（總計 ${totalVotes.toLocaleString()} 票，明日 00:00 後可再次投票）</span>`;
+      } else {
+        btn.disabled = false;
+        btnText.textContent = '投票看結果';
+        iconPath.setAttribute('d', 'M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11');
+        note.textContent = `目前累計 ${totalVotes.toLocaleString()} 票｜單一裝置每日限投一次`;
+      }
+    }
+
+    function renderCalibrationAndMatrix(G_eff) {
+      document.getElementById('lblGreenSample').textContent = `${state.greenSamplePct.toFixed(1)}%`;
+      document.getElementById('lblRaking').textContent = `${Math.round(state.rakingStrength * 100)}%`;
+      document.getElementById('lblDamping').textContent = `${Math.round(state.threadsDamping * 100)}%`;
+
+      const city = state.computedCities.find(c => c.id === state.activeCityId) || state.computedCities[0];
+      const isBlue = city.kmt >= city.dpp;
+      const spread = Math.abs(city.kmt - city.dpp).toFixed(1);
+
+      document.getElementById('calCityTitle').textContent = `${city.name}・抽樣校正後推估對比`;
+      const badge = document.getElementById('calSpreadBadge');
+      badge.textContent = `${isBlue ? city.kmtName : city.dppName}領先 ${spread}pp`;
+      badge.className = `leader-badge ${isBlue ? 'blue' : 'green'}`;
+
+      document.getElementById('calBlueLabel').textContent = `${city.kmtName} ${city.kmt.toFixed(1)}%`;
+      document.getElementById('calGreenLabel').textContent = `${city.dppName} ${city.dpp.toFixed(1)}%`;
+
+      const total2P = city.kmt + city.dpp;
+      const wBlue = ((city.kmt / total2P) * 100).toFixed(1);
+      document.getElementById('calBarBlue').style.width = `${wBlue}%`;
+      document.getElementById('calBarGreen').style.width = `${(100 - parseFloat(wBlue)).toFixed(1)}%`;
+
+      document.getElementById('calEffGreen').textContent = `${G_eff.toFixed(1)}%`;
+      document.getElementById('calUndecided').textContent = `${city.undecided.toFixed(1)}%`;
+
+      const matrixEl = document.getElementById('sixCitiesMatrix');
+      matrixEl.innerHTML = state.computedCities.map(c => {
+        const cBlue = c.kmt >= c.dpp;
+        const cDiff = Math.abs(c.kmt - c.dpp).toFixed(1);
+        const activeClass = c.id === state.activeCityId ? 'active-city-card' : '';
+
+        return `
+          <div class="city-summary-card ${activeClass}" data-city="${c.id}">
+            <div class="city-summary-top">
+              <span class="city-summary-name">${c.name}</span>
+              <span class="leader-badge ${cBlue ? 'blue' : 'green'}" style="padding:3px 10px; font-size:12px;">
+                ${cBlue ? c.kmtName : c.dppName} +${cDiff}pp
+              </span>
+            </div>
+
+            <div class="poll-bars-group" style="margin-bottom:10px;">
+              <div class="poll-bar-line" style="grid-template-columns:56px 1fr;">
+                <span class="poll-cand-label" style="font-size:13.5px;">${c.kmtName}</span>
+                <div class="poll-bar-track" style="height:20px;">
+                  <div class="poll-bar-fill blue" data-target-width="${c.kmt}%" style="width:${c.kmt}%; font-size:11.5px;">${c.kmt.toFixed(1)}%</div>
+                </div>
+              </div>
+              <div class="poll-bar-line" style="grid-template-columns:56px 1fr;">
+                <span class="poll-cand-label" style="font-size:13.5px;">${c.dppName}</span>
+                <div class="poll-bar-track" style="height:20px;">
+                  <div class="poll-bar-fill green" data-target-width="${c.dpp}%" style="width:${c.dpp}%; font-size:11.5px;">${c.dpp.toFixed(1)}%</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="font-size:12px; color:var(--fg-muted); line-height:1.45;">
+              <div>審定候選人：共 ${c.totalApproved} 人（含 ${c.minorCands}）</div>
+              <div style="color:var(--fg-secondary); margin-top:2px;">${c.note}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      matrixEl.querySelectorAll('.city-summary-card').forEach(card => {
+        card.addEventListener('click', () => {
+          selectCity(card.getAttribute('data-city'));
+        });
+      });
+    }
+
+    /*************************************************************************
+     * 5. REAL-TIME NEWS FETCHER & 60-SECOND AUTO-REFRESH PIPELINE
+     *************************************************************************/
+    function renderNewsSection() {
+      const city = CITIES_DATA.find(c => c.id === state.activeCityId) || CITIES_DATA[0];
+      document.getElementById('newsSectionTitle').textContent = `即時民調與選情新聞・${city.name}`;
+
+      // Combine live fetched RSS news for active city with curated fallback news across Six Cities
+      let items = state.liveNewsByCity[city.id] || [];
+      if (items.length < 6) {
+        const extra = [];
+        // First add current city's fallback news
+        city.fallbackNews.forEach(n => extra.push(n));
+        // Then add other cities' fallback news to fill 6 cards
+        CITIES_DATA.forEach(otherCity => {
+          if (otherCity.id !== city.id) {
+            otherCity.fallbackNews.forEach(n => extra.push(n));
+          }
+        });
+        const existingTitles = new Set(items.map(i => i.title));
+        for (const ex of extra) {
+          if (!existingTitles.has(ex.title) && items.length < 6) {
+            items.push(ex);
+            existingTitles.add(ex.title);
+          }
+        }
+      }
+
+      const newsEl = document.getElementById('liveNewsContainer');
+      newsEl.innerHTML = items.slice(0, 6).map(item => {
+        const dotColor = item.camp === 'blue'
+          ? 'var(--blue-main)'
+          : item.camp === 'green'
+          ? 'var(--green-main)'
+          : 'var(--terracotta)';
+
+        return `
+          <a class="news-card" href="${item.link}" target="_blank" rel="noopener noreferrer">
+            <div>
+              <div class="news-meta-top">
+                <span class="news-source-tag">${item.source}</span>
+                <span class="news-time-tag">${item.pubDate}</span>
+              </div>
+              <div class="news-headline" style="margin-top:8px;">${item.title}</div>
+            </div>
+            <div class="news-footer-row">
+              <span class="news-city-pill">
+                <span style="width:6px; height:6px; border-radius:50%; background:${dotColor};"></span>
+                ${item.city}
+              </span>
+              <span style="color:var(--terracotta); font-weight:600;">閱讀報導 →</span>
+            </div>
+          </a>
+        `;
+      }).join('');
+    }
+
+    async function fetchLiveElectionNews(cityId) {
+      const city = CITIES_DATA.find(c => c.id === cityId) || CITIES_DATA[0];
+      const rssQuery = encodeURIComponent(city.rssQuery + ' 2026');
+      const rssUrl = `https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss/search?q=${rssQuery}&hl=zh-TW&gl=TW&ceid=TW:zh-Hant`;
+
+      try {
+        const res = await fetch(rssUrl);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && Array.isArray(data.items) && data.items.length > 0) {
+            state.liveNewsByCity[city.id] = data.items.slice(0, 6).map(raw => {
+              const parts = (raw.title || '').split(' - ');
+              const source = parts.length > 1 ? parts.pop().trim() : (raw.author || '即時新聞');
+              const cleanTitle = parts.join(' - ').trim() || raw.title;
+              const camp = cleanTitle.includes(city.kmtName) && !cleanTitle.includes(city.dppName)
+                ? 'blue'
+                : cleanTitle.includes(city.dppName) && !cleanTitle.includes(city.kmtName)
+                ? 'green'
+                : 'neutral';
+
+              return {
+                title: cleanTitle,
+                source,
+                pubDate: (raw.pubDate || '').slice(0, 16) || getTaipeiDateKey(),
+                city: city.name,
+                camp,
+                link: raw.link || '#'
+              };
+            });
+          }
+        }
+      } catch (err) {
+        // Fallback already handled in renderNewsSection
+      }
+
+      const nowStr = new Date().toLocaleTimeString('zh-TW', { timeZone: 'Asia/Taipei', hour12: false });
+      document.getElementById('newsSyncSubtitle').textContent =
+        `串接 Google News 即時選情 RSS（最後同步：${nowStr}｜每 60 秒自動刷新）`;
+      renderNewsSection();
+    }
+
+    async function syncAllLiveFeeds() {
+      state.secondsUntilNextSync = 60;
+      await Promise.all([
+        fetchLiveElectionNews(state.activeCityId),
+        syncCloudBallot(state.activeCityId)
+      ]);
+    }
+
+    function updateAllViews(withRedraw = false) {
+      const G_eff = computeAllCities();
+      renderCityNavPills();
+      renderTaiwanMap();
+      renderPollRace();
+      renderBallotBox();
+      renderCalibrationAndMatrix(G_eff);
+      renderNewsSection();
+
+      if (withRedraw) {
+        const activeCity = state.computedCities.find(c => c.id === state.activeCityId) || state.computedCities[0];
+        triggerArtisticRedraw(activeCity.kmt >= activeCity.dpp);
+      }
+    }
+
+    function selectCity(cityId) {
+      if (!cityId) return;
+      state.activeCityId = cityId;
+      state.activePollIdx = 0;
+      state.selectedBallotOpt = 'kmt';
+      updateAllViews(true);
+      fetchLiveElectionNews(cityId);
+    }
+
+    function applyPreset(preset, redraw = true) {
+      state.preset = preset;
+      document.querySelectorAll('.preset-card').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-preset') === preset);
+      });
+
+      if (preset === 'tvbs_raking') {
+        state.greenSamplePct = 29.0;
+        state.rakingStrength = 1.00;
+        state.threadsDamping = 0.72;
+      } else if (preset === 'shinmin_raw') {
+        state.greenSamplePct = 42.2;
+        state.rakingStrength = 0.00;
+        state.threadsDamping = 0.72;
+      } else if (preset === 'threads_echo') {
+        state.greenSamplePct = 56.0;
+        state.rakingStrength = 0.00;
+        state.threadsDamping = 0.25;
+      } else if (preset === 'debate_1031') {
+        state.greenSamplePct = 36.5;
+        state.rakingStrength = 0.20;
+        state.threadsDamping = 0.60;
+      }
+
+      document.getElementById('rngGreenSample').value = state.greenSamplePct;
+      document.getElementById('rngRaking').value = Math.round(state.rakingStrength * 100);
+      document.getElementById('rngDamping').value = Math.round(state.threadsDamping * 100);
+      updateAllViews(redraw);
+    }
+
+    /*************************************************************************
+     * 6. EVENT LISTENERS, 1-SECOND LIVE CLOCK & 60-SECOND AUTO-REFRESH
+     *************************************************************************/
+    document.querySelectorAll('.map-region').forEach(region => {
+      region.addEventListener('click', () => {
+        selectCity(region.getAttribute('data-city'));
+      });
+    });
+
+    document.getElementById('btnCastVote').addEventListener('click', () => {
+      const cityId = state.activeCityId;
+      if (hasVotedToday(cityId)) return;
+
+      const todayKey = getTaipeiDateKey();
+      const rec = ballotRecords[cityId];
+      const optId = state.selectedBallotOpt;
+
+      rec.votesMap[optId] = (rec.votesMap[optId] || 0) + 1;
+      rec.lastVotedDate = todayKey;
+      rec.lastVotedOpt = optId;
+      rec.lastVotedTs = Date.now();
+      rec.fingerprint = state.deviceFingerprint;
+
+      setCookieVote(cityId, todayKey, optId);
+      saveBallotRecords();
+      syncCloudBallot(cityId, {
+        cityId,
+        optId,
+        dateKey: todayKey,
+        fingerprint: state.deviceFingerprint
+      });
+
+      renderBallotBox();
+      triggerArtisticRedraw(optId === 'kmt');
+    });
+
+    document.getElementById('btnRedrawAll').addEventListener('click', () => {
+      const activeCity = state.computedCities.find(c => c.id === state.activeCityId) || state.computedCities[0];
+      triggerArtisticRedraw(activeCity.kmt >= activeCity.dpp);
+      syncAllLiveFeeds();
+    });
+
+    document.getElementById('btnRefreshNews').addEventListener('click', () => {
+      fetchLiveElectionNews(state.activeCityId);
+    });
+
+    document.querySelectorAll('.preset-card').forEach(btn => {
+      btn.addEventListener('click', () => {
+        applyPreset(btn.getAttribute('data-preset'), true);
+      });
+    });
+
+    document.getElementById('rngGreenSample').addEventListener('input', (e) => {
+      state.greenSamplePct = parseFloat(e.target.value);
+      updateAllViews(false);
+    });
+
+    document.getElementById('rngRaking').addEventListener('input', (e) => {
+      state.rakingStrength = parseFloat(e.target.value) / 100.0;
+      updateAllViews(false);
+    });
+
+    document.getElementById('rngDamping').addEventListener('input', (e) => {
+      state.threadsDamping = parseFloat(e.target.value) / 100.0;
+      updateAllViews(false);
+    });
+
+    // Live 1-Second Clock & 60-Second Auto-Sync Timer
+    function tickClockAndSync() {
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('zh-TW', {
+        timeZone: 'Asia/Taipei',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      });
+      const timeStr = now.toLocaleTimeString('zh-TW', {
+        timeZone: 'Asia/Taipei',
+        hour12: false
+      });
+      document.getElementById('navLiveClock').textContent = `${dateStr} ${timeStr}`;
+
+      state.secondsUntilNextSync -= 1;
+      if (state.secondsUntilNextSync <= 0) {
+        syncAllLiveFeeds();
+      }
+      document.getElementById('navSyncCountdown').textContent = `${state.secondsUntilNextSync}s 刷新`;
+
+      const electionDate = new Date('2026-11-28T08:00:00+08:00').getTime();
+      const diffMs = Math.max(0, electionDate - now.getTime());
+      const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      document.getElementById('electionCountdown').textContent = `${days} 天 ${hours} 小時`;
+      document.getElementById('ballotTimeRemaining').textContent = `剩餘時間： 28天 0小時`;
+    }
+
+    // Boot
+    initThreeArtisticBg();
+    updateAllViews(true);
+    syncAllLiveFeeds();
+    tickClockAndSync();
+    setInterval(tickClockAndSync, 1000);
+  </script>
+</body>
+</html>
