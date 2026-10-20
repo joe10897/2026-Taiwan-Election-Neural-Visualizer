@@ -15,11 +15,11 @@
 
 const INITIAL_VOTES = {
   taipei:    { kmt: 4337, dpp: 2596, other: 34, undecided: 85 },
-  newtaipei: { kmt: 3812, dpp: 2594, other: 54, undecided: 118 },
-  taoyuan:   { kmt: 3120, dpp: 1195, other: 19, undecided: 92 },
-  taichung:  { kmt: 2945, dpp: 2142, other: 41, undecided: 104 },
-  tainan:    { kmt: 2150, dpp: 2826, other: 38, undecided: 82 },
-  kaohsiung: { kmt: 2618, dpp: 3021, other: 49, undecided: 94 }
+  newtaipei: { kmt: 3004, dpp: 2532, other: 54, undecided: 162 },
+  taoyuan:   { kmt: 3120, dpp: 972,  other: 19, undecided: 104 },
+  taichung:  { kmt: 2630, dpp: 2207, other: 41, undecided: 154 },
+  tainan:    { kmt: 1812, dpp: 3201, other: 38, undecided: 112 },
+  kaohsiung: { kmt: 2865, dpp: 2845, other: 49, undecided: 114 }
 };
 
 const CORS_HEADERS = {

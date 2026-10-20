@@ -2047,6 +2047,16 @@
             <h2 class="section-title" id="pollRaceHeading">民調競速・台北市</h2>
             <div class="section-sub">點擊民調卡或開啟左側「抽樣加權模擬」，可即時觀察支持度變化</div>
           </div>
+          <a id="pollRaceUdnLink" href="https://udn.com/vote2026/pollboard?city=Taipei" target="_blank" rel="noopener noreferrer"
+            style="display:inline-flex; align-items:center; gap:5px; padding:4px 10px; border-radius:999px; background:rgba(194,116,93,0.12); border:1px solid rgba(194,116,93,0.34); color:var(--accent-warm); font-size:11.5px; font-weight:600; text-decoration:none; white-space:nowrap;"
+            title="前往 UDN 2026九合一選舉・民調儀表板查閱完整交叉分析">
+            <svg class="morph-svg" viewBox="0 0 24 24" style="width:12px; height:12px;">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+              <polyline points="15 3 21 3 21 9" />
+              <line x1="10" y1="14" x2="21" y2="3" />
+            </svg>
+            <span>數據基底：UDN 民調儀表板</span>
+          </a>
         </div>
 
         <div class="poll-race-stack" id="pollRaceContainer">
@@ -2373,12 +2383,15 @@
 
     /*************************************************************************
      * 2. REAL 2026 SIX MUNICIPALITIES POLL, BALLOT & NEWS DATASET
+     * 數據基底：聯合新聞網 UDN《民調儀表板｜2026九合一選舉》
+     * https://udn.com/vote2026/pollboard?city=Taipei
      *************************************************************************/
     const CITIES_DATA = [
       {
         id: 'taipei',
         code: 'TPE',
         name: '台北市',
+        udnUrl: 'https://udn.com/vote2026/pollboard?city=Taipei',
         totalApproved: 6,
         kmtName: '蔣萬安',
         dppName: '沈伯洋',
@@ -2391,7 +2404,7 @@
         rssQuery: '台北市長 民調 蔣萬安 沈伯洋',
         mapCallout: { x: 282, y: 18, lineX: 236, lineY: 56 },
         minorCands: '郭璽、蕭文乾、唐新民、林志成',
-        note: '10/31 電視辯論登場｜社群與傳統媒體聲量結構分明',
+        note: 'UDN選戰定位：拚連任仍有優勢（施政滿意度52%）vs 洋流帶動急起直追',
         spotlight: '10/31 台北市長電視辯論正面交鋒：聚焦「大都更時代與社宅進度」對決「首都全社會防衛韌性與資安治理」',
         kmtProfile: {
           role: '現任台北市長（中國國民黨）',
@@ -2464,20 +2477,20 @@
             link: 'https://news.google.com/rss/articles/CBMiakFVX3lxTE0tY0ZxSXFZU2NsQWp3SUxWcXFSYnBnd1dLRTVMS1ZiVHlWVGU0SmRnYnVnUWZubDhPeXgycTNGSmJCeFZDbm1YcjFpcmRBNXBmOG5FSVQ5SFgyMC05Y0x3anl4TDRRTDg3VmfSAW9BVV95cUxQOVZHUDdNek5NZFE0ZHpxdWpUckxWRjRDS3ozNWg0UEo5dzVWbjJMUG1QZVdrZjNXQkJ0UWszNW5lYlU2WU5nS3A4MXZVdHBFVXBHMWhwekJlbS1aNFJGSkVzWXdjcU5HSTFodVVDcFk?oc=5'
           },
           {
-            title: '快訊／北市民調翻盤？沈伯洋「雙位數超車」蔣萬安',
-            source: '東森新聞',
-            pubDate: '2026-10-20 10:04',
-            city: '台北市',
-            camp: 'green',
-            link: 'https://news.google.com/rss/articles/CBMiV0FVX3lxTE9XM1g4WmlhNllrMkZRV04xMXg0bExsRVBVT1N2czVya1lfRnpqTElqQVRtMTN6T0tsY011WFo1RVhUTmNIUHJKeWVJS3pVNDZ6ZmlYczcwZw?oc=5'
-          },
-          {
             title: '綠新媒體主任提醒：蔣萬安負聲量降 沈伯洋正聲量上不去',
             source: '聯合新聞網 UDN',
             pubDate: '2026-10-20 13:28',
             city: '台北市',
             camp: 'blue',
             link: 'https://news.google.com/rss/articles/CBMiU0FVX3lxTE5iMWtlbmpSWnJqN2pBMlZHb182S2xzVFRuU2JOZVZZcWVvUEJ5SnctOW5FN2dnSVY5Si1pdGhOYXpXYW9BQnozQllnVHc5elRoS2hR0gFYQVVfeXFMTTN3ZmlyNU9tWGNXUU9wa3gzSlAwNTg2U3ZMRDJFV2RDWG4zdDFDOVNlVHJISUwxdnpHZXhoUkFoZVdoc04yYTM5R0cxRU9HNEF2bDFUcGFUcQ?oc=5'
+          },
+          {
+            title: '民調解讀／國民黨在六都領先五都、屏東領先綠！選情真的穩了嗎',
+            source: '聯合新聞網 UDN',
+            pubDate: '2026-10-18 11:00',
+            city: '台北市',
+            camp: 'neutral',
+            link: 'https://udn.com/vote2026/story/124652/9826978'
           }
         ]
       },
@@ -2485,17 +2498,18 @@
         id: 'newtaipei',
         code: 'NTP',
         name: '新北市',
+        udnUrl: 'https://udn.com/vote2026/pollboard?city=NewTaipei',
         totalApproved: 3,
         kmtName: '李四川',
         dppName: '蘇巧慧',
         kmtCand: '李四川 (國/藍白合)',
         dppCand: '蘇巧慧 (民)',
-        baseKmt: 47.0,
-        baseDpp: 32.0,
+        baseKmt: 42.6,
+        baseDpp: 35.9,
         rssQuery: '新北市長 民調 李四川 蘇巧慧',
         mapCallout: { x: 282, y: 68, lineX: 248, lineY: 64 },
         minorCands: '蘇輝湟 (無黨籍)',
-        note: '藍白整合由李四川出線對決蘇巧慧',
+        note: 'UDN選戰定位：藍營穩健領先 vs 基層深耕追趕（藍白整合對決）',
         spotlight: '雙北聯防與溪北溪南均衡發展：聚焦「三環六線捷運工程執行力」與「新北產業科技廊帶升級」',
         kmtProfile: {
           role: '前台北市、新北市、高雄市副市長（國民黨／藍白整合推薦）',
@@ -2519,27 +2533,35 @@
           {
             agency: 'TVBS',
             date: '2026.10',
-            kmt: 47,
-            dpp: 32,
+            kmt: 42.6,
+            dpp: 35.9,
             preset: 'tvbs_raking',
-            note: '藍白整合後對決，李四川獲白營基層約6成轉移支持，領先蘇巧慧15個百分點'
+            note: '未提供年齡層數據｜藍營穩健領先 6.7 個百分點 vs 基層深耕追趕'
+          },
+          {
+            agency: 'ETtoday',
+            date: '2026.08',
+            kmt: 39.3,
+            dpp: 37.3,
+            preset: 'tvbs_raking',
+            note: '今年新北市長大選由國民黨的李四川與民進黨的蘇巧慧進行藍綠對決'
           },
           {
             agency: '美麗島電子報',
-            date: '2026.09',
-            kmt: 45.2,
-            dpp: 34.8,
+            date: '2026.04',
+            kmt: 35.5,
+            dpp: 34.5,
             preset: 'tvbs_raking',
-            note: '蘇巧慧於傳統綠營優勢區追近，李四川於雙和與新店維持領先優勢'
+            note: '若由藍綠直接對決，李四川35.5%對蘇巧慧34.5%，差距僅約1個百分點，戰況接近，中間選民為勝負關鍵。'
           }
         ],
         ballot: {
           question: '【新北市長選情升溫】如果明天投票，你會把票投給誰？',
           options: [
-            { id: 'kmt', name: '李四川', camp: 'blue', baseVotes: 3812 },
-            { id: 'dpp', name: '蘇巧慧', camp: 'green', baseVotes: 2594 },
+            { id: 'kmt', name: '李四川', camp: 'blue', baseVotes: 3004 },
+            { id: 'dpp', name: '蘇巧慧', camp: 'green', baseVotes: 2532 },
             { id: 'other', name: '其他', camp: 'other', baseVotes: 54 },
-            { id: 'undecided', name: '不知道 / 沒意見', camp: 'other', baseVotes: 118 }
+            { id: 'undecided', name: '不知道 / 沒意見', camp: 'other', baseVotes: 162 }
           ]
         },
         fallbackNews: [
@@ -2581,17 +2603,18 @@
         id: 'taoyuan',
         code: 'TYN',
         name: '桃園市',
+        udnUrl: 'https://udn.com/vote2026/pollboard?city=Taoyuan',
         totalApproved: 2,
         kmtName: '張善政',
         dppName: '黃世杰',
         kmtCand: '張善政 (國)',
         dppCand: '黃世杰 (民)',
-        baseKmt: 55.0,
-        baseDpp: 21.0,
+        baseKmt: 61.0,
+        baseDpp: 19.0,
         rssQuery: '桃園市長 民調 張善政 黃世杰',
         mapCallout: { x: 26, y: 58, lineX: 192, lineY: 74 },
         minorCands: '本屆僅 2 人審定合格對決',
-        note: '現任執政優勢穩定，藍綠一對一對決',
+        note: 'UDN選戰定位：治理成績守基本盤（滿意度61%）vs 知名度低須靠政黨動員追趕聲勢',
         spotlight: '桃園航空城與鐵路地下化進度交鋒：聚焦「科技廊帶招商與婦幼社福」對決「客庄沿海均衡與軌道建設」',
         kmtProfile: {
           role: '現任桃園市長（中國國民黨）',
@@ -2614,20 +2637,20 @@
         polls: [
           {
             agency: 'TVBS',
-            date: '2026.10',
-            kmt: 55,
-            dpp: 21,
+            date: '2025.12',
+            kmt: 61,
+            dpp: 19,
             preset: 'tvbs_raking',
-            note: '張善政現任施政滿意度穩定，本屆僅藍綠2人登記對決，差距達34個百分點'
+            note: '與前次調查相比，張善政支持度穩定領先，現任施政滿意度達61%，未決定比例約20%'
           }
         ],
         ballot: {
           question: '【桃園市長選情升溫】如果明天投票，你會把票投給誰？',
           options: [
             { id: 'kmt', name: '張善政', camp: 'blue', baseVotes: 3120 },
-            { id: 'dpp', name: '黃世杰', camp: 'green', baseVotes: 1195 },
+            { id: 'dpp', name: '黃世杰', camp: 'green', baseVotes: 972 },
             { id: 'other', name: '其他', camp: 'other', baseVotes: 19 },
-            { id: 'undecided', name: '不知道 / 沒意見', camp: 'other', baseVotes: 92 }
+            { id: 'undecided', name: '不知道 / 沒意見', camp: 'other', baseVotes: 104 }
           ]
         },
         fallbackNews: [
@@ -2669,17 +2692,18 @@
         id: 'taichung',
         code: 'TXG',
         name: '台中市',
+        udnUrl: 'https://udn.com/vote2026/pollboard?city=Taichung',
         totalApproved: 3,
         kmtName: '江啟臣',
         dppName: '何欣純',
         kmtCand: '江啟臣 (國)',
         dppCand: '何欣純 (民)',
-        baseKmt: 44.0,
-        baseDpp: 32.0,
+        baseKmt: 37.3,
+        baseDpp: 31.3,
         rssQuery: '台中市長 民調 江啟臣 何欣純',
         mapCallout: { x: 26, y: 150, lineX: 185, lineY: 165 },
         minorCands: '洪麗華 (司法正義黨)',
-        note: '盧秀燕兩任屆滿交棒，中台灣指標選區',
+        note: 'UDN選戰定位：藍營領先幅度縮小 vs 綠營靠年輕族群（20-29歲何領先8.7pp）急追',
         spotlight: '盧秀燕兩任屆滿交棒之戰：聚焦「捷運藍線動工與中台灣國際化」對決「屯區軌道延伸與精密機械轉型」',
         kmtProfile: {
           role: '現任立法院副院長、立法委員（中國國民黨）',
@@ -2701,24 +2725,56 @@
         },
         polls: [
           {
-            agency: 'TVBS',
+            agency: '年代新聞',
             date: '2026.10',
-            kmt: 44,
-            dpp: 32,
+            kmt: 37.3,
+            dpp: 31.3,
             preset: 'tvbs_raking',
-            note: '盧秀燕兩任屆滿交棒，江啟臣承接市政滿意度優勢，領先何欣純12個百分點'
+            note: '中間選民23.4%支持江啟臣、12.2%支持何欣純，江啟臣領先11.2個百分點；20至29歲何欣純領先8.7個百分點'
+          },
+          {
+            agency: 'TVBS',
+            date: '2026.09',
+            kmt: 45.1,
+            dpp: 32.5,
+            preset: 'tvbs_raking',
+            note: '20至29歲，江啟臣落後何欣純2.7個百分點'
+          },
+          {
+            agency: '匯流新聞網',
+            date: '2026.05',
+            kmt: 40.6,
+            dpp: 24.4,
+            preset: 'tvbs_raking',
+            note: '未滿40歲，何欣純落後江啟臣10.4個百分點'
           }
         ],
         ballot: {
           question: '【台中市長選情升溫】如果明天投票，你會把票投給誰？',
           options: [
-            { id: 'kmt', name: '江啟臣', camp: 'blue', baseVotes: 2945 },
-            { id: 'dpp', name: '何欣純', camp: 'green', baseVotes: 2142 },
+            { id: 'kmt', name: '江啟臣', camp: 'blue', baseVotes: 2630 },
+            { id: 'dpp', name: '何欣純', camp: 'green', baseVotes: 2207 },
             { id: 'other', name: '其他', camp: 'other', baseVotes: 41 },
-            { id: 'undecided', name: '不知道 / 沒意見', camp: 'other', baseVotes: 104 }
+            { id: 'undecided', name: '不知道 / 沒意見', camp: 'other', baseVotes: 154 }
           ]
         },
         fallbackNews: [
+          {
+            title: '台中市長選戰最新民調…江啟臣領先何欣純6個百分點 較上次調查縮小',
+            source: '聯合新聞網 UDN',
+            pubDate: '2026-10-19 11:30',
+            city: '台中市',
+            camp: 'blue',
+            link: 'https://udn.com/vote2026/story/124652/9827333'
+          },
+          {
+            title: '台中市長民調 江啟臣領先何欣純6個百分點 雙方回應了',
+            source: '聯合新聞網 UDN',
+            pubDate: '2026-10-19 14:15',
+            city: '台中市',
+            camp: 'neutral',
+            link: 'https://udn.com/vote2026/story/124652/9827159'
+          },
           {
             title: '江啟臣民調輾壓何欣純！「這區」破5成超挺',
             source: 'Yahoo新聞',
@@ -2726,22 +2782,6 @@
             city: '台中市',
             camp: 'blue',
             link: 'https://news.google.com/rss/articles/CBMilwJBVV95cUxQc1VQVEFrY2Q5aDVaaUhKemNOWDZEcWkxdlhHdTNZTHpPZkZRcWNZaTJlVW9ra2t2NWFmNU54Ymhpb09saUp2cGtwVTRBLVRzTE5qM0VIU1U4ZGhrOHpfV2UxZXFhc21PRVNhR3VlVkNhM0lfQk1RaFRJTmQ4SmdyeVg3bXNSeXNPdnBDaDR6VGVRdF9pYjZsMXFPbG9VWEpnd0M0WmFYUEVMYmFtN1VsTDFvajVackZJa1lkV0l3ZVQ0NENXVUJfdXUtWEZsQVl0YWphNklDLTBFb0paN0JmdEJLemlOR0pHbTNsYkFkUy1YNE8zU250MlJxZEM2RGhCanRkNk1xb0wyWnJocEs5d2t2bFZ3UEk?oc=5'
-          },
-          {
-            title: '台中市長最新民調江啟臣大贏 學者曝3關鍵：洋流不敵雙核心',
-            source: '中時新聞網',
-            pubDate: '2026-10-18 17:29',
-            city: '台中市',
-            camp: 'blue',
-            link: 'https://news.google.com/rss/articles/CBMibkFVX3lxTE41N3YwdEZMcGJfb0d1NEFGQjh4U0dYMzloOXRRNFhxZlJhRERVX1U1bjZibEtoWVN0R3EyNmdKbW1JT21MRnd0SnhQVFlYZmdqWnR5ckQxVzNjT0NwVlZ4bTh2YVY3aDJlZFpxM2xn?oc=5'
-          },
-          {
-            title: '壹蘋六都週週民調｜倒數5週，你支持誰當台中市長？',
-            source: '壹蘋新聞網',
-            pubDate: '2026-10-20 17:30',
-            city: '台中市',
-            camp: 'neutral',
-            link: 'https://news.google.com/rss/articles/CBMigwFBVV95cUxQNmxQSlZ1VjYtSXRHZWJoUWQ5TDhOdVhNblFGVDlZTVBfU2l6VElGYVpvRzRaLTJUWG1hSDdHZzVEUV91OHViWHhtZDhfWm5kQjBVbUZXbHNRSEFlOWRySFFPQ09sa2FGZXpRVDRlNmItQ0Y4NzM5MkJieEZpNUQwaHpESQ?oc=5'
           },
           {
             title: '藍營民調／台中市長之爭！江啟臣39.8%勝何欣純「差距11％」',
@@ -2757,17 +2797,18 @@
         id: 'tainan',
         code: 'TNN',
         name: '台南市',
+        udnUrl: 'https://udn.com/vote2026/pollboard?city=Tainan',
         totalApproved: 4,
         kmtName: '謝龍介',
         dppName: '陳亭妃',
         kmtCand: '謝龍介 (國)',
         dppCand: '陳亭妃 (民)',
-        baseKmt: 35.0,
-        baseDpp: 46.0,
+        baseKmt: 30.0,
+        baseDpp: 53.0,
         rssQuery: '台南市長 民調 陳亭妃 謝龍介',
         mapCallout: { x: 20, y: 278, lineX: 158, lineY: 292 },
         minorCands: '蕭燐洪、葉人文',
-        note: '黃偉哲屆滿，陳亭妃初選勝出對決謝龍介',
+        note: 'UDN選戰定位：整合完成（全年齡層皆陳亭妃領先）vs 待突破年輕選民',
         spotlight: '宿敵五度交鋒決戰府城：聚焦「南科沙崙雙引擎與溪北農漁升級」對決「市政清廉革新與青年老幼福利」',
         kmtProfile: {
           role: '現任不分區立法委員（中國國民黨）',
@@ -2790,20 +2831,20 @@
         polls: [
           {
             agency: 'TVBS',
-            date: '2026.10',
-            kmt: 35,
-            dpp: 46,
+            date: '2026.03',
+            kmt: 30,
+            dpp: 53,
             preset: 'tvbs_raking',
-            note: '陳亭妃初選勝出後整合綠營基層，第5度交手謝龍介，目前陳亭妃領先11個百分點'
+            note: '上屆投給黃偉哲的選民83%轉投陳亭妃，僅8%轉投謝龍介；上屆投給謝龍介的選民79%持續支持，15%轉投陳亭妃'
           }
         ],
         ballot: {
           question: '【台南市長選情升溫】如果明天投票，你會把票投給誰？',
           options: [
-            { id: 'kmt', name: '謝龍介', camp: 'blue', baseVotes: 2150 },
-            { id: 'dpp', name: '陳亭妃', camp: 'green', baseVotes: 2826 },
+            { id: 'kmt', name: '謝龍介', camp: 'blue', baseVotes: 1812 },
+            { id: 'dpp', name: '陳亭妃', camp: 'green', baseVotes: 3201 },
             { id: 'other', name: '其他', camp: 'other', baseVotes: 38 },
-            { id: 'undecided', name: '不知道 / 沒意見', camp: 'other', baseVotes: 82 }
+            { id: 'undecided', name: '不知道 / 沒意見', camp: 'other', baseVotes: 112 }
           ]
         },
         fallbackNews: [
@@ -2845,17 +2886,18 @@
         id: 'kaohsiung',
         code: 'KHH',
         name: '高雄市',
+        udnUrl: 'https://udn.com/vote2026/pollboard?city=Kaohsiung',
         totalApproved: 5,
         kmtName: '柯志恩',
         dppName: '賴瑞隆',
         kmtCand: '柯志恩 (國)',
         dppCand: '賴瑞隆 (民)',
-        baseKmt: 39.0,
-        baseDpp: 45.0,
+        baseKmt: 43.8,
+        baseDpp: 43.5,
         rssQuery: '高雄市長 民調 賴瑞隆 柯志恩',
         mapCallout: { x: 20, y: 352, lineX: 175, lineY: 342 },
         minorCands: '張靜、王肇民、洪方隆',
-        note: '陳其邁屆滿，賴瑞隆與柯志恩差距進入個位數激戰',
+        note: 'UDN選戰定位：跨黨派吸票實力 vs 倚賴綠營執政優勢（差距0.3pp激戰）',
         spotlight: '南台灣半導體S廊帶交棒激戰：聚焦「亞灣2.0與演唱會觀光經濟」對決「產業多元平衡與空氣道路品質」',
         kmtProfile: {
           role: '現任不分區立法委員、國民黨高雄市黨部主委（中國國民黨）',
@@ -2877,21 +2919,37 @@
         },
         polls: [
           {
-            agency: 'TVBS',
-            date: '2026.10',
-            kmt: 39,
-            dpp: 45,
+            agency: 'ETtoday',
+            date: '2026.09',
+            kmt: 43.8,
+            dpp: 43.5,
             preset: 'tvbs_raking',
-            note: '陳其邁兩任屆滿，賴瑞隆與柯志恩差距收斂至6個百分點，中間選民動向關鍵'
+            note: '雙方差距僅0.3個百分點陷入膠著激戰｜選戰定位：跨黨派吸票實力 vs 倚賴綠營執政優勢'
+          },
+          {
+            agency: '年代新聞',
+            date: '2026.07',
+            kmt: 23.6,
+            dpp: 36.2,
+            preset: 'tvbs_raking',
+            note: '50至59歲，賴瑞隆31.5%、柯志恩33.2%，落後1.7個百分點'
+          },
+          {
+            agency: '鏡新聞',
+            date: '2026.06',
+            kmt: 24.8,
+            dpp: 45.1,
+            preset: 'tvbs_raking',
+            note: '本次調查為民進黨立委賴瑞隆與國民黨立委柯志恩對決之民調，賴瑞隆以45.1%支持度領先柯志恩24.8%，差距20.3個百分點。'
           }
         ],
         ballot: {
           question: '【高雄市長選情升溫】如果明天投票，你會把票投給誰？',
           options: [
-            { id: 'kmt', name: '柯志恩', camp: 'blue', baseVotes: 2618 },
-            { id: 'dpp', name: '賴瑞隆', camp: 'green', baseVotes: 3021 },
+            { id: 'kmt', name: '柯志恩', camp: 'blue', baseVotes: 2865 },
+            { id: 'dpp', name: '賴瑞隆', camp: 'green', baseVotes: 2845 },
             { id: 'other', name: '其他', camp: 'other', baseVotes: 49 },
-            { id: 'undecided', name: '不知道 / 沒意見', camp: 'other', baseVotes: 94 }
+            { id: 'undecided', name: '不知道 / 沒意見', camp: 'other', baseVotes: 114 }
           ]
         },
         fallbackNews: [
@@ -2949,7 +3007,7 @@
       secondsUntilNextSync: 60
     };
 
-    const VOTE_STORAGE_KEY = 'tw2026_public_ballot_records_v3';
+    const VOTE_STORAGE_KEY = 'tw2026_public_ballot_records_v4';
 
     function computeDeviceFingerprint() {
       try {
@@ -3108,7 +3166,7 @@
 
       // 2. Fallback to live shared Cloud KV if Worker route is not active yet
       if (!syncedViaWorker) {
-        const key = `tw2026_votes_${cityId}`;
+        const key = `tw2026_udn_votes_${cityId}`;
         const fpLockKey = `tw2026_lock_${cityId}_${todayKey}_${state.deviceFingerprint}`;
 
         try {
@@ -3182,7 +3240,7 @@
 
       // 2. Fallback to shared Cloud KV if Worker route is not active yet
       if (!writtenViaWorker) {
-        const key = `tw2026_votes_${cityId}`;
+        const key = `tw2026_udn_votes_${cityId}`;
         const fpLockKey = `tw2026_lock_${cityId}_${todayKey}_${state.deviceFingerprint}`;
 
         try {
@@ -3447,6 +3505,10 @@
     function renderPollRace() {
       const city = state.computedCities.find(c => c.id === state.activeCityId) || state.computedCities[0];
       document.getElementById('pollRaceHeading').textContent = `民調競速・${city.name}`;
+      const udnLink = document.getElementById('pollRaceUdnLink');
+      if (udnLink && city.udnUrl) {
+        udnLink.href = city.udnUrl;
+      }
 
       const container = document.getElementById('pollRaceContainer');
       const cards = city.polls.map((p, idx) => {
@@ -3617,12 +3679,12 @@
         btnText.textContent = '今日已完成投票';
         iconPath.setAttribute('d', 'M20 6L9 17l-5-5');
         const chosenName = city.ballot.options.find(o => o.id === rec.lastVotedOpt)?.name || '';
-        note.innerHTML = `<span style="color:var(--green-badge-fg); display:inline-flex; align-items:center; gap:5px; justify-content:center; flex-wrap:wrap;"><svg class="morph-svg" viewBox="0 0 24 24" style="width:13px; height:13px; stroke:currentColor;"><path d="M20 6L9 17l-5-5"/></svg>您今日已投給「${chosenName}」｜總計 ${totalVotes.toLocaleString()} 票（含公開民調基準樣本 ${baseTotalVotes.toLocaleString()} 票 ＋ 本站即時選票 +${liveAddedVotes.toLocaleString()} 票）</span>`;
+        note.innerHTML = `<span style="color:var(--green-badge-fg); display:inline-flex; align-items:center; gap:5px; justify-content:center; flex-wrap:wrap;"><svg class="morph-svg" viewBox="0 0 24 24" style="width:13px; height:13px; stroke:currentColor;"><path d="M20 6L9 17l-5-5"/></svg>您今日已投給「${chosenName}」｜總計 ${totalVotes.toLocaleString()} 票（含 <a href="${city.udnUrl}" target="_blank" rel="noopener noreferrer" style="color:var(--accent-warm); text-decoration:underline;">UDN 民調儀表板</a> 基底 ${baseTotalVotes.toLocaleString()} 票 ＋ 本站即時選票 +${liveAddedVotes.toLocaleString()} 票）</span>`;
       } else {
         btn.disabled = false;
         btnText.textContent = '投票看結果';
         iconPath.setAttribute('d', 'M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11');
-        note.textContent = `總計 ${totalVotes.toLocaleString()} 票（含公開民調基準樣本 ${baseTotalVotes.toLocaleString()} 票 ＋ 本站即時選票 +${liveAddedVotes.toLocaleString()} 票）｜每人每日限投一次`;
+        note.innerHTML = `總計 ${totalVotes.toLocaleString()} 票（含 <a href="${city.udnUrl}" target="_blank" rel="noopener noreferrer" style="color:var(--accent-warm); text-decoration:underline;">UDN 民調儀表板</a> 基底 ${baseTotalVotes.toLocaleString()} 票 ＋ 本站即時選票 +${liveAddedVotes.toLocaleString()} 票）｜每人每日限投一次`;
       }
     }
 
