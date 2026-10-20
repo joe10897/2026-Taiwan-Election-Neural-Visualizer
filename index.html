@@ -230,8 +230,15 @@
       font-size: 13px;
       font-weight: 700;
       letter-spacing: 0.12em;
-      transition: background 0.2s ease, padding-right 0.2s ease;
+      transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.26s ease, background 0.2s ease, padding-right 0.2s ease;
       user-select: none;
+      will-change: transform, opacity;
+    }
+
+    .sampling-drawer:not(.open) .drawer-edge-handle.scroll-hide-up {
+      transform: translateY(-165%);
+      opacity: 0;
+      pointer-events: none;
     }
 
     .drawer-edge-handle:hover {
@@ -298,6 +305,14 @@
       background: rgba(10, 12, 16, 0.84);
       border-bottom: 1px solid var(--border-card);
       padding: 13px 24px;
+      transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.26s ease;
+      will-change: transform, opacity;
+    }
+
+    .site-header.scroll-hide-up {
+      transform: translateY(-105%);
+      opacity: 0;
+      pointer-events: none;
     }
 
     .header-inner {
@@ -4002,9 +4017,43 @@
     function toggleDrawer(forceState) {
       const drawer = document.getElementById('samplingDrawer');
       const topBtn = document.getElementById('btnToggleDrawer');
+      const edgeHandle = document.getElementById('drawerEdgeHandle');
       state.drawerOpen = typeof forceState === 'boolean' ? forceState : !state.drawerOpen;
       drawer.classList.toggle('open', state.drawerOpen);
       topBtn.classList.toggle('active-drawer-btn', state.drawerOpen);
+      if (state.drawerOpen && edgeHandle) {
+        edgeHandle.classList.remove('scroll-hide-up');
+      }
+    }
+
+    function initScrollAutoHideNav() {
+      const siteHeader = document.querySelector('.site-header');
+      const edgeHandle = document.getElementById('drawerEdgeHandle');
+      let lastScrollY = window.scrollY || 0;
+      let ticking = false;
+
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            const currentScrollY = window.scrollY || 0;
+            const delta = currentScrollY - lastScrollY;
+
+            if (currentScrollY <= 50 || delta < -6) {
+              // 置頂或向上滑動時：平滑顯示導覽列與抽樣加權按鈕
+              if (siteHeader) siteHeader.classList.remove('scroll-hide-up');
+              if (edgeHandle) edgeHandle.classList.remove('scroll-hide-up');
+            } else if (currentScrollY > 65 && delta > 7 && !state.drawerOpen) {
+              // 向下滑動瀏覽內容時：導覽列與抽樣加權按鈕向上隱藏，避免遮擋畫面
+              if (siteHeader) siteHeader.classList.add('scroll-hide-up');
+              if (edgeHandle) edgeHandle.classList.add('scroll-hide-up');
+            }
+
+            lastScrollY = Math.max(0, currentScrollY);
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
     }
 
     document.getElementById('drawerEdgeHandle').addEventListener('click', () => toggleDrawer());
@@ -4156,6 +4205,7 @@
 
     // Boot
     initThreeArtisticBg();
+    initScrollAutoHideNav();
     updateAllViews(true);
     syncAllLiveFeeds();
     tickClockAndSync();
