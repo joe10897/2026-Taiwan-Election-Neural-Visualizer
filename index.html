@@ -1332,13 +1332,331 @@
       color: var(--fg-secondary);
     }
 
+    /* ==================== 6. CANDIDATE POLICY & PROFILE COMPARISON ==================== */
+    .debate-spotlight-banner {
+      background: linear-gradient(90deg, rgba(194, 116, 93, 0.16) 0%, rgba(25, 30, 40, 0.75) 100%);
+      border: 1px solid var(--border-warm);
+      border-radius: var(--radius-md);
+      padding: 13px 18px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .spotlight-tag {
+      background: var(--terracotta);
+      color: #ffffff;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    .spotlight-text {
+      font-size: 13.5px;
+      color: var(--fg-primary);
+      font-weight: 500;
+      flex: 1;
+    }
+
+    .policy-vs-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .cand-policy-card {
+      background: rgba(22, 27, 36, 0.78);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-md);
+      padding: 20px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cand-policy-card.blue-camp {
+      border-top: 3px solid var(--blue-main);
+    }
+
+    .cand-policy-card.green-camp {
+      border-top: 3px solid var(--green-main);
+    }
+
+    .cand-profile-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .cand-profile-name {
+      font-family: var(--font-serif);
+      font-size: 21px;
+      font-weight: 700;
+      color: var(--fg-primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .cand-profile-role {
+      font-size: 12.5px;
+      color: var(--fg-secondary);
+      margin-top: 4px;
+    }
+
+    .cand-edu-line {
+      font-size: 12.5px;
+      color: var(--fg-secondary);
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      border-left: 2px solid rgba(255, 255, 255, 0.25);
+    }
+
+    .policy-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .policy-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13.5px;
+      line-height: 1.5;
+      color: var(--fg-primary);
+    }
+
+    .policy-pill {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .policy-pill.blue {
+      background: var(--blue-badge-bg);
+      color: var(--blue-badge-fg);
+    }
+
+    .policy-pill.green {
+      background: var(--green-badge-bg);
+      color: var(--green-badge-fg);
+    }
+
+    /* ==================== 7. ELECTION TIMELINE & VOTER GUIDE ==================== */
+    .timeline-track-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .timeline-step-card {
+      background: rgba(25, 30, 40, 0.65);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      position: relative;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .timeline-step-card.active-step {
+      border-color: var(--terracotta);
+      background: rgba(194, 116, 93, 0.10);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .timeline-date {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--terracotta);
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .timeline-status-tag {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      padding: 1px 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--fg-secondary);
+    }
+
+    .timeline-step-card.active-step .timeline-status-tag {
+      background: var(--terracotta);
+      color: #ffffff;
+    }
+
+    .timeline-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--fg-primary);
+      margin-bottom: 6px;
+    }
+
+    .timeline-desc {
+      font-size: 12.5px;
+      color: var(--fg-secondary);
+      line-height: 1.48;
+    }
+
+    .voter-guide-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .guide-box {
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+    }
+
+    .guide-box-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--fg-primary);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .guide-box-text {
+      font-size: 12.5px;
+      color: var(--fg-secondary);
+      line-height: 1.55;
+    }
+
+    /* ==================== 8. ONE-CLICK SHARE SNAPSHOT MODAL ==================== */
+    .share-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(6, 8, 12, 0.78);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+
+    .share-modal-backdrop.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .share-modal-card {
+      background: #151922;
+      border: 1px solid var(--border-warm);
+      border-radius: var(--radius-lg);
+      width: min(580px, 100%);
+      padding: 24px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.7);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .share-canvas-wrap {
+      width: 100%;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--border-card);
+      background: #0d1016;
+    }
+
+    #sharePreviewCanvas {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .share-text-preview {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      font-size: 12.5px;
+      color: var(--fg-secondary);
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+
+    .share-actions-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .share-action-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border-card);
+      background: var(--bg-elevated);
+      color: var(--fg-primary);
+      text-decoration: none;
+      transition: all 0.18s ease;
+    }
+
+    .share-action-btn:hover {
+      border-color: var(--terracotta);
+      background: rgba(194, 116, 93, 0.18);
+    }
+
+    .share-action-btn.primary-share {
+      background: var(--terracotta);
+      border-color: var(--terracotta);
+      color: #ffffff;
+      grid-column: 1 / -1;
+    }
+
+    .share-action-btn.primary-share:hover {
+      background: var(--terracotta-hover);
+    }
+
     /* Responsive Breakpoints (Tablet & Mobile) */
     @media (max-width: 1120px) {
       .row-grid-2,
-      .row-grid-ballot {
+      .row-grid-ballot,
+      .policy-vs-grid {
         grid-template-columns: 1fr;
       }
-      .six-cities-grid {
+      .six-cities-grid,
+      .timeline-track-grid,
+      .voter-guide-grid {
         grid-template-columns: repeat(2, 1fr);
       }
     }
@@ -1360,7 +1678,10 @@
         padding: 16px;
       }
       .six-cities-grid,
-      .news-grid-2col {
+      .news-grid-2col,
+      .timeline-track-grid,
+      .voter-guide-grid,
+      .share-actions-grid {
         grid-template-columns: 1fr;
       }
       .map-stage {
@@ -1585,6 +1906,17 @@
           <span>重繪視覺動態</span>
         </button>
 
+        <button class="morph-btn" id="btnOpenShareModal" title="產生當前選區選情圖卡並分享至 LINE / Threads / FB">
+          <svg class="morph-svg" viewBox="0 0 24 24">
+            <circle cx="18" cy="5" r="3" />
+            <circle cx="6" cy="12" r="3" />
+            <circle cx="18" cy="19" r="3" />
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+          </svg>
+          <span>分享選情</span>
+        </button>
+
         <a class="morph-btn" href="https://taiwan.md/" target="_blank" rel="noopener noreferrer" title="前往 開源台灣知識庫 | Taiwan.md" style="text-decoration:none;">
           <svg class="morph-svg" viewBox="0 0 24 24">
             <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
@@ -1768,7 +2100,32 @@
 
     </section>
 
-    <!-- ROW 3: SIX MUNICIPALITIES COMPLETE MATRIX -->
+    <!-- ROW 3: CANDIDATE POLICY & EXPERIENCE COMPARISON -->
+    <section class="art-card" id="policyComparisonSection">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title" id="policySectionTitle">候選人政見與經歷比一比・台北市</h2>
+          <div class="section-sub">彙整各選區主要候選人現職背景、學經歷與三大市政核心政見，協助選民快速掌握施政方向</div>
+        </div>
+        <button class="morph-btn" id="btnShareFromPolicy" style="padding:6px 12px; font-size:12.5px;">
+          <svg class="morph-svg" viewBox="0 0 24 24" style="width:14px; height:14px;">
+            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13" />
+          </svg>
+          <span>分享本區選情摘要</span>
+        </button>
+      </div>
+
+      <div class="debate-spotlight-banner" id="debateSpotlightBanner">
+        <span class="spotlight-tag" id="spotlightTag">選區攻防焦點</span>
+        <span class="spotlight-text" id="spotlightText">載入選區攻防焦點中...</span>
+      </div>
+
+      <div class="policy-vs-grid" id="policyVsContainer">
+        <!-- Populated dynamically when switching cities -->
+      </div>
+    </section>
+
+    <!-- ROW 4: SIX MUNICIPALITIES COMPLETE MATRIX -->
     <section class="art-card">
       <div class="section-header">
         <div>
@@ -1782,7 +2139,134 @@
       </div>
     </section>
 
+    <!-- ROW 5: 2026 ELECTION KEY TIMELINE & VOTER GUIDE -->
+    <section class="art-card" id="electionGuideSection">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">2026 九合一大選關鍵日程與投票懶人包</h2>
+          <div class="section-sub">中選會法定選務時程、11/18 民調封關日提醒與投票所必備須知</div>
+        </div>
+        <span class="leader-badge" id="blackoutCountdownBadge" style="background:rgba(194,116,93,0.18); color:#f2b8a2; border:1px solid var(--border-warm);">
+          距離 11/18 民調封關尚有 -- 天
+        </span>
+      </div>
+
+      <div class="timeline-track-grid">
+        <div class="timeline-step-card">
+          <div class="timeline-date">
+            <span>2026.10.16</span>
+            <span class="timeline-status-tag">已完成</span>
+          </div>
+          <div class="timeline-title">候選人資格審定公告</div>
+          <div class="timeline-desc">中選會正式審定全國直轄市長候選人資格，六都合計共 23 位候選人合格參選。</div>
+        </div>
+
+        <div class="timeline-step-card active-step">
+          <div class="timeline-date">
+            <span>2026.10.31</span>
+            <span class="timeline-status-tag">即將登場</span>
+          </div>
+          <div class="timeline-title">市長電視辯論會登場</div>
+          <div class="timeline-desc">焦點選區電視辯論與政見交鋒正式展開，候選人針對都更、交通與城市韌性正面對決。</div>
+        </div>
+
+        <div class="timeline-step-card">
+          <div class="timeline-date">
+            <span>2026.11.18 00:00</span>
+            <span class="timeline-status-tag">重要法規</span>
+          </div>
+          <div class="timeline-title">法定民調封關日</div>
+          <div class="timeline-desc">投票日前 10 日起至投票時間截止前，依法不得發布、報導、散布、評論或引述任何選舉民調。</div>
+        </div>
+
+        <div class="timeline-step-card">
+          <div class="timeline-date">
+            <span>2026.11.28 (六)</span>
+            <span class="timeline-status-tag">08:00 - 16:00</span>
+          </div>
+          <div class="timeline-title">九合一大選投票日</div>
+          <div class="timeline-desc">全國投開票所自上午 8 時至下午 4 時開放投票，下午 4 時起隨即進行公開計票作業。</div>
+        </div>
+      </div>
+
+      <div class="voter-guide-grid">
+        <div class="guide-box">
+          <div class="guide-box-title">
+            <span style="color:var(--terracotta);">01.</span> 投票必備「三寶」
+          </div>
+          <div class="guide-box-text">
+            前往投票所請務必攜帶：<strong>① 國民身分證</strong>（必備，健保卡或駕照不可替代）、<strong>② 印章</strong>（未帶可簽名或蓋指印）、<strong>③ 投票通知單</strong>（加速核對名冊）。
+          </div>
+        </div>
+
+        <div class="guide-box">
+          <div class="guide-box-title">
+            <span style="color:var(--blue-badge-fg);">02.</span> 民調封關與競選禁令提醒
+          </div>
+          <div class="guide-box-text">
+            <strong>11月18日 00:00 起</strong>禁止於社群（LINE、Threads、FB）轉傳或評論民調數據；<strong>11月28日投票當日 00:00 起</strong>全面禁止任何拉票、助選或穿戴競選服飾進入投票所。
+          </div>
+        </div>
+
+        <div class="guide-box">
+          <div class="guide-box-title">
+            <span style="color:var(--green-badge-fg);">03.</span> 有效票圈選與手機規範
+          </div>
+          <div class="guide-box-text">
+            請一律使用投票所提供之<strong>公制圈選工具</strong>於圈選欄內蓋印，切勿蓋私章或按指印以免成為廢票；進入投票所前請先將手機關機或改為靜音，嚴禁攜帶開機手機入內或拍攝選票。
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
+
+  <!-- ==================== ONE-CLICK SHARE SNAPSHOT MODAL ==================== -->
+  <div class="share-modal-backdrop" id="shareModal" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle">
+    <div class="share-modal-card">
+      <div class="section-header" style="margin-bottom:4px;">
+        <div>
+          <h3 class="section-title" id="shareModalTitle" style="font-size:19px;">分享選情摘要圖卡</h3>
+          <div class="section-sub">自動產生當前選區最新民調與全網民意調查箱即時數據</div>
+        </div>
+        <button class="drawer-close-btn" id="btnCloseShareModal" aria-label="關閉分享視窗">✕</button>
+      </div>
+
+      <div class="share-canvas-wrap">
+        <canvas id="sharePreviewCanvas" width="640" height="360"></canvas>
+      </div>
+
+      <div class="share-text-preview" id="shareSummaryText"></div>
+
+      <div class="share-actions-grid">
+        <button class="share-action-btn primary-share" id="btnCopyShareText">
+          <svg class="morph-svg" viewBox="0 0 24 24" style="width:16px; height:16px;">
+            <path d="M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1M8 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M8 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2m0 0h2a2 2 0 0 1 2 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+          </svg>
+          <span id="btnCopyShareLabel">複製選情文字與連結</span>
+        </button>
+
+        <button class="share-action-btn" id="btnDownloadShareImg">
+          <svg class="morph-svg" viewBox="0 0 24 24" style="width:15px; height:15px;">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+          </svg>
+          <span>下載選情圖卡 (PNG)</span>
+        </button>
+
+        <a class="share-action-btn" id="linkShareLine" href="#" target="_blank" rel="noopener noreferrer">
+          <span>分享至 LINE</span>
+        </a>
+
+        <a class="share-action-btn" id="linkShareThreads" href="#" target="_blank" rel="noopener noreferrer">
+          <span>分享至 Threads</span>
+        </a>
+
+        <a class="share-action-btn" id="linkShareFb" href="#" target="_blank" rel="noopener noreferrer">
+          <span>分享至 Facebook</span>
+        </a>
+      </div>
+    </div>
+  </div>
 
   <script>
     /*************************************************************************
@@ -1860,6 +2344,25 @@
         mapCallout: { x: 282, y: 18, lineX: 236, lineY: 56 },
         minorCands: '郭璽、蕭文乾、唐新民、林志成',
         note: '10/31 電視辯論登場｜社群與傳統媒體聲量結構分明',
+        spotlight: '10/31 台北市長電視辯論正面交鋒：聚焦「大都更時代與社宅進度」對決「首都全社會防衛韌性與資安治理」',
+        kmtProfile: {
+          role: '現任台北市長（中國國民黨）',
+          edu: '美國賓州大學法學博士｜曾任第 9、10 屆立法委員、執業律師',
+          policies: [
+            { tag: '都市更新', text: '推動「大都更時代」防災型都更與公辦都更 2.0，加速危老建築重建與社宅供給。' },
+            { tag: '育兒社福', text: '擴大好孕專車、生生喝鮮乳與托育補助，打造育兒友善示範首都。' },
+            { tag: '交通捷運', text: '加速捷運環狀線南北環與東環段工程，優化內科與大巨蛋周邊交通疏運。' }
+          ]
+        },
+        dppProfile: {
+          role: '現任立法委員（民主進步黨）',
+          edu: '美國加州大學爾灣分校犯罪學與法律社會學博士｜曾任台北大學犯罪學研究所副教授',
+          policies: [
+            { tag: '城市韌性', text: '建構首都全社會防衛韌性網，強化防空避難演練、關鍵基礎設施與社區防災整備。' },
+            { tag: '資安透明', text: '全面升級市政數位資安防護，推動重大工程契約公開透明與公民參與式預算。' },
+            { tag: '青年居住', text: '改革社會住宅輪候與包租代管制度，結合綠能智慧交通減輕青年通勤與租屋負擔。' }
+          ]
+        },
         polls: [
           {
             agency: 'TVBS',
@@ -1945,6 +2448,25 @@
         mapCallout: { x: 282, y: 68, lineX: 248, lineY: 64 },
         minorCands: '蘇輝湟 (無黨籍)',
         note: '藍白整合由李四川出線對決蘇巧慧',
+        spotlight: '雙北聯防與溪北溪南均衡發展：聚焦「三環六線捷運工程執行力」與「新北產業科技廊帶升級」',
+        kmtProfile: {
+          role: '前台北市、新北市、高雄市副市長（國民黨／藍白整合推薦）',
+          edu: '台北科技大學工程科技研究所碩士｜歷任三都副市長、行政院秘書長',
+          policies: [
+            { tag: '交通工程', text: '全力推進新北三環六線捷運路網與淡江大橋聯外路網，打通雙北通勤瓶頸。' },
+            { tag: '工務防洪', text: '強化二重疏洪道與老舊管線更新，加速板橋、中和與三重危老社區公辦都更。' },
+            { tag: '產業升級', text: '串聯塭仔圳重劃區與新北科技園區，吸引高附加價值企業進駐創造在地就業。' }
+          ]
+        },
+        dppProfile: {
+          role: '現任立法委員、民進黨新北市黨部主委（民主進步黨）',
+          edu: '美國波士頓大學、賓州大學法學碩士｜連任三屆新北市第 5 選區立法委員',
+          policies: [
+            { tag: '溪北翻轉', text: '加速樹林萬大線二期與五泰輕軌，拉近溪北、溪南資源差距並活化老街文化觀光。' },
+            { tag: '教育社福', text: '全面升級國中小校園運動與雙語數位設施，擴充公托名額與長照日照中心據點。' },
+            { tag: '智慧轉型', text: '輔導傳統中小企業淨零碳排與數位轉型，打造大漢溪水岸生態休憩廊道。' }
+          ]
+        },
         polls: [
           {
             agency: 'TVBS',
@@ -2006,6 +2528,25 @@
         mapCallout: { x: 26, y: 58, lineX: 192, lineY: 74 },
         minorCands: '本屆僅 2 人審定合格對決',
         note: '現任執政優勢穩定，藍綠一對一對決',
+        spotlight: '桃園航空城與鐵路地下化進度交鋒：聚焦「科技廊帶招商與婦幼社福」對決「客庄沿海均衡與軌道建設」',
+        kmtProfile: {
+          role: '現任桃園市長（中國國民黨）',
+          edu: '美國康乃爾大學土木與環境工程博士｜曾任行政院院長、科技部部長',
+          policies: [
+            { tag: '軌道航空城', text: '穩健推進桃園鐵路地下化、捷運綠線通車期程與桃園航空城高科技產業招商。' },
+            { tag: '智慧治理', text: '導入工程總體檢與智慧交通號誌系統，改善中壢、青埔與藝文特區尖峰壅塞。' },
+            { tag: '婦幼健康', text: '持續擴大好孕專車、凍卵營養金與幼兒園免學費補助，減輕年輕家庭負擔。' }
+          ]
+        },
+        dppProfile: {
+          role: '前立法委員、桃園農田水利研究學者（民主進步黨）',
+          edu: '美國哥倫比亞大學法學碩士、台大法學碩士｜曾任第 10 屆立法委員、桃園市府顧問',
+          policies: [
+            { tag: '城鄉均衡', text: '強化觀音、新屋、大園與楊梅沿海客庄公共建設，平衡南北桃園發展落差。' },
+            { tag: '青年定居', text: '倍增桃園社會住宅興建量能，結合TPASS通勤月票擴充跨區公車接駁班次。' },
+            { tag: '農工共榮', text: '升級智慧農業與水資源循環管理，輔導桃園在地物流與綠能供應鏈轉型。' }
+          ]
+        },
         polls: [
           {
             agency: 'TVBS',
@@ -2051,6 +2592,25 @@
         mapCallout: { x: 26, y: 150, lineX: 185, lineY: 165 },
         minorCands: '洪麗華 (司法正義黨)',
         note: '盧秀燕兩任屆滿交棒，中台灣指標選區',
+        spotlight: '盧秀燕兩任屆滿交棒之戰：聚焦「捷運藍線動工與中台灣國際化」對決「屯區軌道延伸與精密機械轉型」',
+        kmtProfile: {
+          role: '現任立法院副院長、立法委員（中國國民黨）',
+          edu: '美國南卡羅來納大學國際關係博士｜曾任行政院新聞局長、國民黨主席',
+          policies: [
+            { tag: '國際台中', text: '打造中台灣國際經貿門戶，串聯清泉崗機場升級、台中國際會展中心與山城觀光。' },
+            { tag: '捷運路網', text: '延續市政建設加速捷運藍線工程、橘線規劃與東豐快速道路全線貫通。' },
+            { tag: '空品能源', text: '監督中火以氣換煤減排進度，推廣智慧製造與清淨能源守護市民呼吸健康。' }
+          ]
+        },
+        dppProfile: {
+          role: '現任立法委員（民主進步黨）',
+          edu: '英國約克大學婦女研究碩士｜連任四屆台中市屯區（大里、太平）立法委員',
+          policies: [
+            { tag: '屯區捷運', text: '全力推動捷運屯區環狀線與大平霧線核定動工，改善台74線周邊匝道交通瓶頸。' },
+            { tag: '精密機械', text: '協助台中手工具、航太與精密機械產業導入AI升級，設立青年創業孵化基地。' },
+            { tag: '全齡照護', text: '擴大國中小營養午餐補助與校園冷氣維護，普及社區關懷據點與育兒津貼。' }
+          ]
+        },
         polls: [
           {
             agency: 'TVBS',
@@ -2096,6 +2656,25 @@
         mapCallout: { x: 20, y: 278, lineX: 158, lineY: 292 },
         minorCands: '蕭燐洪、葉人文',
         note: '黃偉哲屆滿，陳亭妃初選勝出對決謝龍介',
+        spotlight: '宿敵五度交鋒決戰府城：聚焦「南科沙崙雙引擎與溪北農漁升級」對決「市政清廉革新與青年老幼福利」',
+        kmtProfile: {
+          role: '現任不分區立法委員（中國國民黨）',
+          edu: '成功大學高階管理碩士在職專班 (EMBA)｜曾任多屆台南市議員、國民黨台南市黨部主委',
+          policies: [
+            { tag: '清廉陽光', text: '徹查光電開發與重大工程爭議，全面公開市政招標資訊並落實議會監督透明化。' },
+            { tag: '老幼福利', text: '推動65歲以上長者健保費補助與提高生育獎勵金，減輕三明治家庭扶養壓力。' },
+            { tag: '觀光農產', text: '整合府城古蹟美食與夜間觀光經濟，協助台南文旦、芒果與養殖漁產拓展外銷。' }
+          ]
+        },
+        dppProfile: {
+          role: '現任立法委員（民主進步黨）',
+          edu: '長榮大學經營管理博士｜連任五屆台南市立法委員、曾任三屆台南市議員',
+          policies: [
+            { tag: '科技雙引擎', text: '串聯南科半導體廊帶與沙崙綠能科學城，加速台南捷運第一期藍線與深綠線建設。' },
+            { tag: '溪北振興', text: '全面強化溪北治水防洪工程與冷鏈物流中心，帶動大新營與沿海地區農漁轉型。' },
+            { tag: '文化宜居', text: '改善舊城區停車空間與人行步道路網，擴大社會住宅與青年留鄉創業貸款補助。' }
+          ]
+        },
         polls: [
           {
             agency: 'TVBS',
@@ -2141,6 +2720,25 @@
         mapCallout: { x: 20, y: 352, lineX: 175, lineY: 342 },
         minorCands: '張靜、王肇民、洪方隆',
         note: '陳其邁屆滿，賴瑞隆與柯志恩差距進入個位數激戰',
+        spotlight: '南台灣半導體S廊帶交棒激戰：聚焦「亞灣2.0與演唱會觀光經濟」對決「產業多元平衡與空氣道路品質」',
+        kmtProfile: {
+          role: '現任不分區立法委員、國民黨高雄市黨部主委（中國國民黨）',
+          edu: '美國南加州大學教育心理學博士｜曾任淡江大學學務長、國家政策研究基金會執行長',
+          policies: [
+            { tag: '多元產業', text: '除高科技外同步扶植高雄傳統螺絲、石化金屬與服務業轉型，提升基層實質薪資。' },
+            { tag: '空品路平', text: '嚴格監督大林蒲遷村權益與重工業減排，強化市區道路品質、排水防洪與行人安全。' },
+            { tag: '教育競爭力', text: '發揮教育專業升級校園雙語與技職產學合作，擴充偏鄉醫療巡迴與長照量能。' }
+          ]
+        },
+        dppProfile: {
+          role: '現任立法委員（民主進步黨）',
+          edu: '台灣大學國家發展研究所碩士｜連任三屆高雄市前鎮小港旗津立法委員、曾任高市府新聞局長與海洋局長',
+          policies: [
+            { tag: '半導體S廊帶', text: '延續陳其邁市政，加速楠梓台積電園區、橋頭科學園區與亞灣區AI創新聚落發展。' },
+            { tag: '海空雙港', text: '推進高雄國際機場新航廈、捷運小港林園線與黃線工程，擴大郵輪與會展演唱會經濟。' },
+            { tag: '淨零宜居', text: '推動港區洲際貨櫃車專用道、綠能運具轉型與前鎮漁港周邊國際級觀光升級。' }
+          ]
+        },
         polls: [
           {
             agency: 'TVBS',
@@ -2886,6 +3484,71 @@
       });
     }
 
+    function renderPolicyComparison() {
+      const city = state.computedCities.find(c => c.id === state.activeCityId) || state.computedCities[0];
+      document.getElementById('policySectionTitle').textContent = `候選人政見與經歷比一比・${city.name}`;
+      document.getElementById('spotlightText').textContent = city.spotlight || city.note;
+
+      const kmtProf = city.kmtProfile;
+      const dppProf = city.dppProfile;
+      if (!kmtProf || !dppProf) return;
+
+      const container = document.getElementById('policyVsContainer');
+      container.innerHTML = `
+        <div class="cand-policy-card blue-camp">
+          <div class="cand-profile-head">
+            <div>
+              <div class="cand-profile-name">
+                <span class="camp-indicator blue" style="width:12px; height:12px;"></span>
+                <span>${city.kmtName}</span>
+              </div>
+              <div class="cand-profile-role">${kmtProf.role}</div>
+            </div>
+            <span class="leader-badge blue" style="font-size:12.5px;">民調推估 ${city.kmt.toFixed(1)}%</span>
+          </div>
+
+          <div class="cand-edu-line">
+            <strong style="color:var(--fg-primary);">學經歷：</strong>${kmtProf.edu}
+          </div>
+
+          <div class="policy-list">
+            ${kmtProf.policies.map(p => `
+              <div class="policy-item">
+                <span class="policy-pill blue">${p.tag}</span>
+                <span>${p.text}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="cand-policy-card green-camp">
+          <div class="cand-profile-head">
+            <div>
+              <div class="cand-profile-name">
+                <span class="camp-indicator green" style="width:12px; height:12px;"></span>
+                <span>${city.dppName}</span>
+              </div>
+              <div class="cand-profile-role">${dppProf.role}</div>
+            </div>
+            <span class="leader-badge green" style="font-size:12.5px;">民調推估 ${city.dpp.toFixed(1)}%</span>
+          </div>
+
+          <div class="cand-edu-line">
+            <strong style="color:var(--fg-primary);">學經歷：</strong>${dppProf.edu}
+          </div>
+
+          <div class="policy-list">
+            ${dppProf.policies.map(p => `
+              <div class="policy-item">
+                <span class="policy-pill green">${p.tag}</span>
+                <span>${p.text}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
     /*************************************************************************
      * 6. REAL-TIME NEWS FETCHER & 60-SECOND AUTO-REFRESH PIPELINE
      *************************************************************************/
@@ -2994,6 +3657,7 @@
       renderPollRace();
       renderBallotBox();
       renderCalibrationAndMatrix(G_eff);
+      renderPolicyComparison();
       renderNewsSection();
 
       const activeCity = state.computedCities.find(c => c.id === state.activeCityId) || state.computedCities[0];
@@ -3011,9 +3675,155 @@
       state.activeCityId = cityId;
       state.activePollIdx = 0;
       state.selectedBallotOpt = 'kmt';
+      try {
+        const url = new URL(window.location.href);
+        url.searchParams.set('city', cityId);
+        window.history.replaceState({}, '', url.toString());
+      } catch (e) {}
       updateAllViews(true);
       fetchLiveElectionNews(cityId);
       fetchCloudVotesForCity(cityId);
+    }
+
+    /*************************************************************************
+     * 6B. ONE-CLICK SHARE SNAPSHOT & CANVAS CARD GENERATOR
+     *************************************************************************/
+    function buildShareSummaryData() {
+      const city = state.computedCities.find(c => c.id === state.activeCityId) || state.computedCities[0];
+      const rec = ballotRecords[city.id];
+      const kmtVotes = rec?.votesMap?.kmt || 0;
+      const dppVotes = rec?.votesMap?.dpp || 0;
+      const totalVotes = city.ballot.options.reduce((sum, o) => sum + (rec?.votesMap?.[o.id] || 0), 0);
+      const kmtVotePct = totalVotes > 0 ? Math.round((kmtVotes / totalVotes) * 100) : 0;
+      const dppVotePct = totalVotes > 0 ? Math.round((dppVotes / totalVotes) * 100) : 0;
+
+      const isBlue = city.kmt >= city.dpp;
+      const leader = isBlue ? city.kmtName : city.dppName;
+      const diff = Math.abs(city.kmt - city.dpp).toFixed(1);
+
+      let shareUrl = 'https://2026-tw-election.pages.dev/';
+      try {
+        if (window.location.href.startsWith('http')) {
+          const u = new URL(window.location.href);
+          u.searchParams.set('city', city.id);
+          shareUrl = u.toString();
+        }
+      } catch (e) {}
+
+      const text =
+        `📊【2026 台灣六都選情觀測站｜${city.name}最新摘要】\n` +
+        `・抽樣校正民調：${city.kmtName} ${city.kmt.toFixed(1)}% vs ${city.dppName} ${city.dpp.toFixed(1)}%（${leader}領先 ${diff}pp）\n` +
+        `・全網民意調查箱（累計 ${totalVotes.toLocaleString()} 票）：${city.kmtName} ${kmtVotePct}% (${kmtVotes}票) vs ${city.dppName} ${dppVotePct}% (${dppVotes}票)\n` +
+        `・選區焦點：${city.note}\n` +
+        `👉 立即查看六都互動地圖與投票：${shareUrl}`;
+
+      return { city, kmtVotes, dppVotes, totalVotes, kmtVotePct, dppVotePct, leader, diff, shareUrl, text };
+    }
+
+    function drawShareCardCanvas(data) {
+      const canvas = document.getElementById('sharePreviewCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const W = canvas.width;
+      const H = canvas.height;
+
+      // Dark Gallery Background
+      const bgGrad = ctx.createLinearGradient(0, 0, W, H);
+      bgGrad.addColorStop(0, '#12151d');
+      bgGrad.addColorStop(1, '#1b202c');
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, W, H);
+
+      // Subtle border frame
+      ctx.strokeStyle = 'rgba(194, 116, 93, 0.45)';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(14, 14, W - 28, H - 28);
+
+      // Top Header
+      ctx.fillStyle = '#c2745d';
+      ctx.font = 'bold 13px "Noto Sans TC", sans-serif';
+      ctx.fillText('2026 台灣六都選情觀測站｜即時選情圖卡', 34, 46);
+
+      ctx.fillStyle = '#eceae4';
+      ctx.font = 'bold 28px "Noto Serif TC", serif';
+      ctx.fillText(`${data.city.name}選區・藍綠對決態勢`, 34, 84);
+
+      ctx.fillStyle = '#a3aab8';
+      ctx.font = '13px "Noto Sans TC", sans-serif';
+      ctx.fillText(data.city.note, 34, 108);
+
+      // Section 1: Calibrated Poll Bar
+      ctx.fillStyle = '#eceae4';
+      ctx.font = 'bold 14px "Noto Sans TC", sans-serif';
+      ctx.fillText(`綜合民調推估（${data.leader}領先 ${data.diff} 個百分點）`, 34, 145);
+
+      const barX = 34;
+      const barY = 156;
+      const barW = W - 68;
+      const barH = 34;
+
+      const total2P = data.city.kmt + data.city.dpp;
+      const blueW = Math.round((data.city.kmt / total2P) * barW);
+      const greenW = barW - blueW;
+
+      ctx.fillStyle = '#487bb6';
+      ctx.fillRect(barX, barY, blueW, barH);
+      ctx.fillStyle = '#439256';
+      ctx.fillRect(barX + blueW, barY, greenW, barH);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 14px "JetBrains Mono", sans-serif';
+      ctx.fillText(`${data.city.kmtName} ${data.city.kmt.toFixed(1)}%`, barX + 12, barY + 22);
+      const dppLabel = `${data.city.dppName} ${data.city.dpp.toFixed(1)}%`;
+      const dppTextW = ctx.measureText(dppLabel).width;
+      ctx.fillText(dppLabel, barX + barW - dppTextW - 12, barY + 22);
+
+      // Section 2: Cloud Ballot Box Bar
+      ctx.fillStyle = '#eceae4';
+      ctx.font = 'bold 14px "Noto Sans TC", sans-serif';
+      ctx.fillText(`全網民意調查箱即時票數（累計 ${data.totalVotes.toLocaleString()} 票）`, 34, 226);
+
+      const bY = 238;
+      const bTotal = Math.max(1, data.kmtVotes + data.dppVotes);
+      const bBlueW = Math.round((data.kmtVotes / bTotal) * barW);
+      const bGreenW = barW - bBlueW;
+
+      ctx.fillStyle = '#3b689c';
+      ctx.fillRect(barX, bY, bBlueW, barH);
+      ctx.fillStyle = '#377c47';
+      ctx.fillRect(barX + bBlueW, bY, bGreenW, barH);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 13px "JetBrains Mono", sans-serif';
+      ctx.fillText(`${data.city.kmtName} ${data.kmtVotePct}% (${data.kmtVotes}票)`, barX + 12, bY + 22);
+      const bDppLabel = `${data.city.dppName} ${data.dppVotePct}% (${data.dppVotes}票)`;
+      const bDppW = ctx.measureText(bDppLabel).width;
+      ctx.fillText(bDppLabel, barX + barW - bDppW - 12, bY + 22);
+
+      // Footer
+      ctx.fillStyle = '#707887';
+      ctx.font = '12px "Noto Sans TC", sans-serif';
+      ctx.fillText(`更新日期：${getTaipeiDateKey()} ｜ 資料涵蓋 TVBS、信民協會與全網雲端即時投票`, 34, 326);
+    }
+
+    function openShareModal() {
+      const data = buildShareSummaryData();
+      drawShareCardCanvas(data);
+
+      document.getElementById('shareModalTitle').textContent = `分享選情摘要圖卡・${data.city.name}`;
+      document.getElementById('shareSummaryText').textContent = data.text;
+
+      const encodedText = encodeURIComponent(data.text);
+      const encodedUrl = encodeURIComponent(data.shareUrl);
+      document.getElementById('linkShareLine').href = `https://social-plugins.line.me/lineit/share?url=${encodedUrl}&text=${encodedText}`;
+      document.getElementById('linkShareThreads').href = `https://www.threads.net/intent/post?text=${encodedText}`;
+      document.getElementById('linkShareFb').href = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}`;
+
+      document.getElementById('shareModal').classList.add('open');
+    }
+
+    function closeShareModal() {
+      document.getElementById('shareModal').classList.remove('open');
     }
 
     function applyPreset(preset, redraw = true) {
@@ -3090,6 +3900,42 @@
       syncAllLiveFeeds();
     });
 
+    document.getElementById('btnOpenShareModal').addEventListener('click', () => openShareModal());
+    document.getElementById('btnShareFromPolicy').addEventListener('click', () => openShareModal());
+    document.getElementById('btnCloseShareModal').addEventListener('click', () => closeShareModal());
+    document.getElementById('shareModal').addEventListener('click', (e) => {
+      if (e.target.id === 'shareModal') closeShareModal();
+    });
+
+    document.getElementById('btnCopyShareText').addEventListener('click', async () => {
+      const data = buildShareSummaryData();
+      const lbl = document.getElementById('btnCopyShareLabel');
+      try {
+        await navigator.clipboard.writeText(data.text);
+        lbl.textContent = '✓ 已複製選情摘要與連結！';
+      } catch (e) {
+        const ta = document.createElement('textarea');
+        ta.value = data.text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        lbl.textContent = '✓ 已複製選情摘要與連結！';
+      }
+      setTimeout(() => {
+        lbl.textContent = '複製選情文字與連結';
+      }, 2200);
+    });
+
+    document.getElementById('btnDownloadShareImg').addEventListener('click', () => {
+      const canvas = document.getElementById('sharePreviewCanvas');
+      if (!canvas) return;
+      const link = document.createElement('a');
+      link.download = `2026-${state.activeCityId}-election-snapshot.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    });
+
     document.getElementById('btnRefreshNews').addEventListener('click', () => {
       fetchLiveElectionNews(state.activeCityId);
     });
@@ -3144,7 +3990,26 @@
       const hours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       document.getElementById('electionCountdown').textContent = `${days} 天 ${hours} 小時`;
       document.getElementById('ballotTimeRemaining').textContent = `剩餘時間： 28天 0小時`;
+
+      const blackoutDate = new Date('2026-11-18T00:00:00+08:00').getTime();
+      const blackoutDiff = Math.max(0, blackoutDate - now.getTime());
+      const bDays = Math.floor(blackoutDiff / (1000 * 60 * 60 * 24));
+      const bHours = Math.floor((blackoutDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const bBadge = document.getElementById('blackoutCountdownBadge');
+      if (bBadge) {
+        bBadge.textContent = blackoutDiff > 0
+          ? `距離 11/18 民調封關尚有 ${bDays} 天 ${bHours} 小時`
+          : '已進入法定民調封關期間';
+      }
     }
+
+    // Parse ?city= query parameter if user opened a shared deep-link
+    try {
+      const urlCity = new URLSearchParams(window.location.search).get('city');
+      if (urlCity && CITIES_DATA.some(c => c.id === urlCity)) {
+        state.activeCityId = urlCity;
+      }
+    } catch (e) {}
 
     // Boot
     initThreeArtisticBg();
