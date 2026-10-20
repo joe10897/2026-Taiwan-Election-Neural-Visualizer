@@ -1,0 +1,37 @@
+User-agent: *
+Allow: /
+
+# Search Engine Crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Generative AI & Answer Engine Crawlers (GEO / AEO)
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://monochromelab.idv.tw/2026-Taiwan-Election-Neural-Visualizer/sitemap.xml
+# LLMs.txt for Generative Engine Optimization (GEO): https://monochromelab.idv.tw/2026-Taiwan-Election-Neural-Visualizer/llms.txt
