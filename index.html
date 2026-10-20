@@ -3558,6 +3558,8 @@
       document.getElementById('ballotQuestion').textContent = city.ballot.question;
 
       const totalVotes = city.ballot.options.reduce((sum, o) => sum + (rec.votesMap[o.id] || 0), 0);
+      const baseTotalVotes = city.ballot.options.reduce((sum, o) => sum + (o.baseVotes || 0), 0);
+      const liveAddedVotes = Math.max(0, totalVotes - baseTotalVotes);
 
       const listEl = document.getElementById('ballotOptionsList');
       listEl.innerHTML = city.ballot.options.map(opt => {
@@ -3615,12 +3617,12 @@
         btnText.textContent = '今日已完成投票';
         iconPath.setAttribute('d', 'M20 6L9 17l-5-5');
         const chosenName = city.ballot.options.find(o => o.id === rec.lastVotedOpt)?.name || '';
-        note.innerHTML = `<span style="color:var(--green-badge-fg); display:inline-flex; align-items:center; gap:5px; justify-content:center;"><svg class="morph-svg" viewBox="0 0 24 24" style="width:13px; height:13px; stroke:currentColor;"><path d="M20 6L9 17l-5-5"/></svg>您今日已於${city.name}投給「${chosenName}」（全網累計 ${totalVotes.toLocaleString()} 票，明日 00:00 後可再投）</span>`;
+        note.innerHTML = `<span style="color:var(--green-badge-fg); display:inline-flex; align-items:center; gap:5px; justify-content:center; flex-wrap:wrap;"><svg class="morph-svg" viewBox="0 0 24 24" style="width:13px; height:13px; stroke:currentColor;"><path d="M20 6L9 17l-5-5"/></svg>您今日已投給「${chosenName}」｜總計 ${totalVotes.toLocaleString()} 票（含公開民調基準樣本 ${baseTotalVotes.toLocaleString()} 票 ＋ 本站即時選票 +${liveAddedVotes.toLocaleString()} 票）</span>`;
       } else {
         btn.disabled = false;
         btnText.textContent = '投票看結果';
         iconPath.setAttribute('d', 'M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11');
-        note.textContent = `全網累計 ${totalVotes.toLocaleString()} 票｜單一裝置每日限投一次`;
+        note.textContent = `總計 ${totalVotes.toLocaleString()} 票（含公開民調基準樣本 ${baseTotalVotes.toLocaleString()} 票 ＋ 本站即時選票 +${liveAddedVotes.toLocaleString()} 票）｜每人每日限投一次`;
       }
     }
 
