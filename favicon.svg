@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2a394a" />
+      <stop offset="50%" stop-color="#0e1117" />
+      <stop offset="100%" stop-color="#1f3627" />
+    </linearGradient>
+    <linearGradient id="twGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#439256" />
+      <stop offset="50%" stop-color="#c2745d" />
+      <stop offset="100%" stop-color="#487bb6" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-color="#000" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="16" ry="16" fill="url(#bgGrad)" stroke="rgba(255,255,255,0.24)" stroke-width="2" />
+  <rect x="4" y="4" width="56" height="56" rx="14" ry="14" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+  <g transform="translate(32, 32) scale(0.19) translate(-94, -130)" filter="url(#glow)">
+    <path d="M114,14 L138,26 L146,56 L140,105 L126,168 L104,225 L88,246 L76,238 L78,205 L56,178 L42,142 L48,98 L68,58 L92,26 Z"
+      fill="url(#twGrad)"
+      fill-opacity="0.85"
+      stroke="#ffffff"
+      stroke-width="14"
+      stroke-linecap="round"
+      stroke-linejoin="round" />
+    <path d="M98,38 L114,84 L102,145 L86,210"
+      stroke="#ffffff"
+      stroke-width="10"
+      stroke-linecap="round"
+      opacity="0.85" />
+  </g>
+</svg>
