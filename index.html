@@ -47,7 +47,7 @@
       /* Low-Saturation Slate for Neutral/Other Options */
       --neutral-bar: #6e7685;
 
-      /* Low-Saturation Terracotta / Warm Bronze Accent (Fig.1 & Fig.2) */
+      /* Low-Saturation Terracotta / Warm Bronze Accent */
       --terracotta: #c2745d;
       --terracotta-hover: #d1836c;
       --terracotta-muted: rgba(194, 116, 93, 0.16);
@@ -90,7 +90,75 @@
       min-height: 100vh;
     }
 
-    /* Three.js Artistic Interactive Background Canvas */
+    /* ==================== 2-SECOND TAIWAN LINE-ART LOADING SCREEN ==================== */
+    #loadingOverlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: radial-gradient(circle at 50% 45%, #151a24 0%, #090b0f 80%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.55s ease;
+    }
+
+    #loadingOverlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loader-taiwan-box {
+      position: relative;
+      width: 150px;
+      height: 210px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 22px;
+    }
+
+    .loader-taiwan-svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      filter: drop-shadow(0 10px 28px rgba(0, 0, 0, 0.65));
+    }
+
+    .loader-title {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--fg-primary);
+      margin-bottom: 8px;
+    }
+
+    .loader-progress-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--terracotta);
+    }
+
+    .loader-bar-track {
+      width: 160px;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .loader-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--blue-main), var(--terracotta), var(--green-main));
+    }
+
+    /* ==================== THREE.JS BACKGROUND & GRAIN ==================== */
     #threeBgCanvas {
       position: fixed;
       top: 0;
@@ -102,7 +170,6 @@
       opacity: 0.65;
     }
 
-    /* Subtle Artistic Film Grain Overlay */
     .grain-overlay {
       position: fixed;
       inset: 0;
@@ -110,6 +177,110 @@
       pointer-events: none;
       opacity: 0.035;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    /* ==================== LEFT SLIDE-OUT SAMPLING DRAWER ==================== */
+    .sampling-drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: min(390px, 88vw);
+      height: 100vh;
+      z-index: 95;
+      background: rgba(16, 20, 28, 0.93);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border-right: 1px solid var(--border-warm);
+      box-shadow: 16px 0 48px rgba(0, 0, 0, 0.65);
+      transform: translateX(-100%);
+      transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sampling-drawer.open {
+      transform: translateX(0);
+    }
+
+    /* Floating Tab Handle on the Right Edge of the Left Drawer */
+    .drawer-edge-handle {
+      position: absolute;
+      top: 50%;
+      left: 100%;
+      transform: translateY(-50%);
+      background: linear-gradient(180deg, #252220 0%, #191716 100%);
+      color: var(--fg-primary);
+      border: 1px solid var(--border-warm);
+      border-left: none;
+      border-radius: 0 10px 10px 0;
+      padding: 16px 11px;
+      cursor: pointer;
+      box-shadow: 6px 4px 20px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      transition: background 0.2s ease, padding-right 0.2s ease;
+      user-select: none;
+    }
+
+    .drawer-edge-handle:hover {
+      background: var(--terracotta);
+      color: #ffffff;
+    }
+
+    .drawer-edge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--terracotta);
+      writing-mode: horizontal-tb;
+    }
+
+    .drawer-edge-handle:hover .drawer-edge-dot {
+      background: #ffffff;
+    }
+
+    .drawer-header {
+      padding: 20px 22px 16px;
+      border-bottom: 1px solid var(--border-card);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .drawer-close-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-card);
+      color: var(--fg-secondary);
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: all 0.18s ease;
+      flex-shrink: 0;
+    }
+
+    .drawer-close-btn:hover {
+      border-color: var(--terracotta);
+      color: #ffffff;
+      background: var(--terracotta);
+    }
+
+    .drawer-body {
+      padding: 20px 22px 28px;
+      overflow-y: auto;
+      flex: 1;
     }
 
     /* ==================== HEADER / NAVIGATION ==================== */
@@ -141,16 +312,22 @@
     }
 
     .brand-emblem {
-      width: 34px;
-      height: 34px;
+      width: 36px;
+      height: 36px;
       border-radius: 9px;
-      background: linear-gradient(135deg, var(--blue-main) 0%, #2a3441 50%, var(--green-main) 100%);
+      background: linear-gradient(135deg, rgba(72, 123, 182, 0.32) 0%, rgba(18, 22, 30, 0.95) 50%, rgba(67, 146, 86, 0.32) 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+      border: 1px solid rgba(255, 255, 255, 0.22);
       flex-shrink: 0;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .brand-emblem:hover {
+      transform: scale(1.05);
+      border-color: var(--terracotta);
     }
 
     .brand-title {
@@ -170,7 +347,7 @@
     .header-controls {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
@@ -238,8 +415,10 @@
       transform: translateY(-1px);
     }
 
-    .morph-btn:active {
-      transform: translateY(0);
+    .morph-btn.active-drawer-btn {
+      border-color: var(--terracotta);
+      background: var(--terracotta);
+      color: #ffffff;
     }
 
     .morph-svg {
@@ -379,7 +558,7 @@
       display: grid;
       grid-template-columns: 5.2fr 6.8fr;
       gap: 24px;
-      align-items: start;
+      align-items: stretch;
     }
 
     /* Card Base */
@@ -574,7 +753,7 @@
       background: rgba(25, 30, 40, 0.72);
       border: 1px solid var(--border-card);
       border-radius: var(--radius-md);
-      padding: 20px 24px;
+      padding: 18px 22px;
       transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
       cursor: pointer;
       position: relative;
@@ -596,12 +775,12 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       gap: 12px;
     }
 
     .poll-source-title {
-      font-size: 19px;
+      font-size: 18.5px;
       font-weight: 700;
       color: var(--terracotta);
       letter-spacing: 0.02em;
@@ -610,17 +789,17 @@
 
     .poll-source-date {
       font-family: var(--font-mono);
-      font-size: 13px;
+      font-size: 12.5px;
       color: var(--fg-muted);
-      margin-top: 3px;
+      margin-top: 2px;
     }
 
     .leader-badge {
       display: inline-flex;
       align-items: center;
-      padding: 5px 14px;
+      padding: 4px 13px;
       border-radius: 999px;
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 600;
       letter-spacing: 0.02em;
       white-space: nowrap;
@@ -641,19 +820,19 @@
     .poll-bars-group {
       display: flex;
       flex-direction: column;
-      gap: 11px;
-      margin-bottom: 14px;
+      gap: 10px;
+      margin-bottom: 12px;
     }
 
     .poll-bar-line {
       display: grid;
-      grid-template-columns: 62px 1fr;
+      grid-template-columns: 60px 1fr;
       align-items: center;
       gap: 12px;
     }
 
     .poll-cand-label {
-      font-size: 15px;
+      font-size: 14.5px;
       font-weight: 600;
       color: var(--fg-primary);
       white-space: nowrap;
@@ -661,7 +840,7 @@
 
     .poll-bar-track {
       width: 100%;
-      height: 24px;
+      height: 23px;
       background: var(--track-dark);
       border-radius: 5px;
       overflow: hidden;
@@ -681,7 +860,7 @@
       color: #ffffff;
       min-width: 46px;
       width: 0%;
-      transition: width 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: width 0.65s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .poll-bar-fill.blue {
@@ -695,12 +874,12 @@
     }
 
     .poll-card-meta {
-      font-size: 13px;
+      font-size: 12.5px;
       color: var(--fg-secondary);
-      line-height: 1.5;
+      line-height: 1.45;
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 10px;
     }
 
     .poll-card-meta .gap-pill {
@@ -708,14 +887,18 @@
       font-weight: 600;
     }
 
-    /* ==================== 3. FIG.2: 民意調查箱 (PERMANENT LOW-SAT BLUE/GREEN BARS) ==================== */
+    /* ==================== 3. FIG.2: 民意調查箱 (CLOUD SHARED REAL VOTES) ==================== */
     .ballot-panel {
       background: linear-gradient(165deg, #211e1c 0%, #171514 100%);
       border: 1px solid var(--border-warm);
       border-radius: var(--radius-lg);
-      padding: 28px 30px;
+      padding: 26px 28px;
       box-shadow: var(--shadow-art);
       position: relative;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .ballot-question-title {
@@ -730,17 +913,29 @@
     .ballot-single-hint {
       font-size: 12.5px;
       color: var(--terracotta);
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       padding-left: 12px;
       font-weight: 500;
       opacity: 0.9;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cloud-sync-tag {
+      font-size: 11px;
+      color: var(--green-badge-fg);
+      background: var(--green-badge-bg);
+      padding: 2px 9px;
+      border-radius: 999px;
+      font-family: var(--font-mono);
     }
 
     .ballot-options {
       display: flex;
       flex-direction: column;
-      gap: 18px;
-      margin-bottom: 26px;
+      gap: 16px;
+      margin-bottom: 24px;
     }
 
     .ballot-item {
@@ -876,7 +1071,7 @@
       gap: 20px;
       font-size: 13px;
       color: var(--fg-secondary);
-      margin-bottom: 18px;
+      margin-bottom: 16px;
       flex-wrap: wrap;
     }
 
@@ -933,16 +1128,16 @@
       gap: 6px;
     }
 
-    /* ==================== 4. SAMPLING & SIX MUNICIPALITIES MATRIX ==================== */
+    /* ==================== 4. DRAWER CONTROLS & SIX CITIES MATRIX ==================== */
     .calibration-controls {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-bottom: 16px;
+      grid-template-columns: 1fr;
+      gap: 9px;
+      margin-bottom: 18px;
     }
 
     .preset-card {
-      background: rgba(255, 255, 255, 0.03);
+      background: rgba(255, 255, 255, 0.035);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-sm);
       padding: 10px 12px;
@@ -962,7 +1157,7 @@
 
     .preset-card:hover {
       border-color: rgba(255, 255, 255, 0.22);
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.06);
     }
 
     .preset-card.active {
@@ -976,7 +1171,7 @@
     }
 
     .slider-row {
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
 
     .slider-head {
@@ -1057,10 +1252,10 @@
     }
 
     /* ==================== 5. LIVE POLL & ELECTION NEWS FEED ==================== */
-    .news-grid {
+    .news-grid-2col {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
     }
 
     .news-card {
@@ -1070,11 +1265,11 @@
       background: rgba(25, 30, 40, 0.68);
       border: 1px solid var(--border-card);
       border-radius: var(--radius-md);
-      padding: 18px 20px;
+      padding: 16px 18px;
       text-decoration: none;
       color: var(--fg-primary);
       transition: all 0.22s ease;
-      gap: 12px;
+      gap: 10px;
     }
 
     .news-card:hover {
@@ -1101,13 +1296,13 @@
     .news-time-tag {
       font-family: var(--font-mono);
       color: var(--fg-muted);
-      font-size: 11.5px;
+      font-size: 11px;
     }
 
     .news-headline {
-      font-size: 15px;
+      font-size: 14.5px;
       font-weight: 600;
-      line-height: 1.5;
+      line-height: 1.48;
       color: var(--fg-primary);
       display: -webkit-box;
       -webkit-line-clamp: 2;
@@ -1131,7 +1326,7 @@
       gap: 5px;
       padding: 2px 9px;
       border-radius: 999px;
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 600;
       background: rgba(255, 255, 255, 0.06);
       color: var(--fg-secondary);
@@ -1143,8 +1338,7 @@
       .row-grid-ballot {
         grid-template-columns: 1fr;
       }
-      .six-cities-grid,
-      .news-grid {
+      .six-cities-grid {
         grid-template-columns: repeat(2, 1fr);
       }
     }
@@ -1165,9 +1359,8 @@
       .poll-race-card {
         padding: 16px;
       }
-      .calibration-controls,
       .six-cities-grid,
-      .news-grid {
+      .news-grid-2col {
         grid-template-columns: 1fr;
       }
       .map-stage {
@@ -1189,17 +1382,171 @@
 </head>
 <body>
 
+  <!-- ==================== 2-SECOND LINE-ART TAIWAN LOGO LOADING SCREEN ==================== -->
+  <div id="loadingOverlay" aria-label="頁面載入中">
+    <div class="loader-taiwan-box">
+      <svg class="loader-taiwan-svg" viewBox="0 0 180 260">
+        <defs>
+          <!-- Taiwan Island Outline ClipPath for Rising Fill Progress -->
+          <clipPath id="taiwanFillClip">
+            <path d="M114,14 L138,26 L146,56 L140,105 L126,168 L104,225 L88,246 L76,238 L78,205 L56,178 L42,142 L48,98 L68,58 L92,26 Z" />
+          </clipPath>
+          <linearGradient id="taiwanRiseGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#439256" stop-opacity="0.88" />
+            <stop offset="50%" stop-color="#c2745d" stop-opacity="0.85" />
+            <stop offset="100%" stop-color="#487bb6" stop-opacity="0.92" />
+          </linearGradient>
+        </defs>
+
+        <!-- Rising Fill Inside Taiwan ClipPath (Height controlled by JS 0% -> 100%) -->
+        <g clip-path="url(#taiwanFillClip)">
+          <rect x="0" y="0" width="180" height="260" fill="rgba(255,255,255,0.03)" />
+          <rect id="loaderFillRect" x="0" y="260" width="180" height="0" fill="url(#taiwanRiseGrad)" />
+          <!-- Internal Geometric Topographic Contour Lines -->
+          <g stroke="rgba(255,255,255,0.22)" stroke-width="0.9" fill="none">
+            <path d="M98,32 L116,78 L104,142 L86,212" />
+            <path d="M62,88 L134,82" />
+            <path d="M48,136 L130,130" />
+            <path d="M58,176 L118,172" />
+          </g>
+        </g>
+
+        <!-- Crisp Outer Line-Art Stroke of Taiwan Island -->
+        <path id="loaderOutlinePath"
+          d="M114,14 L138,26 L146,56 L140,105 L126,168 L104,225 L88,246 L76,238 L78,205 L56,178 L42,142 L48,98 L68,58 L92,26 Z"
+          fill="none"
+          stroke="#eceae4"
+          stroke-width="2.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-dasharray="620"
+          stroke-dashoffset="620" />
+      </svg>
+    </div>
+
+    <div class="loader-title">2026 台灣六都選情觀測站</div>
+    <div class="loader-progress-row">
+      <div class="loader-bar-track">
+        <div class="loader-bar-fill" id="loaderBarFill"></div>
+      </div>
+      <span id="loaderPctText">0%</span>
+    </div>
+  </div>
+
   <!-- Three.js Artistic Interactive Topographic Particle Canvas -->
   <canvas id="threeBgCanvas"></canvas>
   <div class="grain-overlay"></div>
+
+  <!-- ==================== LEFT SLIDE-OUT DRAWER: 跨機構抽樣與政黨加權分析 ==================== -->
+  <aside class="sampling-drawer" id="samplingDrawer" aria-label="跨機構抽樣與政黨加權分析抽屜面板">
+    <!-- Persistent Left-Edge Handle Tab -->
+    <div class="drawer-edge-handle" id="drawerEdgeHandle" title="點擊展開／收合抽樣加權模擬器">
+      <span class="drawer-edge-dot"></span>
+      <span>抽樣加權模擬</span>
+    </div>
+
+    <div class="drawer-header">
+      <div>
+        <h2 class="section-title" style="font-size:18px;">跨機構抽樣與政黨加權分析</h2>
+        <div class="section-sub" style="margin-top:4px;">拉動滑桿時，右側全頁地圖與民調將即時同步變動</div>
+      </div>
+      <button class="drawer-close-btn" id="btnCloseDrawer" title="收合面板">✕</button>
+    </div>
+
+    <div class="drawer-body">
+      <div class="calibration-controls" id="presetButtonsGrid">
+        <button class="preset-card active" data-preset="tvbs_raking">
+          <strong>TVBS 政黨母體加權基準</strong>
+          校正回真實藍綠白選民結構（北市：蔣 49.0% / 沈 41.0%）
+        </button>
+        <button class="preset-card" data-preset="shinmin_raw">
+          <strong>信民協會未加權原始樣本</strong>
+          泛綠樣本佔 42.2%、泛藍 26.6%（北市：沈 50.3% / 蔣 33.3%）
+        </button>
+        <button class="preset-card" data-preset="threads_echo">
+          <strong>社群自然高動員抽樣</strong>
+          Threads 聲量佔比 36.6% 同溫層效應（未加權推估）
+        </button>
+        <button class="preset-card" data-preset="debate_1031">
+          <strong>電視辯論表現看好度</strong>
+          10/31 辯論前夕看好度調查（沈 41.0% / 蔣 30.0%）
+        </button>
+      </div>
+
+      <div class="slider-row">
+        <div class="slider-head">
+          <span>抽樣樣本泛綠表態率</span>
+          <strong id="lblGreenSample" style="color:var(--green-bright);">29.0%</strong>
+        </div>
+        <input type="range" id="rngGreenSample" min="25" max="58" step="0.2" value="29.0" />
+      </div>
+
+      <div class="slider-row">
+        <div class="slider-head">
+          <span>政黨傾向母體加權強度 (Raking)</span>
+          <strong id="lblRaking" style="color:var(--blue-bright);">100%</strong>
+        </div>
+        <input type="range" id="rngRaking" min="0" max="100" step="1" value="100" />
+      </div>
+
+      <div class="slider-row" style="margin-bottom:20px;">
+        <div class="slider-head">
+          <span>社群同溫層折減係數</span>
+          <strong id="lblDamping">72%</strong>
+        </div>
+        <input type="range" id="rngDamping" min="0" max="100" step="1" value="72" />
+      </div>
+
+      <!-- Live Calibrated Bar inside Drawer -->
+      <div style="background:rgba(0,0,0,0.35); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:15px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+          <span style="font-weight:700; font-size:13.5px;" id="calCityTitle">台北市・抽樣校正後推估</span>
+          <span class="leader-badge blue" id="calSpreadBadge">蔣萬安領先 8.0pp</span>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:600; margin-bottom:8px;">
+          <span style="color:var(--blue-bright);" id="calBlueLabel">蔣萬安 49.0%</span>
+          <span style="color:var(--green-bright);" id="calGreenLabel">沈伯洋 41.0%</span>
+        </div>
+
+        <div style="height:13px; width:100%; background:var(--track-dark); border-radius:999px; display:flex; overflow:hidden; gap:2px;">
+          <div id="calBarBlue" style="background:var(--blue-main); height:100%; width:54.4%; transition:width 0.3s ease;"></div>
+          <div id="calBarGreen" style="background:var(--green-main); height:100%; width:45.6%; transition:width 0.3s ease;"></div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; font-size:11.5px; color:var(--fg-muted); margin-top:8px;">
+          <span>有效泛綠母體權重：<strong id="calEffGreen" style="color:var(--fg-primary);">29.0%</strong></span>
+          <span>未表態／其他：<strong id="calUndecided" style="color:var(--fg-primary);">10.0%</strong></span>
+        </div>
+      </div>
+    </div>
+  </aside>
 
   <!-- TOP HEADER -->
   <header class="site-header">
     <div class="header-inner">
       <div class="brand-group">
-        <div class="brand-emblem" aria-hidden="true">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#eceae4" stroke-width="2">
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        <div class="brand-emblem" aria-hidden="true" title="2026 台灣選情觀測站">
+          <svg width="16" height="22" viewBox="0 0 180 260" fill="none" style="overflow:visible;">
+            <defs>
+              <linearGradient id="emblemTaiwanGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#439256" stop-opacity="0.85" />
+                <stop offset="50%" stop-color="#c2745d" stop-opacity="0.85" />
+                <stop offset="100%" stop-color="#487bb6" stop-opacity="0.9" />
+              </linearGradient>
+            </defs>
+            <path d="M114,14 L138,26 L146,56 L140,105 L126,168 L104,225 L88,246 L76,238 L78,205 L56,178 L42,142 L48,98 L68,58 L92,26 Z"
+              fill="url(#emblemTaiwanGrad)"
+              fill-opacity="0.32"
+              stroke="#eceae4"
+              stroke-width="12"
+              stroke-linecap="round"
+              stroke-linejoin="round" />
+            <path d="M98,38 L114,84 L102,145 L86,210"
+              stroke="#eceae4"
+              stroke-width="9"
+              stroke-linecap="round"
+              opacity="0.55" />
           </svg>
         </div>
         <div>
@@ -1216,7 +1563,22 @@
           <span class="sync-countdown" id="navSyncCountdown">60s 刷新</span>
         </div>
 
-        <button class="morph-btn" id="btnRedrawAll" title="立即同步最新新聞並重繪視覺動態">
+        <button class="morph-btn" id="btnToggleDrawer" title="展開左側跨機構抽樣與政黨加權分析面板">
+          <svg class="morph-svg" viewBox="0 0 24 24">
+            <line x1="4" y1="21" x2="4" y2="14" />
+            <line x1="4" y1="10" x2="4" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="12" />
+            <line x1="12" y1="8" x2="12" y2="3" />
+            <line x1="20" y1="21" x2="20" y2="16" />
+            <line x1="20" y1="12" x2="20" y2="3" />
+            <line x1="1" y1="14" x2="7" y2="14" />
+            <line x1="9" y1="8" x2="15" y2="8" />
+            <line x1="17" y1="16" x2="23" y2="16" />
+          </svg>
+          <span>抽樣與加權分析</span>
+        </button>
+
+        <button class="morph-btn" id="btnRedrawAll" title="立即同步最新數據並重繪視覺動態">
           <svg class="morph-svg" id="iconRedraw" viewBox="0 0 24 24">
             <path id="morphPathRedraw" d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8m0 0V3m0 5h5m-5 4a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16m0 0h-5m5 0v5" />
           </svg>
@@ -1319,7 +1681,7 @@
         <div class="section-header">
           <div>
             <h2 class="section-title" id="pollRaceHeading">民調競速・台北市</h2>
-            <div class="section-sub">點擊任一民調機構卡片，可觸發數據重繪並檢視結構差異</div>
+            <div class="section-sub">點擊民調卡或開啟左側「抽樣加權模擬」，可即時觀察支持度變化</div>
           </div>
         </div>
 
@@ -1330,149 +1692,80 @@
 
     </section>
 
-    <!-- ROW 2: FIG.2 民意調查箱 (BALLOT BOX) + CROSS-CHANNEL CALIBRATION -->
+    <!-- ROW 2: FIG.2 民意調查箱 (CLOUD SHARED REAL BALLOT) + LIVE POLL NEWS -->
     <section class="row-grid-ballot">
 
-      <!-- LEFT: FIG.2 民意調查箱 (PERMANENT LOW-SAT BLUE/GREEN BARS + STRICT 1-VOTE-PER-DAY) -->
+      <!-- LEFT: FIG.2 民意調查箱 (CLOUD SYNCED REAL VOTES + 1-DAY-1-VOTE) -->
       <div>
-        <div class="section-header" style="margin-bottom:12px;">
-          <h2 class="section-title">民意調查箱</h2>
-          <span class="section-sub" id="ballotCityBadge">台北市選區</span>
-        </div>
-
         <div class="ballot-panel" id="ballotPanel">
-          <div class="ballot-question-title" id="ballotQuestion">
-            【台北市長選情升溫】如果明天投票，你會把票投給誰？
-          </div>
-          <div class="ballot-single-hint">* 單選</div>
+          <div>
+            <div class="section-header" style="margin-bottom:10px;">
+              <h2 class="section-title">民意調查箱</h2>
+              <span class="section-sub" id="ballotCityBadge">台北市選區</span>
+            </div>
 
-          <div class="ballot-options" id="ballotOptionsList">
-            <!-- Populated dynamically -->
+            <div class="ballot-question-title" id="ballotQuestion">
+              【台北市長選情升溫】如果明天投票，你會把票投給誰？
+            </div>
+            <div class="ballot-single-hint">
+              <span>* 單選</span>
+              <span class="cloud-sync-tag" id="cloudSyncBadge">● 全網雲端即時同步</span>
+            </div>
+
+            <div class="ballot-options" id="ballotOptionsList">
+              <!-- Populated dynamically -->
+            </div>
           </div>
 
-          <div class="ballot-info-bar">
-            <span class="ballot-info-item" id="ballotTimeRemaining">剩餘時間： 28天 0小時</span>
-            <span class="ballot-info-item">投票頻率： 1天一次</span>
-          </div>
+          <div>
+            <div class="ballot-info-bar">
+              <span class="ballot-info-item" id="ballotTimeRemaining">剩餘時間： 28天 0小時</span>
+              <span class="ballot-info-item">投票頻率： 1天一次</span>
+            </div>
 
-          <div class="ballot-footer-center">
-            <button class="btn-vote-action" id="btnCastVote">
-              <svg class="morph-svg" id="ballotBtnIcon" viewBox="0 0 24 24" style="width:18px; height:18px;">
-                <path id="ballotBtnIconPath" d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
-              </svg>
-              <span id="btnCastVoteText">投票看結果</span>
-            </button>
-            <div class="ballot-verify-note" id="ballotStatusNote">
-              已啟用裝置指紋與單日頻率鎖定（每台裝置每日限投一次）
+            <div class="ballot-footer-center">
+              <button class="btn-vote-action" id="btnCastVote">
+                <svg class="morph-svg" id="ballotBtnIcon" viewBox="0 0 24 24" style="width:18px; height:18px;">
+                  <path id="ballotBtnIconPath" d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                </svg>
+                <span id="btnCastVoteText">投票看結果</span>
+              </button>
+              <div class="ballot-verify-note" id="ballotStatusNote">
+                全網共用真實雲端票數｜每台裝置每日限投一次
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- RIGHT: EMPIRICAL SAMPLING CALIBRATION -->
+      <!-- RIGHT: LIVE POLL & ELECTION NEWS SECTION -->
       <div class="art-card">
         <div class="section-header">
           <div>
-            <h2 class="section-title">跨機構抽樣與政黨加權分析</h2>
-            <div class="section-sub">調整抽樣表態率與政黨母體加權，觀察不同調查方法對選情的影響</div>
+            <h2 class="section-title" id="newsSectionTitle">即時民調與選情新聞</h2>
+            <div class="section-sub" id="newsSyncSubtitle">串接 Google News 即時新聞 RSS 與公開選情資訊（每 60 秒自動刷新）</div>
           </div>
-        </div>
-
-        <div class="calibration-controls" id="presetButtonsGrid">
-          <button class="preset-card active" data-preset="tvbs_raking">
-            <strong>TVBS 政黨母體加權基準</strong>
-            校正回真實藍綠白選民結構（北市：蔣 49.0% / 沈 41.0%）
-          </button>
-          <button class="preset-card" data-preset="shinmin_raw">
-            <strong>信民協會未加權原始樣本</strong>
-            泛綠樣本佔 42.2%、泛藍 26.6%（北市：沈 50.3% / 蔣 33.3%）
-          </button>
-          <button class="preset-card" data-preset="threads_echo">
-            <strong>社群自然高動員抽樣</strong>
-            Threads 聲量佔比 36.6% 同溫層效應（未加權推估）
-          </button>
-          <button class="preset-card" data-preset="debate_1031">
-            <strong>電視辯論表現看好度</strong>
-            10/31 辯論前夕看好度調查（沈 41.0% / 蔣 30.0%）
+          <button class="morph-btn" id="btnRefreshNews" style="padding:5px 12px; font-size:12px;">
+            <svg class="morph-svg" viewBox="0 0 24 24" style="width:14px; height:14px;">
+              <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8m0 0V3m0 5h5m-5 4a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16m0 0h-5m5 0v5" />
+            </svg>
+            <span>刷新新聞</span>
           </button>
         </div>
 
-        <div class="slider-row">
-          <div class="slider-head">
-            <span>抽樣樣本泛綠表態率</span>
-            <strong id="lblGreenSample" style="color:var(--green-bright);">29.0%</strong>
-          </div>
-          <input type="range" id="rngGreenSample" min="25" max="58" step="0.2" value="29.0" />
-        </div>
-
-        <div class="slider-row">
-          <div class="slider-head">
-            <span>政黨傾向母體加權強度 (Raking)</span>
-            <strong id="lblRaking" style="color:var(--blue-bright);">100%</strong>
-          </div>
-          <input type="range" id="rngRaking" min="0" max="100" step="1" value="100" />
-        </div>
-
-        <div class="slider-row" style="margin-bottom:20px;">
-          <div class="slider-head">
-            <span>社群同溫層折減係數</span>
-            <strong id="lblDamping">72%</strong>
-          </div>
-          <input type="range" id="rngDamping" min="0" max="100" step="1" value="72" />
-        </div>
-
-        <!-- Live Calibrated Bar -->
-        <div style="background:rgba(0,0,0,0.28); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:16px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
-            <span style="font-weight:700; font-size:14px;" id="calCityTitle">台北市・抽樣校正後推估對比</span>
-            <span class="leader-badge blue" id="calSpreadBadge">蔣萬安領先 8.0pp</span>
-          </div>
-
-          <div style="display:flex; justify-content:space-between; font-size:13.5px; font-weight:600; margin-bottom:8px;">
-            <span style="color:var(--blue-bright);" id="calBlueLabel">蔣萬安 49.0%</span>
-            <span style="color:var(--green-bright);" id="calGreenLabel">沈伯洋 41.0%</span>
-          </div>
-
-          <div style="height:14px; width:100%; background:var(--track-dark); border-radius:999px; display:flex; overflow:hidden; gap:2px;">
-            <div id="calBarBlue" style="background:var(--blue-main); height:100%; width:54.4%; transition:width 0.45s ease;"></div>
-            <div id="calBarGreen" style="background:var(--green-main); height:100%; width:45.6%; transition:width 0.45s ease;"></div>
-          </div>
-
-          <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--fg-muted); margin-top:8px;">
-            <span>有效泛綠母體權重：<strong id="calEffGreen" style="color:var(--fg-primary);">29.0%</strong></span>
-            <span>未表態／其他候選人：<strong id="calUndecided" style="color:var(--fg-primary);">10.0%</strong></span>
-          </div>
+        <div class="news-grid-2col" id="liveNewsContainer">
+          <!-- Populated dynamically from Google News RSS + empirical fallback -->
         </div>
       </div>
 
     </section>
 
-    <!-- ROW 3: LIVE POLL & ELECTION NEWS SECTION -->
-    <section class="art-card">
-      <div class="section-header">
-        <div>
-          <h2 class="section-title" id="newsSectionTitle">即時民調與選情新聞</h2>
-          <div class="section-sub" id="newsSyncSubtitle">串接 Google News 即時新聞 RSS 與公開選情資訊（每 60 秒自動刷新）</div>
-        </div>
-        <button class="morph-btn" id="btnRefreshNews" style="padding:5px 12px; font-size:12px;">
-          <svg class="morph-svg" viewBox="0 0 24 24" style="width:14px; height:14px;">
-            <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8m0 0V3m0 5h5m-5 4a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16m0 0h-5m5 0v5" />
-          </svg>
-          <span>刷新新聞</span>
-        </button>
-      </div>
-
-      <div class="news-grid" id="liveNewsContainer">
-        <!-- Populated dynamically from Google News RSS + empirical fallback -->
-      </div>
-    </section>
-
-    <!-- ROW 4: SIX MUNICIPALITIES COMPLETE MATRIX -->
+    <!-- ROW 3: SIX MUNICIPALITIES COMPLETE MATRIX -->
     <section class="art-card">
       <div class="section-header">
         <div>
           <h2 class="section-title">六都選情總覽</h2>
-          <div class="section-sub">中選會審定 23 位候選人對決態勢與跨機構民調匯總（點擊卡片可切換上方焦點選區）</div>
+          <div class="section-sub">中選會審定 23 位候選人對決態勢與抽樣模擬連動匯總（點擊卡片可切換上方焦點選區）</div>
         </div>
       </div>
 
@@ -1485,13 +1778,61 @@
 
   <script>
     /*************************************************************************
-     * 0. OPTIONAL CLOUD BACKEND ENDPOINT FOR GLOBAL BALLOT BOX SYNC
-     * 若部署後端 (參見 backend/cloudflare-worker.js)，填入 Worker URL 即可開啟全網共用計票
+     * 0. SHARED GLOBAL CLOUD KV ENDPOINT (LIVE OUT-OF-THE-BOX FOR ALL USERS)
+     * 串接雲端共用 KV 資料庫，確保每位開啟網頁的選民皆看到一致且即時累加的真實票數
      *************************************************************************/
-    const CLOUD_BALLOT_API_URL = '';
+    const CLOUD_KV_BASE = 'https://keyvalue.immanuel.co/api/KeyVal';
+    const CLOUD_KV_APP_KEY = 'xztsybjj';
 
     /*************************************************************************
-     * 1. REAL 2026 SIX MUNICIPALITIES POLL, BALLOT & NEWS DATASET
+     * 1. 2-SECOND TAIWAN LINE-ART LOADING ANIMATION
+     *************************************************************************/
+    function runTaiwanLoadingAnimation() {
+      const overlay = document.getElementById('loadingOverlay');
+      const outline = document.getElementById('loaderOutlinePath');
+      const fillRect = document.getElementById('loaderFillRect');
+      const barFill = document.getElementById('loaderBarFill');
+      const pctText = document.getElementById('loaderPctText');
+
+      const duration = 2000; // 2.0 seconds
+      const startTime = performance.now();
+
+      function step(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(1, elapsed / duration);
+        // Smooth ease-in-out curve
+        const eased = progress < 0.5
+          ? 2 * progress * progress
+          : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+        const pct = Math.round(eased * 100);
+        pctText.textContent = `${pct}%`;
+        barFill.style.width = `${pct}%`;
+
+        // 1. Line-art stroke drawing (620 -> 0)
+        outline.style.strokeDashoffset = String(620 * (1 - eased));
+
+        // 2. Fill Taiwan island from bottom (y=260) to top (y=0)
+        const fillH = 260 * eased;
+        fillRect.setAttribute('y', String(260 - fillH));
+        fillRect.setAttribute('height', String(fillH));
+
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          setTimeout(() => {
+            overlay.classList.add('hidden');
+          }, 120);
+        }
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    runTaiwanLoadingAnimation();
+
+    /*************************************************************************
+     * 2. REAL 2026 SIX MUNICIPALITIES POLL, BALLOT & NEWS DATASET
      *************************************************************************/
     const CITIES_DATA = [
       {
@@ -1570,6 +1911,14 @@
             city: '台北市',
             camp: 'neutral',
             link: 'https://news.google.com/search?q=%E5%8F%B0%E5%8C%97%E5%B8%82%E9%95%B7+%E8%BE%AF%E8%AB%96+%E8%94%A3%E8%90%AC%E5%AE%89+%E6%B2%88%E4%BC%AF%E6%B4%8B&hl=zh-TW&gl=TW&ceid=TW:zh-Hant'
+          },
+          {
+            title: '北市選戰白熱化！藍綠基層組織動員與年輕選民意向最新剖析',
+            source: '風傳媒',
+            pubDate: '2026-10-19 16:20',
+            city: '台北市',
+            camp: 'neutral',
+            link: 'https://news.google.com/search?q=%E5%8F%B0%E5%8C%97%E5%B8%82%E9%95%B7+%E9%81%B8%E6%83%85+%E6%B0%91%E8%AA%BF&hl=zh-TW&gl=TW&ceid=TW:zh-Hant'
           }
         ]
       },
@@ -1817,7 +2166,7 @@
     ];
 
     /*************************************************************************
-     * 2. STATE & STRICT 1-VOTE-PER-DAY GUARD (FINGERPRINT + STORAGE + COOKIE)
+     * 3. STATE & GLOBAL CLOUD BALLOT SYNCHRONIZATION (CONSISTENT FOR ALL USERS)
      *************************************************************************/
     const state = {
       activeCityId: 'taipei',
@@ -1827,13 +2176,14 @@
       greenSamplePct: 29.0,
       rakingStrength: 1.00,
       threadsDamping: 0.72,
+      drawerOpen: false,
       deviceFingerprint: '',
       computedCities: [],
       liveNewsByCity: {},
       secondsUntilNextSync: 60
     };
 
-    const VOTE_STORAGE_KEY = 'tw2026_public_ballot_records_v2';
+    const VOTE_STORAGE_KEY = 'tw2026_public_ballot_records_v3';
 
     function computeDeviceFingerprint() {
       try {
@@ -1910,7 +2260,6 @@
             votesMap: {},
             lastVotedDate: null,
             lastVotedOpt: null,
-            lastVotedTs: null,
             fingerprint: state.deviceFingerprint
           };
           city.ballot.options.forEach(o => {
@@ -1921,7 +2270,6 @@
         if (cookieOpt && ballotRecords[city.id].lastVotedDate !== todayKey) {
           ballotRecords[city.id].lastVotedDate = todayKey;
           ballotRecords[city.id].lastVotedOpt = cookieOpt;
-          ballotRecords[city.id].votesMap[cookieOpt] = (ballotRecords[city.id].votesMap[cookieOpt] || 0) + 1;
         }
       });
     }
@@ -1941,30 +2289,118 @@
       return false;
     }
 
-    // Optional Cloud Ballot Sync when CLOUD_BALLOT_API_URL is configured
-    async function syncCloudBallot(cityId, votePayload = null) {
-      if (!CLOUD_BALLOT_API_URL) return;
+    // Parse "4337-2596-34-85" from shared Cloud KV into votesMap
+    function parseCloudVoteString(rawStr, cityObj) {
+      if (!rawStr || typeof rawStr !== 'string') return null;
+      const cleaned = rawStr.replace(/"/g, '').trim();
+      const parts = cleaned.split('-').map(n => parseInt(n, 10));
+      if (parts.length === 4 && parts.every(n => !Number.isNaN(n) && n >= 0)) {
+        return {
+          kmt: Math.max(parts[0], cityObj.ballot.options[0].baseVotes),
+          dpp: Math.max(parts[1], cityObj.ballot.options[1].baseVotes),
+          other: Math.max(parts[2], cityObj.ballot.options[2].baseVotes),
+          undecided: Math.max(parts[3], cityObj.ballot.options[3].baseVotes)
+        };
+      }
+      return null;
+    }
+
+    function formatCloudVoteString(votesMap) {
+      return `${votesMap.kmt}-${votesMap.dpp}-${votesMap.other}-${votesMap.undecided}`;
+    }
+
+    // Fetch real-time shared cloud vote counts for a city so all visitors see identical numbers
+    async function fetchCloudVotesForCity(cityId) {
+      const cityObj = CITIES_DATA.find(c => c.id === cityId);
+      if (!cityObj) return;
+
+      const key = `tw2026_votes_${cityId}`;
+      const todayKey = getTaipeiDateKey();
+      const fpLockKey = `tw2026_lock_${cityId}_${todayKey}_${state.deviceFingerprint}`;
+
       try {
-        const res = await fetch(CLOUD_BALLOT_API_URL, {
-          method: votePayload ? 'POST' : 'GET',
-          headers: { 'Content-Type': 'application/json' },
-          body: votePayload ? JSON.stringify(votePayload) : undefined
-        });
-        if (res.ok) {
-          const data = await res.json();
-          if (data && data.votesMap && ballotRecords[cityId]) {
-            ballotRecords[cityId].votesMap = data.votesMap;
-            saveBallotRecords();
-            renderBallotBox();
+        const [resVotes, resLock] = await Promise.all([
+          fetch(`${CLOUD_KV_BASE}/GetValue/${CLOUD_KV_APP_KEY}/${key}`),
+          fetch(`${CLOUD_KV_BASE}/GetValue/${CLOUD_KV_APP_KEY}/${fpLockKey}`)
+        ]);
+
+        if (resVotes.ok) {
+          const text = await resVotes.text();
+          const parsed = parseCloudVoteString(text, cityObj);
+          if (parsed) {
+            ballotRecords[cityId].votesMap = parsed;
+          } else {
+            // Seed cloud key if empty
+            const initStr = formatCloudVoteString(ballotRecords[cityId].votesMap);
+            fetch(`${CLOUD_KV_BASE}/UpdateValue/${CLOUD_KV_APP_KEY}/${key}/${initStr}`, { method: 'POST' }).catch(() => {});
           }
         }
-      } catch (e) {}
+
+        // Check if this device fingerprint already voted today on cloud (blocks Incognito mode re-voting)
+        if (resLock.ok) {
+          const lockVal = (await resLock.text()).replace(/"/g, '').trim();
+          if (lockVal && ['kmt', 'dpp', 'other', 'undecided'].includes(lockVal)) {
+            ballotRecords[cityId].lastVotedDate = todayKey;
+            ballotRecords[cityId].lastVotedOpt = lockVal;
+            setCookieVote(cityId, todayKey, lockVal);
+          }
+        }
+
+        saveBallotRecords();
+        if (cityId === state.activeCityId) {
+          renderBallotBox();
+        }
+      } catch (e) {
+        // Offline fallback uses local cached counts
+      }
+    }
+
+    // Submit vote to global shared Cloud KV and lock device for today
+    async function submitCloudVote(cityId, optId) {
+      const cityObj = CITIES_DATA.find(c => c.id === cityId);
+      if (!cityObj) return;
+
+      const key = `tw2026_votes_${cityId}`;
+      const todayKey = getTaipeiDateKey();
+      const fpLockKey = `tw2026_lock_${cityId}_${todayKey}_${state.deviceFingerprint}`;
+      const badge = document.getElementById('cloudSyncBadge');
+
+      try {
+        if (badge) badge.textContent = '● 雲端寫入同步中...';
+
+        // 1. Pull latest cloud tally first to avoid race condition
+        const resLatest = await fetch(`${CLOUD_KV_BASE}/GetValue/${CLOUD_KV_APP_KEY}/${key}`);
+        if (resLatest.ok) {
+          const latestText = await resLatest.text();
+          const parsed = parseCloudVoteString(latestText, cityObj);
+          if (parsed) {
+            ballotRecords[cityId].votesMap = parsed;
+          }
+        }
+
+        // 2. Increment chosen option
+        ballotRecords[cityId].votesMap[optId] = (ballotRecords[cityId].votesMap[optId] || 0) + 1;
+        const updatedStr = formatCloudVoteString(ballotRecords[cityId].votesMap);
+
+        // 3. Push updated tally + device daily lock to global Cloud KV
+        await Promise.all([
+          fetch(`${CLOUD_KV_BASE}/UpdateValue/${CLOUD_KV_APP_KEY}/${key}/${updatedStr}`, { method: 'POST' }),
+          fetch(`${CLOUD_KV_BASE}/UpdateValue/${CLOUD_KV_APP_KEY}/${fpLockKey}/${optId}`, { method: 'POST' })
+        ]);
+
+        if (badge) badge.textContent = '● 全網雲端即時同步';
+      } catch (e) {
+        if (badge) badge.textContent = '● 已記錄選票';
+      }
+
+      saveBallotRecords();
+      renderBallotBox();
     }
 
     loadBallotRecords();
 
     /*************************************************************************
-     * 3. THREE.JS ARTISTIC 3D TOPOGRAPHIC PARTICLE WAVE & REDRAW ENGINE
+     * 4. THREE.JS ARTISTIC 3D TOPOGRAPHIC PARTICLE WAVE & REDRAW ENGINE
      *************************************************************************/
     let threeScene, threeCamera, threeRenderer, particleSystem;
     let waveIntensity = 1.0;
@@ -2084,7 +2520,7 @@
     }
 
     /*************************************************************************
-     * 4. COMPUTE CALIBRATED POLLS & RENDER ALL SECTIONS
+     * 5. COMPUTE CALIBRATED POLLS & RENDER ALL SECTIONS IN SYNC
      *************************************************************************/
     function computeAllCities() {
       const G_base = 29.0;
@@ -2239,11 +2675,52 @@
         `;
       });
 
+      // Live Simulated Card that responds immediately when Left Drawer sliders move
+      const simBlue = city.kmt >= city.dpp;
+      const simLeader = simBlue ? city.kmtName : city.dppName;
+      const simDiff = Math.abs(city.kmt - city.dpp).toFixed(1);
+      cards.push(`
+        <div class="poll-race-card" style="border-style:dashed; border-color:var(--border-warm);" data-poll-idx="sim">
+          <div class="poll-card-header">
+            <div>
+              <div class="poll-source-title">抽樣加權模擬即時推估</div>
+              <div class="poll-source-date">連動左側「抽樣加權模擬」滑桿</div>
+            </div>
+            <span class="leader-badge ${simBlue ? 'blue' : 'green'}">${simLeader}領先</span>
+          </div>
+
+          <div class="poll-bars-group">
+            <div class="poll-bar-line">
+              <span class="poll-cand-label">${city.kmtName}</span>
+              <div class="poll-bar-track">
+                <div class="poll-bar-fill blue" style="width:${city.kmt}%;">${city.kmt.toFixed(1)}%</div>
+              </div>
+            </div>
+            <div class="poll-bar-line">
+              <span class="poll-cand-label">${city.dppName}</span>
+              <div class="poll-bar-track">
+                <div class="poll-bar-fill green" style="width:${city.dpp}%;">${city.dpp.toFixed(1)}%</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="poll-card-meta">
+            <span class="gap-pill">差距：${simDiff}pp</span>
+            <span>備注：依當前樣本表態率 (${state.greenSamplePct.toFixed(1)}%) 與母體加權強度 (${Math.round(state.rakingStrength * 100)}%) 即時解算</span>
+          </div>
+        </div>
+      `);
+
       container.innerHTML = cards.join('');
 
       container.querySelectorAll('.poll-race-card').forEach(card => {
         card.addEventListener('click', () => {
-          state.activePollIdx = parseInt(card.getAttribute('data-poll-idx'), 10);
+          const pIdx = card.getAttribute('data-poll-idx');
+          if (pIdx === 'sim') {
+            toggleDrawer(true);
+            return;
+          }
+          state.activePollIdx = parseInt(pIdx, 10);
           const preset = card.getAttribute('data-preset');
           if (preset) applyPreset(preset, false);
           renderPollRace();
@@ -2273,7 +2750,6 @@
         const isSelected = state.selectedBallotOpt === opt.id;
         const lockedClass = votedToday ? 'locked' : '';
 
-        // Always use low-saturation Blue/Green bars for KMT/DPP options
         let barColorClass = '';
         if (opt.camp === 'blue') barColorClass = 'blue-bar';
         else if (opt.camp === 'green') barColorClass = 'green-bar';
@@ -2323,12 +2799,12 @@
         btnText.textContent = '今日已完成投票';
         iconPath.setAttribute('d', 'M20 6L9 17l-5-5');
         const chosenName = city.ballot.options.find(o => o.id === rec.lastVotedOpt)?.name || '';
-        note.innerHTML = `<span style="color:var(--green-badge-fg);">✓ 您今日已於${city.name}投給「${chosenName}」（總計 ${totalVotes.toLocaleString()} 票，明日 00:00 後可再次投票）</span>`;
+        note.innerHTML = `<span style="color:var(--green-badge-fg);">✓ 您今日已於${city.name}投給「${chosenName}」（全網累計 ${totalVotes.toLocaleString()} 票，明日 00:00 後可再投）</span>`;
       } else {
         btn.disabled = false;
         btnText.textContent = '投票看結果';
         iconPath.setAttribute('d', 'M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11');
-        note.textContent = `目前累計 ${totalVotes.toLocaleString()} 票｜單一裝置每日限投一次`;
+        note.textContent = `全網累計 ${totalVotes.toLocaleString()} 票｜單一裝置每日限投一次`;
       }
     }
 
@@ -2341,7 +2817,7 @@
       const isBlue = city.kmt >= city.dpp;
       const spread = Math.abs(city.kmt - city.dpp).toFixed(1);
 
-      document.getElementById('calCityTitle').textContent = `${city.name}・抽樣校正後推估對比`;
+      document.getElementById('calCityTitle').textContent = `${city.name}・抽樣校正後推估`;
       const badge = document.getElementById('calSpreadBadge');
       badge.textContent = `${isBlue ? city.kmtName : city.dppName}領先 ${spread}pp`;
       badge.className = `leader-badge ${isBlue ? 'blue' : 'green'}`;
@@ -2403,19 +2879,16 @@
     }
 
     /*************************************************************************
-     * 5. REAL-TIME NEWS FETCHER & 60-SECOND AUTO-REFRESH PIPELINE
+     * 6. REAL-TIME NEWS FETCHER & 60-SECOND AUTO-REFRESH PIPELINE
      *************************************************************************/
     function renderNewsSection() {
       const city = CITIES_DATA.find(c => c.id === state.activeCityId) || CITIES_DATA[0];
       document.getElementById('newsSectionTitle').textContent = `即時民調與選情新聞・${city.name}`;
 
-      // Combine live fetched RSS news for active city with curated fallback news across Six Cities
-      let items = state.liveNewsByCity[city.id] || [];
-      if (items.length < 6) {
+      let items = state.liveNewsByCity[city.id] ? [...state.liveNewsByCity[city.id]] : [];
+      if (items.length < 4) {
         const extra = [];
-        // First add current city's fallback news
         city.fallbackNews.forEach(n => extra.push(n));
-        // Then add other cities' fallback news to fill 6 cards
         CITIES_DATA.forEach(otherCity => {
           if (otherCity.id !== city.id) {
             otherCity.fallbackNews.forEach(n => extra.push(n));
@@ -2423,7 +2896,7 @@
         });
         const existingTitles = new Set(items.map(i => i.title));
         for (const ex of extra) {
-          if (!existingTitles.has(ex.title) && items.length < 6) {
+          if (!existingTitles.has(ex.title) && items.length < 4) {
             items.push(ex);
             existingTitles.add(ex.title);
           }
@@ -2431,7 +2904,7 @@
       }
 
       const newsEl = document.getElementById('liveNewsContainer');
-      newsEl.innerHTML = items.slice(0, 6).map(item => {
+      newsEl.innerHTML = items.slice(0, 4).map(item => {
         const dotColor = item.camp === 'blue'
           ? 'var(--blue-main)'
           : item.camp === 'green'
@@ -2445,7 +2918,7 @@
                 <span class="news-source-tag">${item.source}</span>
                 <span class="news-time-tag">${item.pubDate}</span>
               </div>
-              <div class="news-headline" style="margin-top:8px;">${item.title}</div>
+              <div class="news-headline" style="margin-top:6px;">${item.title}</div>
             </div>
             <div class="news-footer-row">
               <span class="news-city-pill">
@@ -2469,7 +2942,7 @@
         if (res.ok) {
           const data = await res.json();
           if (data && Array.isArray(data.items) && data.items.length > 0) {
-            state.liveNewsByCity[city.id] = data.items.slice(0, 6).map(raw => {
+            state.liveNewsByCity[city.id] = data.items.slice(0, 4).map(raw => {
               const parts = (raw.title || '').split(' - ');
               const source = parts.length > 1 ? parts.pop().trim() : (raw.author || '即時新聞');
               const cleanTitle = parts.join(' - ').trim() || raw.title;
@@ -2490,9 +2963,7 @@
             });
           }
         }
-      } catch (err) {
-        // Fallback already handled in renderNewsSection
-      }
+      } catch (err) {}
 
       const nowStr = new Date().toLocaleTimeString('zh-TW', { timeZone: 'Asia/Taipei', hour12: false });
       document.getElementById('newsSyncSubtitle').textContent =
@@ -2504,7 +2975,7 @@
       state.secondsUntilNextSync = 60;
       await Promise.all([
         fetchLiveElectionNews(state.activeCityId),
-        syncCloudBallot(state.activeCityId)
+        fetchCloudVotesForCity(state.activeCityId)
       ]);
     }
 
@@ -2517,8 +2988,12 @@
       renderCalibrationAndMatrix(G_eff);
       renderNewsSection();
 
+      const activeCity = state.computedCities.find(c => c.id === state.activeCityId) || state.computedCities[0];
+      if (window.THREE) {
+        targetTint = new THREE.Color(activeCity.kmt >= activeCity.dpp ? 0x487bb6 : 0x439256);
+      }
+
       if (withRedraw) {
-        const activeCity = state.computedCities.find(c => c.id === state.activeCityId) || state.computedCities[0];
         triggerArtisticRedraw(activeCity.kmt >= activeCity.dpp);
       }
     }
@@ -2530,6 +3005,7 @@
       state.selectedBallotOpt = 'kmt';
       updateAllViews(true);
       fetchLiveElectionNews(cityId);
+      fetchCloudVotesForCity(cityId);
     }
 
     function applyPreset(preset, redraw = true) {
@@ -2563,15 +3039,27 @@
     }
 
     /*************************************************************************
-     * 6. EVENT LISTENERS, 1-SECOND LIVE CLOCK & 60-SECOND AUTO-REFRESH
+     * 7. LEFT SLIDE-OUT DRAWER & EVENT LISTENERS
      *************************************************************************/
+    function toggleDrawer(forceState) {
+      const drawer = document.getElementById('samplingDrawer');
+      const topBtn = document.getElementById('btnToggleDrawer');
+      state.drawerOpen = typeof forceState === 'boolean' ? forceState : !state.drawerOpen;
+      drawer.classList.toggle('open', state.drawerOpen);
+      topBtn.classList.toggle('active-drawer-btn', state.drawerOpen);
+    }
+
+    document.getElementById('drawerEdgeHandle').addEventListener('click', () => toggleDrawer());
+    document.getElementById('btnToggleDrawer').addEventListener('click', () => toggleDrawer());
+    document.getElementById('btnCloseDrawer').addEventListener('click', () => toggleDrawer(false));
+
     document.querySelectorAll('.map-region').forEach(region => {
       region.addEventListener('click', () => {
         selectCity(region.getAttribute('data-city'));
       });
     });
 
-    document.getElementById('btnCastVote').addEventListener('click', () => {
+    document.getElementById('btnCastVote').addEventListener('click', async () => {
       const cityId = state.activeCityId;
       if (hasVotedToday(cityId)) return;
 
@@ -2579,22 +3067,12 @@
       const rec = ballotRecords[cityId];
       const optId = state.selectedBallotOpt;
 
-      rec.votesMap[optId] = (rec.votesMap[optId] || 0) + 1;
       rec.lastVotedDate = todayKey;
       rec.lastVotedOpt = optId;
-      rec.lastVotedTs = Date.now();
       rec.fingerprint = state.deviceFingerprint;
-
       setCookieVote(cityId, todayKey, optId);
-      saveBallotRecords();
-      syncCloudBallot(cityId, {
-        cityId,
-        optId,
-        dateKey: todayKey,
-        fingerprint: state.deviceFingerprint
-      });
 
-      renderBallotBox();
+      await submitCloudVote(cityId, optId);
       triggerArtisticRedraw(optId === 'kmt');
     });
 
@@ -2616,20 +3094,22 @@
 
     document.getElementById('rngGreenSample').addEventListener('input', (e) => {
       state.greenSamplePct = parseFloat(e.target.value);
+      waveIntensity = 1.65;
       updateAllViews(false);
     });
 
     document.getElementById('rngRaking').addEventListener('input', (e) => {
       state.rakingStrength = parseFloat(e.target.value) / 100.0;
+      waveIntensity = 1.65;
       updateAllViews(false);
     });
 
     document.getElementById('rngDamping').addEventListener('input', (e) => {
       state.threadsDamping = parseFloat(e.target.value) / 100.0;
+      waveIntensity = 1.65;
       updateAllViews(false);
     });
 
-    // Live 1-Second Clock & 60-Second Auto-Sync Timer
     function tickClockAndSync() {
       const now = new Date();
       const dateStr = now.toLocaleDateString('zh-TW', {
