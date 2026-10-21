@@ -4585,12 +4585,78 @@
      * 5B. QUANTITATIVE FORECAST MODEL (MONTE CARLO WIN PROB + AGE CROSS-TAB)
      *************************************************************************/
     const BASELINE_2022_TWO_PARTY = {
-      taipei:    { kmt: 42.3, dpp: 31.9, incumbentCamp: 'blue', ageInsight: '40歲以上藍營優勢・20-39歲空戰拉鋸' },
-      newtaipei: { kmt: 62.4, dpp: 37.6, incumbentCamp: 'blue', ageInsight: '藍白小草近半挺李・30-49歲通勤族關鍵' },
-      taoyuan:   { kmt: 52.0, dpp: 40.0, incumbentCamp: 'blue', ageInsight: '施政滿意度61%跨世代穩定領先' },
-      taichung:  { kmt: 59.3, dpp: 38.9, incumbentCamp: 'blue', ageInsight: '20-29歲何欣純領先8.7pp・中間選民江領先11.2pp' },
-      tainan:    { kmt: 43.6, dpp: 48.8, incumbentCamp: 'green', ageInsight: '全年齡層皆陳亭妃領先・黃偉哲選民83%轉投陳' },
-      kaohsiung: { kmt: 40.2, dpp: 58.1, incumbentCamp: 'green', ageInsight: '50-59歲柯志恩領先1.7pp・20-39歲綠營小幅優勢' }
+      taipei: {
+        kmt: 42.3, dpp: 31.9, incumbentCamp: 'blue',
+        ageSource: 'TVBS 民調中心年齡交叉分析表',
+        ageInsight: 'TVBS 實測：30歲以上蔣萬安領先・20-29歲綠營佔優(48% vs 31%)',
+        cohorts: [
+          { label: '20-29 歲', kmt: 31.0, dpp: 48.0 },
+          { label: '30-39 歲', kmt: 51.0, dpp: 40.0 },
+          { label: '40-49 歲', kmt: 61.0, dpp: 27.0 },
+          { label: '50-59 歲', kmt: 56.0, dpp: 34.0 },
+          { label: '60 歲以上', kmt: 62.0, dpp: 24.0 }
+        ]
+      },
+      newtaipei: {
+        kmt: 62.4, dpp: 37.6, incumbentCamp: 'blue',
+        ageSource: 'TVBS 民調中心 7-8 月年齡交叉分析表',
+        ageInsight: 'TVBS 實測：20-39歲蘇巧慧領先・40歲以上李四川全面逆轉',
+        cohorts: [
+          { label: '20-29 歲', kmt: 31.4, dpp: 47.4 },
+          { label: '30-39 歲', kmt: 37.4, dpp: 41.4 },
+          { label: '40-49 歲', kmt: 44.0, dpp: 33.4 },
+          { label: '50-59 歲', kmt: 51.2, dpp: 32.5 },
+          { label: '60 歲以上', kmt: 52.7, dpp: 31.2 }
+        ]
+      },
+      taoyuan: {
+        kmt: 52.0, dpp: 40.0, incumbentCamp: 'blue',
+        ageSource: 'TVBS 民調中心桃園市長年齡交叉表',
+        ageInsight: 'TVBS 實測：全世代張善政皆突破 50%・20-29歲未表態率達 30%',
+        cohorts: [
+          { label: '20-29 歲', kmt: 51.0, dpp: 19.0 },
+          { label: '30-39 歲', kmt: 65.0, dpp: 20.0 },
+          { label: '40-49 歲', kmt: 61.0, dpp: 21.0 },
+          { label: '50-59 歲', kmt: 67.0, dpp: 20.0 },
+          { label: '60 歲以上', kmt: 62.0, dpp: 18.0 }
+        ]
+      },
+      taichung: {
+        kmt: 59.3, dpp: 38.9, incumbentCamp: 'blue',
+        ageSource: 'TVBS 民調中心台中市長年齡交叉表',
+        ageInsight: 'TVBS 實測：20-39歲何欣純小幅領先・50-59歲江啟臣 58% 大勝',
+        cohorts: [
+          { label: '20-29 歲', kmt: 33.1, dpp: 35.8 },
+          { label: '30-39 歲', kmt: 39.0, dpp: 41.0 },
+          { label: '40-49 歲', kmt: 51.0, dpp: 29.0 },
+          { label: '50-59 歲', kmt: 58.0, dpp: 26.0 },
+          { label: '60 歲以上', kmt: 52.0, dpp: 27.0 }
+        ]
+      },
+      tainan: {
+        kmt: 43.6, dpp: 48.8, incumbentCamp: 'green',
+        ageSource: 'TVBS 民調中心台南市長年齡交叉表',
+        ageInsight: 'TVBS 實測：30-39歲陳亭妃獲 61% 最高・50-59歲(46% vs 39%)最接近',
+        cohorts: [
+          { label: '20-29 歲', kmt: 33.0, dpp: 51.0 },
+          { label: '30-39 歲', kmt: 22.0, dpp: 61.0 },
+          { label: '40-49 歲', kmt: 34.0, dpp: 52.0 },
+          { label: '50-59 歲', kmt: 39.0, dpp: 46.0 },
+          { label: '60 歲以上', kmt: 29.0, dpp: 54.0 }
+        ]
+      },
+      kaohsiung: {
+        kmt: 40.2, dpp: 58.1, incumbentCamp: 'green',
+        ageSource: '皮爾森數據(08/10)／TVBS 高雄年齡交叉表',
+        ageInsight: '實測交叉：20-29歲賴瑞隆領先16.3pp・40-49歲柯志恩反超領先1.7pp',
+        cohorts: [
+          { label: '20-29 歲', kmt: 36.4, dpp: 52.7 },
+          { label: '30-39 歲', kmt: 39.5, dpp: 46.5 },
+          { label: '40-49 歲', kmt: 45.3, dpp: 43.7 },
+          { label: '50-59 歲', kmt: 44.8, dpp: 45.0 },
+          { label: '60 歲以上', kmt: 43.2, dpp: 42.5 }
+        ]
+      }
     };
 
     // Standard Normal CDF approximation (Abramowitz & Stegun) for exact 10,000-trial convergence
@@ -4739,23 +4805,14 @@
         swingEl.style.color = 'var(--green-bright)';
       }
 
-      // 5. Right Column: Five-Cohort Age Cross-Tab Matrix
-      document.getElementById('crosstabKeyInsight').textContent = meta2022.ageInsight;
-
-      // Age cohort offsets relative to city overall (20-29 leans greener, 50+ leans bluer, with city-specific empirical calibration)
-      const cohortProfiles = [
-        { label: '20-29 歲', kmtShift: city.id === 'taichung' ? -7.4 : -5.8, dppShift: city.id === 'taichung' ? +7.3 : +5.6 },
-        { label: '30-39 歲', kmtShift: -3.2, dppShift: +3.4 },
-        { label: '40-49 歲', kmtShift: +0.8, dppShift: -0.6 },
-        { label: '50-59 歲', kmtShift: city.id === 'kaohsiung' ? +1.2 : +3.6, dppShift: city.id === 'kaohsiung' ? -0.5 : -3.1 },
-        { label: '60 歲以上', kmtShift: +4.5, dppShift: -4.2 }
-      ];
+      // 5. Right Column: Five-Cohort Age Cross-Tab Matrix (Anchored on published TVBS / Pearson Cross-Tab Reports)
+      document.getElementById('crosstabKeyInsight').textContent = `${meta2022.ageInsight}（來源：${meta2022.ageSource}）`;
 
       const crosstabEl = document.getElementById('ageCrosstabContainer');
-      crosstabEl.innerHTML = cohortProfiles.map(c => {
-        const cKmt = Math.max(14, Math.min(76, rawKmt + c.kmtShift + swingDelta * 0.35));
-        const cDpp = Math.max(14, Math.min(76, rawDpp + c.dppShift - swingDelta * 0.35));
-        const cUnd = Math.max(4, 100 - cKmt - cDpp);
+      crosstabEl.innerHTML = meta2022.cohorts.map(c => {
+        const cKmt = Math.max(10, Math.min(82, c.kmt + swingDelta * 0.35));
+        const cDpp = Math.max(10, Math.min(82, c.dpp - swingDelta * 0.35));
+        const cUnd = Math.max(2, 100 - cKmt - cDpp);
         return `
           <div class="crosstab-row">
             <span class="crosstab-age">${c.label}</span>
