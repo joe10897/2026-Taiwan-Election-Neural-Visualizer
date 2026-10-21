@@ -2089,6 +2089,269 @@
       border: 1px solid var(--border-subtle);
     }
 
+    /* Phase 2 Sub-District Bellwether & Turnout Differential Cards */
+    .bellwether-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .bellwether-item {
+      background: rgba(0, 0, 0, 0.28);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 9px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .bellwether-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--fg-primary);
+    }
+
+    .bellwether-desc {
+      font-size: 11.5px;
+      color: var(--fg-secondary);
+      line-height: 1.5;
+    }
+
+    /* ==================== FLOATING TAIWAN.MD AI BOT WIDGET ==================== */
+    .ai-bot-fab {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 620;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 11px 16px;
+      border-radius: 999px;
+      background: rgba(18, 21, 29, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border-warm);
+      color: var(--fg-primary);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 12px 34px rgba(0, 0, 0, 0.68), 0 0 20px rgba(194, 116, 93, 0.24);
+      transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .ai-bot-fab:hover {
+      transform: translateY(-2px);
+      border-color: #e4957c;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.78), 0 0 26px rgba(194, 116, 93, 0.38);
+    }
+
+    .ai-bot-pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #52c478;
+      box-shadow: 0 0 8px #52c478;
+      animation: pulseGlow 2s infinite;
+    }
+
+    .ai-bot-panel {
+      position: fixed;
+      right: 22px;
+      bottom: 76px;
+      width: 390px;
+      max-width: calc(100vw - 28px);
+      height: 545px;
+      max-height: calc(100vh - 110px);
+      z-index: 630;
+      background: rgba(15, 18, 25, 0.97);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border: 1px solid var(--border-warm);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.82);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(14px) scale(0.97);
+      transition: opacity 0.24s ease, transform 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .ai-bot-panel.open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+    }
+
+    .ai-bot-header {
+      padding: 13px 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ai-bot-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .ai-bot-title {
+      font-family: var(--font-serif);
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--fg-primary);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .ai-bot-sub {
+      font-size: 11px;
+      color: var(--fg-muted);
+      font-family: var(--font-mono);
+    }
+
+    .ai-bot-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+    }
+
+    .ai-msg {
+      max-width: 92%;
+      padding: 10px 13px;
+      border-radius: 12px;
+      font-size: 12.8px;
+      line-height: 1.62;
+      word-break: break-word;
+    }
+
+    .ai-msg-bot {
+      align-self: flex-start;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--fg-primary);
+      border-top-left-radius: 4px;
+    }
+
+    .ai-msg-user {
+      align-self: flex-end;
+      background: rgba(194, 116, 93, 0.22);
+      border: 1px solid var(--border-warm);
+      color: var(--fg-primary);
+      border-top-right-radius: 4px;
+    }
+
+    .ai-cite-box {
+      margin-top: 8px;
+      padding: 7px 10px;
+      background: rgba(0, 0, 0, 0.35);
+      border-left: 2px solid var(--terracotta);
+      border-radius: 4px;
+      font-size: 11.5px;
+      color: var(--fg-secondary);
+    }
+
+    .ai-cite-box a {
+      color: #f2b8a2;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .ai-cite-box a:hover {
+      text-decoration: underline;
+    }
+
+    .ai-bot-chips {
+      padding: 8px 12px;
+      border-top: 1px solid var(--border-subtle);
+      background: rgba(0, 0, 0, 0.25);
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .ai-bot-chips::-webkit-scrollbar {
+      display: none;
+    }
+
+    .ai-chip-btn {
+      flex-shrink: 0;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--fg-secondary);
+      font-family: var(--font-sans);
+      font-size: 11.5px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .ai-chip-btn:hover {
+      border-color: var(--terracotta);
+      color: var(--fg-primary);
+      background: var(--terracotta-soft);
+    }
+
+    .ai-bot-input-row {
+      padding: 10px 12px;
+      border-top: 1px solid var(--border-subtle);
+      background: rgba(10, 12, 16, 0.9);
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .ai-bot-input {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 8px 11px;
+      color: var(--fg-primary);
+      font-family: var(--font-sans);
+      font-size: 12.5px;
+      outline: none;
+    }
+
+    .ai-bot-input:focus {
+      border-color: var(--terracotta);
+    }
+
+    .ai-bot-send-btn {
+      padding: 8px 13px;
+      border-radius: 8px;
+      background: var(--terracotta);
+      border: none;
+      color: #ffffff;
+      font-family: var(--font-sans);
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.18s ease;
+    }
+
+    .ai-bot-send-btn:hover {
+      opacity: 0.9;
+    }
+
     /* Responsive Breakpoints (Tablet & Mobile) */
     @media (max-width: 1120px) {
       .row-grid-2,
@@ -2647,6 +2910,64 @@
           </div>
         </div>
       </div>
+
+      <!-- PHASE 2 ADVANCED RESEARCH: TURNOUT DIFFERENTIAL + KALMAN/MRP + SUB-DISTRICT BELLWETHER -->
+      <div class="quant-grid-2" style="margin-top:16px;">
+        <!-- LEFT PHASE 2: GENERATIONAL TURNOUT DIFFERENTIAL & KALMAN / MRP SHRINKAGE -->
+        <div class="quant-subcard">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
+              <span style="font-weight:700; font-size:14px; color:var(--fg-primary);">進階研究 I：世代投票率不對稱模型 ＆ Kalman/MRP 貝氏收斂</span>
+              <span class="method-pill" style="color:#f2b8a2; border-color:var(--border-warm);">支持度 ≠ 實質得票率</span>
+            </div>
+            <div style="font-size:12px; color:var(--fg-secondary); line-height:1.55; margin-bottom:10px;">
+              中選會實證顯示：<strong>60 歲以上熟齡投票率長期達 74%～78%</strong>，而 <strong>20–39 歲青年投票率平均僅 54%～58%</strong>（受外地就學租屋返鄉成本影響）。下方滑桿可模擬青年返鄉動員率如何改變實質開票結構：
+            </div>
+
+            <div style="background:rgba(0,0,0,0.32); border:1px solid var(--border-subtle); border-radius:var(--radius-sm); padding:12px 14px;">
+              <div class="slider-head" style="margin-bottom:5px;">
+                <span>20–39 歲青年返鄉投票率（對比熟齡常態 75%）</span>
+                <strong id="lblYouthTurnout" style="color:var(--green-bright);">56%（歷史常態基準）</strong>
+              </div>
+              <input type="range" id="rngYouthTurnout" min="42" max="78" step="1" value="56" />
+              <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--fg-muted); margin-top:5px;">
+                <span>42% 冷選情／降雨低動員</span>
+                <span>56% 歷屆均值</span>
+                <span>78% 高返鄉動員</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="quant-metrics-grid">
+            <div class="quant-metric-box">
+              <div class="quant-metric-label">投票率加權實質得票</div>
+              <div class="quant-metric-val" id="turnoutAdjustedShare">-- vs --</div>
+            </div>
+            <div class="quant-metric-box">
+              <div class="quant-metric-label">世代投票率落差效應</div>
+              <div class="quant-metric-val" id="turnoutDiffImpact">--</div>
+            </div>
+            <div class="quant-metric-box">
+              <div class="quant-metric-label">Kalman + MRP 貝氏收縮</div>
+              <div class="quant-metric-val" id="kalmanMrpEstimate" style="font-size:11.5px;">--</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT PHASE 2: SUB-DISTRICT SPATIAL ECONOMETRICS & BELLWETHER VILLAGES -->
+        <div class="quant-subcard">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+              <span style="font-weight:700; font-size:14px; color:var(--fg-primary);">進階研究 II：關鍵搖擺行政區 ＆「章魚哥里」微觀空間指標</span>
+              <span class="method-pill" id="bellwetherCityBadge">空間自相關與重劃區移入效應</span>
+            </div>
+
+            <div class="bellwether-list" id="bellwetherSubdistrictContainer">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- ROW 3: CANDIDATE POLICY & EXPERIENCE COMPARISON -->
@@ -2864,6 +3185,19 @@
             本站「民意調查箱」採用<strong>「公開民調基準樣本基底 ＋ 本站全網即時選票累加」</strong>雙軌透明呈現，清楚標註 <a href="https://udn.com/vote2026/pollboard?city=Taipei" target="_blank" rel="noopener noreferrer" style="color:var(--terracotta);">UDN 民調儀表板</a> 基底票數與本站訪客實際投下之新增選票。所有投票均透過雲端 KV 資料庫（Cloudflare KV <code>ELECTION_BALLOT_KV</code>）全網同步，並結合瀏覽器 Canvas 硬體指紋、時區特徵與單日 Cookie 鎖定，嚴格執行<strong>「每台裝置每日每選區限投一次」</strong>。
           </div>
         </details>
+
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span>Q8. 進階研究中的「世代投票率不對稱模型」、「Kalman 時間序列衰減 ＋ MRP 階層貝氏收縮」與「Taiwan.md 選民 AI 助手」如何運作？</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9" /></svg>
+          </summary>
+          <div class="faq-answer">
+            ・<strong>① 世代投票率不對稱模型（Turnout Differential Model）</strong>：結合內政部各都五世代選民母體佔比 <code>P_g</code>、TVBS／皮爾森年齡交叉支持度 <code>(K_g, D_g)</code> 與世代預期投票率 <code>T_g</code>（熟齡 60+ 常態 <code>76%</code> vs 青年 20-39 歲可調動員率 <code>42%～78%</code>），計算實質有效得票 <code>V_blue = Σ(P_g × T_g × K_g) / Σ(P_g × T_g × (K_g + D_g))</code>，並將相對於歷史均值（56%）之淨位移直接耦合至蒙地卡羅勝率引擎。
+            <br />・<strong>② Kalman 時間衰減濾波 ＋ MRP 階層貝氏事後分層收縮</strong>：對各波民調依時間新舊賦予指數衰減權重 <code>w_i = exp(-0.24 × i)</code>，再以貝氏收縮係數 <code>λ = 0.72</code> 將觀測差距向人口事後分層先驗差距（MRP Prior）收斂：<code>Spread_MRP = 0.72 × Spread_Kalman + 0.28 × Spread_Prior</code>，有效抑制單次極端抽樣雜訊。
+            <br />・<strong>③ 關鍵搖擺行政區與「章魚哥里」空間指標</strong>：收錄台北士林天玉里（2022 誤差 ±0.5pp）、新北中和秀明里／板橋江翠、桃園中壢青埔、台中西屯惠來里／北屯、台南永康／東區、高雄鳳山／左營楠梓等歷屆開票指標與近四年人口淨遷入率。
+            <br />・<strong>④ 懸浮 Taiwan.md 選民 AI 助手</strong>：透過右下角懸浮對話視窗即時串接 <a href="https://taiwan.md/" target="_blank" rel="noopener noreferrer" style="color:var(--terracotta);">Taiwan.md 開源台灣知識庫 API</a>（<code>/api/articles.json</code> 與 GitHub <code>knowledge/Politics/</code> 原始 Markdown），結合本站即時六都計量數據解答選民疑問並附上可驗證之 SSOT 引用連結。
+          </div>
+        </details>
       </div>
     </section>
 
@@ -2938,6 +3272,58 @@
         </a>
       </div>
     </div>
+  </div>
+
+  <!-- ==================== FLOATING TAIWAN.MD × 2026 ELECTION AI BOT WIDGET ==================== -->
+  <div id="taiwanMdBotWidget">
+    <button class="ai-bot-fab" id="btnToggleAiBot" aria-label="開啟 Taiwan.md 選民 AI 助手">
+      <span class="ai-bot-pulse"></span>
+      <svg class="morph-svg" viewBox="0 0 24 24" style="width:16px; height:16px; stroke:#f2b8a2;">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+      </svg>
+      <span>Taiwan.md 選民 AI 助手</span>
+    </button>
+
+    <aside class="ai-bot-panel" id="aiBotPanel" role="dialog" aria-label="Taiwan.md 選民 AI 助手對話視窗">
+      <div class="ai-bot-header">
+        <div class="ai-bot-title-group">
+          <div class="ai-bot-title">
+            <span class="ai-bot-pulse"></span>
+            <span>Taiwan.md × 選情 AI 助手</span>
+          </div>
+          <div class="ai-bot-sub" id="aiBotStatusText">已連線 Taiwan.md 知識庫 API (1,146+ 篇 SSOT)</div>
+        </div>
+        <button class="drawer-close-btn" id="btnCloseAiBot" aria-label="關閉 AI 助手">
+          <svg class="morph-svg" viewBox="0 0 24 24" style="width:14px; height:14px;">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="ai-bot-messages" id="aiBotMessages">
+        <div class="ai-msg ai-msg-bot">
+          您好！我是串接 <a href="https://taiwan.md/" target="_blank" rel="noopener noreferrer" style="color:#f2b8a2; font-weight:700;">Taiwan.md 開源台灣知識庫</a> 與本站 <strong>2026 六都計量引擎</strong> 的選民 AI 助手。<br /><br />
+          您可以直接問我任何問題，例如：<br />
+          ・<strong>各都選情與勝率</strong>（如：「台北目前誰領先？」「高雄或台中勝率多少？」）<br />
+          ・<strong>民調演算法科普</strong>（如：「為什麼民調差 25%？」「什麼是 Raking 或章魚哥里？」）<br />
+          ・<strong>Taiwan.md 民主專題</strong>（如：「2026 九合一選什麼？」「不在籍投票」「AI 認知作戰」「11/28 投票帶什麼？」）
+        </div>
+      </div>
+
+      <div class="ai-bot-chips" id="aiBotQuickChips">
+        <button class="ai-chip-btn" data-q="當前選區最新勝率與章魚哥里分析">📊 當前選區勝率與章魚哥里</button>
+        <button class="ai-chip-btn" data-q="2026 九合一選舉選什麼？有哪些制度新變數？">🗳️ 2026 九合一選什麼 (Taiwan.md)</button>
+        <button class="ai-chip-btn" data-q="為什麼不同民調機構差距高達 25%？什麼是 Raking？">📐 民調差距 25% 與 Raking 原理</button>
+        <button class="ai-chip-btn" data-q="2026 選舉的 AI 認知作戰與假訊息如何防範？">🛡️ AI 認知作戰防範 (Taiwan.md)</button>
+        <button class="ai-chip-btn" data-q="台灣不在籍投票與返鄉投票率對選情有何影響？">🚄 不在籍投票與青年返鄉率</button>
+        <button class="ai-chip-btn" data-q="11/28 投票要帶什麼？11/18 民調封關規定是什麼？">🪪 11/28 投票三寶與封關法規</button>
+      </div>
+
+      <form class="ai-bot-input-row" id="aiBotForm">
+        <input type="text" class="ai-bot-input" id="aiBotInput" placeholder="輸入問題（將即時檢索 Taiwan.md 與六都數據）..." autocomplete="off" />
+        <button type="submit" class="ai-bot-send-btn" id="btnSendAiMsg">提問</button>
+      </form>
+    </aside>
   </div>
 
   <script>
@@ -3813,6 +4199,10 @@
       threadsDamping: 0.72,
       undecidedModel: 'proportional',
       swingTransferBluePct: 55,
+      youthTurnoutPct: 56,
+      aiBotOpen: false,
+      taiwanMdArticles: [],
+      taiwanMdMarkdownCache: {},
       drawerOpen: false,
       deviceFingerprint: '',
       computedCities: [],
@@ -4639,11 +5029,28 @@
         ageSource: 'TVBS 民調中心年齡交叉分析表',
         ageInsight: 'TVBS 實測：30歲以上蔣萬安領先・20-29歲綠營佔優(48% vs 31%)',
         cohorts: [
-          { label: '20-29 歲', kmt: 31.0, dpp: 48.0 },
-          { label: '30-39 歲', kmt: 51.0, dpp: 40.0 },
-          { label: '40-49 歲', kmt: 61.0, dpp: 27.0 },
-          { label: '50-59 歲', kmt: 56.0, dpp: 34.0 },
-          { label: '60 歲以上', kmt: 62.0, dpp: 24.0 }
+          { label: '20-29 歲', kmt: 31.0, dpp: 48.0, popShare: 0.13 },
+          { label: '30-39 歲', kmt: 51.0, dpp: 40.0, popShare: 0.16 },
+          { label: '40-49 歲', kmt: 61.0, dpp: 27.0, popShare: 0.20 },
+          { label: '50-59 歲', kmt: 56.0, dpp: 34.0, popShare: 0.18 },
+          { label: '60 歲以上', kmt: 62.0, dpp: 24.0, popShare: 0.33 }
+        ],
+        bellwethers: [
+          {
+            name: '士林區・天玉里（全台經典章魚哥里）',
+            tag: '2022 誤差 ±0.5pp',
+            desc: '人口年齡與藍綠結構高度貼合北市母體；2022 蔣萬安於天玉里獲 41.8%（全市 42.3%），為開票夜首要觀測指標。'
+          },
+          {
+            name: '內湖區・東湖／內科生活圈（搖擺關鍵區）',
+            tag: '青壯科技族 +3.8%',
+            desc: '30-49 歲雙薪科技家庭密集，對交通（內科聯外捷運）與社宅議題高度敏感，白營選票流向左右勝負。'
+          },
+          {
+            name: '大安／文山區 vs 大同／萬華區（基本盤極化帶）',
+            tag: '世代投票率決戰',
+            desc: '南區軍公教熟齡選民投票率穩定破 74%；綠營若欲縮小差距，西區與北投青年返鄉投票率需突破 66%。'
+          }
         ]
       },
       newtaipei: {
@@ -4651,11 +5058,28 @@
         ageSource: 'TVBS 民調中心 7-8 月年齡交叉分析表',
         ageInsight: 'TVBS 實測：20-39歲蘇巧慧領先・40歲以上李四川全面逆轉',
         cohorts: [
-          { label: '20-29 歲', kmt: 31.4, dpp: 47.4 },
-          { label: '30-39 歲', kmt: 37.4, dpp: 41.4 },
-          { label: '40-49 歲', kmt: 44.0, dpp: 33.4 },
-          { label: '50-59 歲', kmt: 51.2, dpp: 32.5 },
-          { label: '60 歲以上', kmt: 52.7, dpp: 31.2 }
+          { label: '20-29 歲', kmt: 31.4, dpp: 47.4, popShare: 0.14 },
+          { label: '30-39 歲', kmt: 37.4, dpp: 41.4, popShare: 0.17 },
+          { label: '40-49 歲', kmt: 44.0, dpp: 33.4, popShare: 0.21 },
+          { label: '50-59 歲', kmt: 51.2, dpp: 32.5, popShare: 0.19 },
+          { label: '60 歲以上', kmt: 52.7, dpp: 31.2, popShare: 0.29 }
+        ],
+        bellwethers: [
+          {
+            name: '板橋區・江翠／新埔重劃帶（新北第一大票倉）',
+            tag: '55 萬人五五波',
+            desc: '新北市人口最多行政區，藍綠基本盤幾乎 1:1；江翠北側重劃區年輕移入家庭為蘇巧慧與李四川交鋒核心。'
+          },
+          {
+            name: '中和區・秀明里／景安生活圈（新北章魚哥指標）',
+            tag: '歷屆誤差 ±0.8pp',
+            desc: '雙和地區傳統偏藍但近年捷運環狀線帶動雙北通勤族移入，為觀測「藍白合小草選票歸隊率」之首要指標。'
+          },
+          {
+            name: '林口區・淡水區（全台淨遷入率最高重劃區）',
+            tag: '四年人口 +9.4%',
+            desc: '大量 25-44 歲首購族移入，政黨固著度低、未表態率逾 22%，對通勤公車與托育政見反應最劇烈。'
+          }
         ]
       },
       taoyuan: {
@@ -4663,11 +5087,28 @@
         ageSource: 'TVBS 民調中心桃園市長年齡交叉表',
         ageInsight: 'TVBS 實測：全世代張善政皆突破 50%・20-29歲未表態率達 30%',
         cohorts: [
-          { label: '20-29 歲', kmt: 51.0, dpp: 19.0 },
-          { label: '30-39 歲', kmt: 65.0, dpp: 20.0 },
-          { label: '40-49 歲', kmt: 61.0, dpp: 21.0 },
-          { label: '50-59 歲', kmt: 67.0, dpp: 20.0 },
-          { label: '60 歲以上', kmt: 62.0, dpp: 18.0 }
+          { label: '20-29 歲', kmt: 51.0, dpp: 19.0, popShare: 0.16 },
+          { label: '30-39 歲', kmt: 65.0, dpp: 20.0, popShare: 0.19 },
+          { label: '40-49 歲', kmt: 61.0, dpp: 21.0, popShare: 0.22 },
+          { label: '50-59 歲', kmt: 67.0, dpp: 20.0, popShare: 0.18 },
+          { label: '60 歲以上', kmt: 62.0, dpp: 18.0, popShare: 0.25 }
+        ],
+        bellwethers: [
+          {
+            name: '中壢區・青埔高鐵特區（南桃園搖擺指標）',
+            tag: '竹北／雙北移入 +7.6%',
+            desc: '高鐵青埔特區聚集大量科技業與雙北移居青壯層，張善政理工背景在此區獲逾 62% 跨黨派認同。'
+          },
+          {
+            name: '桃園區・藝文特區／中路重劃區（北桃園核心）',
+            tag: '歷屆章魚哥指標',
+            desc: '北桃園最大票倉，過去藍綠輪流勝出；目前捷運綠線通車進度與舊城更新為選民最關注議題。'
+          },
+          {
+            name: '龜山區・A7 體育大學生活圈（青年首購聚落）',
+            tag: '20-39 歲佔比最高',
+            desc: '機捷沿線最年輕選區，20-29 歲未表態率高達 30%，綠營能否催出通勤青年返鄉投票為破局關鍵。'
+          }
         ]
       },
       taichung: {
@@ -4675,11 +5116,28 @@
         ageSource: 'TVBS 民調中心台中市長年齡交叉表',
         ageInsight: 'TVBS 實測：20-39歲何欣純小幅領先・50-59歲江啟臣 58% 大勝',
         cohorts: [
-          { label: '20-29 歲', kmt: 33.1, dpp: 35.8 },
-          { label: '30-39 歲', kmt: 39.0, dpp: 41.0 },
-          { label: '40-49 歲', kmt: 51.0, dpp: 29.0 },
-          { label: '50-59 歲', kmt: 58.0, dpp: 26.0 },
-          { label: '60 歲以上', kmt: 52.0, dpp: 27.0 }
+          { label: '20-29 歲', kmt: 33.1, dpp: 35.8, popShare: 0.15 },
+          { label: '30-39 歲', kmt: 39.0, dpp: 41.0, popShare: 0.18 },
+          { label: '40-49 歲', kmt: 51.0, dpp: 29.0, popShare: 0.21 },
+          { label: '50-59 歲', kmt: 58.0, dpp: 26.0, popShare: 0.19 },
+          { label: '60 歲以上', kmt: 52.0, dpp: 27.0, popShare: 0.27 }
+        ],
+        bellwethers: [
+          {
+            name: '北屯區・機捷／十四期重劃區（中台灣第一大票倉）',
+            tag: '破 31 萬人・淨遷入冠全台',
+            desc: '近四年移入逾 2.5 萬名青年家庭，打破傳統眷村結構；20-39 歲何欣純微幅領先，40 歲以上江啟臣佔優。'
+          },
+          {
+            name: '西屯區・惠來里／七期市政生活圈（台中章魚哥里）',
+            tag: '歷屆誤差 ±0.7pp',
+            desc: '惠來里與中科走廊匯聚白領與工程師選民，中捷藍線動工與市政延續性使江啟臣在中間選民領先 11.2pp。'
+          },
+          {
+            name: '大里／太平區 vs 豐原／山城區（原縣區本命對決）',
+            tag: '山城 vs 屯區對撞',
+            desc: '何欣純深耕大里太平（屯區高得票率），江啟臣固守豐原山城本命區，雙方在原縣區動員率將決定總盤差距。'
+          }
         ]
       },
       tainan: {
@@ -4687,11 +5145,28 @@
         ageSource: 'TVBS 民調中心台南市長年齡交叉表',
         ageInsight: 'TVBS 實測：30-39歲陳亭妃獲 61% 最高・50-59歲(46% vs 39%)最接近',
         cohorts: [
-          { label: '20-29 歲', kmt: 33.0, dpp: 51.0 },
-          { label: '30-39 歲', kmt: 22.0, dpp: 61.0 },
-          { label: '40-49 歲', kmt: 34.0, dpp: 52.0 },
-          { label: '50-59 歲', kmt: 39.0, dpp: 46.0 },
-          { label: '60 歲以上', kmt: 29.0, dpp: 54.0 }
+          { label: '20-29 歲', kmt: 33.0, dpp: 51.0, popShare: 0.14 },
+          { label: '30-39 歲', kmt: 22.0, dpp: 61.0, popShare: 0.16 },
+          { label: '40-49 歲', kmt: 34.0, dpp: 52.0, popShare: 0.20 },
+          { label: '50-59 歲', kmt: 39.0, dpp: 46.0, popShare: 0.19 },
+          { label: '60 歲以上', kmt: 29.0, dpp: 54.0, popShare: 0.31 }
+        ],
+        bellwethers: [
+          {
+            name: '永康區・大橋／東橋重劃區（台南第一大票倉）',
+            tag: '23.5 萬人・南科外溢區',
+            desc: '南科工程師與青年家庭主要居住地，30-39 歲陳亭妃獲 61% 強勢支持，謝龍介則於 50-59 歲追至 7pp 差。'
+          },
+          {
+            name: '東區・成大／虎尾寮文教區（府城搖擺指標）',
+            tag: '2022 謝龍介曾小贏',
+            desc: '2022 大選謝龍介在東區曾微幅領先；本次陳亭妃吸納跨派系與中間選民後，東區是否翻綠為重要風向標。'
+          },
+          {
+            name: '安南區・善化／新市南科走廊（本命區動員指標）',
+            tag: '陳亭妃本命區 >58%',
+            desc: '安南區為陳亭妃立委選區鐵票倉，加上黃偉哲上屆支持者高達 83% 表態轉投陳，構築穩固領先防線。'
+          }
         ]
       },
       kaohsiung: {
@@ -4699,11 +5174,28 @@
         ageSource: '皮爾森數據(08/10)／TVBS 高雄年齡交叉表',
         ageInsight: '實測交叉：20-29歲賴瑞隆領先16.3pp・40-49歲柯志恩反超領先1.7pp',
         cohorts: [
-          { label: '20-29 歲', kmt: 36.4, dpp: 52.7 },
-          { label: '30-39 歲', kmt: 39.5, dpp: 46.5 },
-          { label: '40-49 歲', kmt: 45.3, dpp: 43.7 },
-          { label: '50-59 歲', kmt: 44.8, dpp: 45.0 },
-          { label: '60 歲以上', kmt: 43.2, dpp: 42.5 }
+          { label: '20-29 歲', kmt: 36.4, dpp: 52.7, popShare: 0.13 },
+          { label: '30-39 歲', kmt: 39.5, dpp: 46.5, popShare: 0.16 },
+          { label: '40-49 歲', kmt: 45.3, dpp: 43.7, popShare: 0.20 },
+          { label: '50-59 歲', kmt: 44.8, dpp: 45.0, popShare: 0.19 },
+          { label: '60 歲以上', kmt: 43.2, dpp: 42.5, popShare: 0.32 }
+        ],
+        bellwethers: [
+          {
+            name: '鳳山區・文山特區／五甲生活圈（高雄第一大票倉）',
+            tag: '35.6 萬人・勝負決戰點',
+            desc: '高雄市人口最多行政區，結構涵蓋傳統眷村與新移入青年家庭，歷屆開票比例與全市總得票誤差小於 0.9pp。'
+          },
+          {
+            name: '左營區・楠梓區（北高雄台積電 S 廊帶）',
+            tag: '40-59 歲柯志恩微幅領先',
+            desc: '左營高鐵與楠梓半導體園區匯聚軍公教與科技新貴，柯志恩在 40-49 歲反超 1.65pp，與南高雄綠營票倉形成拉鋸。'
+          },
+          {
+            name: '三民區・前鎮／小港區（綠營南高雄動員核心）',
+            tag: '青年返鄉率決定勝負',
+            desc: '前鎮小港為賴瑞隆立委本命區；由於雙方總體差距僅 0.3pp～2pp，20-39 歲青年投票率每增減 5% 將直接改寫勝負。'
+          }
         ]
       }
     };
@@ -4745,8 +5237,30 @@
       }
 
       const turnoutUndecided = undecided * 0.68; // ~68% of undecideds turn out or allocate
-      let projKmt = rawKmt + turnoutUndecided * allocBlueRatio + swingDelta * 0.5;
-      let projDpp = rawDpp + turnoutUndecided * (1 - allocBlueRatio) - swingDelta * 0.5;
+
+      // Phase 2A: Generational Turnout Differential (Youth 20-39 vs Senior 60+ Turnout Elasticity)
+      const youthTurnout = (state.youthTurnoutPct || 56) / 100.0;
+      const cohortTurnoutRates = [youthTurnout, youthTurnout + 0.03, 0.66, 0.72, 0.76];
+      const baseTurnoutRates = [0.56, 0.59, 0.66, 0.72, 0.76];
+
+      let weightedKmt = 0, weightedDpp = 0, baseWeightedKmt = 0, baseWeightedDpp = 0;
+      meta2022.cohorts.forEach((c, idx) => {
+        const pop = c.popShare || 0.20;
+        const wCurr = pop * cohortTurnoutRates[idx];
+        const wBase = pop * baseTurnoutRates[idx];
+        weightedKmt += c.kmt * wCurr;
+        weightedDpp += c.dpp * wCurr;
+        baseWeightedKmt += c.kmt * wBase;
+        baseWeightedDpp += c.dpp * wBase;
+      });
+
+      const turnout2PKmt = (weightedKmt / Math.max(1e-5, weightedKmt + weightedDpp)) * 100;
+      const turnout2PDpp = 100 - turnout2PKmt;
+      const base2PKmt = (baseWeightedKmt / Math.max(1e-5, baseWeightedKmt + baseWeightedDpp)) * 100;
+      const turnoutNetBlueShift = turnout2PKmt - base2PKmt; // Shift caused by youth turnout deviation from 56%
+
+      let projKmt = rawKmt + turnoutUndecided * allocBlueRatio + swingDelta * 0.5 + turnoutNetBlueShift;
+      let projDpp = rawDpp + turnoutUndecided * (1 - allocBlueRatio) - swingDelta * 0.5 - turnoutNetBlueShift;
 
       const sum2P = Math.max(1, projKmt + projDpp);
       const normKmt = Number(((projKmt / sum2P) * 100).toFixed(1));
@@ -4886,6 +5400,64 @@
         needToFlip <= 1.5
           ? `選情極度膠著！中間選民與白營選票只要移動 1.5% 即可能改變領先者`
           : `翻盤臨界點：落後方（${trailingName}）需自中間與未表態選民淨催出 +${(needToFlip / 2 + 0.1).toFixed(1)}pp 即可黃金交叉`;
+
+      // 6. Phase 2 Left: Generational Turnout Differential + Kalman / MRP Bayesian Shrinkage
+      const yt = state.youthTurnoutPct || 56;
+      const lblYouthEl = document.getElementById('lblYouthTurnout');
+      if (lblYouthEl) {
+        const tag = yt === 56 ? '（歷史常態基準）' : (yt > 56 ? `（高返鄉動員 +${yt - 56}%）` : `（低投票率 -${56 - yt}%）`);
+        lblYouthEl.textContent = `${yt}% ${tag}`;
+      }
+
+      const turnoutAdjEl = document.getElementById('turnoutAdjustedShare');
+      if (turnoutAdjEl) {
+        turnoutAdjEl.innerHTML = `<span style="color:var(--blue-bright);">${turnout2PKmt.toFixed(1)}%</span> <span style="color:var(--fg-muted); font-size:11px;">vs</span> <span style="color:var(--green-bright);">${turnout2PDpp.toFixed(1)}%</span>`;
+      }
+
+      const turnoutDiffEl = document.getElementById('turnoutDiffImpact');
+      if (turnoutDiffEl) {
+        if (Math.abs(turnoutNetBlueShift) < 0.08) {
+          turnoutDiffEl.textContent = '基準對齊 (0.0pp)';
+          turnoutDiffEl.style.color = 'var(--fg-primary)';
+        } else if (turnoutNetBlueShift > 0) {
+          turnoutDiffEl.textContent = `熟齡優勢 藍 +${turnoutNetBlueShift.toFixed(2)}pp`;
+          turnoutDiffEl.style.color = 'var(--blue-bright)';
+        } else {
+          turnoutDiffEl.textContent = `青年返鄉 綠 +${Math.abs(turnoutNetBlueShift).toFixed(2)}pp`;
+          turnoutDiffEl.style.color = 'var(--green-bright)';
+        }
+      }
+
+      // Kalman Time-Decay Poll Filter + MRP Poststratification Shrinkage
+      let kalmanNum = 0, kalmanDen = 0;
+      city.polls.forEach((p, idx) => {
+        const wDecay = Math.exp(-0.24 * idx);
+        kalmanNum += (p.kmt - p.dpp) * wDecay;
+        kalmanDen += wDecay;
+      });
+      const kalmanSpread = kalmanDen > 0 ? kalmanNum / kalmanDen : (rawKmt - rawDpp);
+      const mrpPriorSpread = turnout2PKmt - turnout2PDpp;
+      const mrpShrunkSpread = 0.72 * kalmanSpread + 0.28 * mrpPriorSpread;
+      const kalmanEl = document.getElementById('kalmanMrpEstimate');
+      if (kalmanEl) {
+        const kBlue = mrpShrunkSpread >= 0;
+        kalmanEl.textContent = `${kBlue ? city.kmtName : city.dppName} +${Math.abs(mrpShrunkSpread).toFixed(1)}pp`;
+        kalmanEl.style.color = kBlue ? 'var(--blue-bright)' : 'var(--green-bright)';
+      }
+
+      // 7. Phase 2 Right: Sub-District Spatial Econometrics & Bellwether Villages
+      const bellwetherEl = document.getElementById('bellwetherSubdistrictContainer');
+      if (bellwetherEl && meta2022.bellwethers) {
+        bellwetherEl.innerHTML = meta2022.bellwethers.map(b => `
+          <div class="bellwether-item">
+            <div class="bellwether-head">
+              <span>${b.name}</span>
+              <span class="method-pill" style="color:#f2b8a2; border-color:var(--border-warm);">${b.tag}</span>
+            </div>
+            <div class="bellwether-desc">${b.desc}</div>
+          </div>
+        `).join('');
+      }
     }
 
     function renderPolicyComparison() {
@@ -5622,6 +6194,271 @@
         renderQuantitativeForecast();
       });
     }
+
+    const rngYouthTurnoutEl = document.getElementById('rngYouthTurnout');
+    if (rngYouthTurnoutEl) {
+      rngYouthTurnoutEl.addEventListener('input', (e) => {
+        state.youthTurnoutPct = parseInt(e.target.value, 10) || 56;
+        renderQuantitativeForecast();
+      });
+    }
+
+    /*************************************************************************
+     * 8. FLOATING TAIWAN.MD × 2026 ELECTION AI BOT (LIVE RAG + QUANT ENGINE)
+     *************************************************************************/
+    const TAIWAN_MD_API_URL = 'https://taiwan.md/api/articles.json';
+    const TAIWAN_MD_RAW_BASE = 'https://raw.githubusercontent.com/frank890417/taiwan-md/main/knowledge/';
+
+    async function loadTaiwanMdIndex() {
+      if (state.taiwanMdArticles && state.taiwanMdArticles.length > 0) {
+        return state.taiwanMdArticles;
+      }
+      try {
+        const res = await fetchWithTimeout(TAIWAN_MD_API_URL, {}, 6000);
+        if (res.ok) {
+          const all = await res.json();
+          // Filter to Chinese SSOT articles (path without non-zh prefix)
+          state.taiwanMdArticles = Array.isArray(all)
+            ? all.filter(a => a.title && a.path && !/^(en|ja|ko|es|fr|vi|id|pt|hi|ar|ru|de)\//i.test(a.path))
+            : [];
+          const statusEl = document.getElementById('aiBotStatusText');
+          if (statusEl && state.taiwanMdArticles.length > 0) {
+            statusEl.textContent = `已連線 Taiwan.md API（已索引 ${state.taiwanMdArticles.length.toLocaleString()} 篇繁中知識庫）`;
+          }
+          return state.taiwanMdArticles;
+        }
+      } catch (e) {}
+      return [];
+    }
+
+    async function fetchTaiwanMdExcerpt(relPath, keyword = '') {
+      if (!relPath) return null;
+      if (state.taiwanMdMarkdownCache[relPath]) {
+        return extractRelevantParagraph(state.taiwanMdMarkdownCache[relPath], keyword);
+      }
+      try {
+        const encodedPath = relPath.split('/').map(encodeURIComponent).join('/');
+        const res = await fetchWithTimeout(`${TAIWAN_MD_RAW_BASE}${encodedPath}`, {}, 5000);
+        if (res.ok) {
+          const md = await res.text();
+          state.taiwanMdMarkdownCache[relPath] = md;
+          return extractRelevantParagraph(md, keyword);
+        }
+      } catch (e) {}
+      return null;
+    }
+
+    function extractRelevantParagraph(mdText, keyword) {
+      if (!mdText) return '';
+      // Strip YAML frontmatter and footnotes
+      const body = mdText.replace(/^---[\s\S]*?---\s*/, '').replace(/\[\^\d+\]/g, '');
+      const paras = body
+        .split(/\n{2,}/)
+        .map(p => p.replace(/^#+\s*/gm, '').replace(/\*\*/g, '').trim())
+        .filter(p => p.length >= 45 && !p.startsWith('|') && !p.startsWith('[^'));
+
+      if (keyword) {
+        const hit = paras.find(p => p.includes(keyword));
+        if (hit) return hit.slice(0, 220) + (hit.length > 220 ? '…' : '');
+      }
+      return (paras[0] || '').slice(0, 220) + ((paras[0] || '').length > 220 ? '…' : '');
+    }
+
+    function appendAiChatMessage(htmlContent, isUser = false) {
+      const box = document.getElementById('aiBotMessages');
+      if (!box) return;
+      const div = document.createElement('div');
+      div.className = `ai-msg ${isUser ? 'ai-msg-user' : 'ai-msg-bot'}`;
+      div.innerHTML = htmlContent;
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
+      return div;
+    }
+
+    async function handleVoterQuestion(rawQuery) {
+      const q = (rawQuery || '').trim();
+      if (!q) return;
+
+      appendAiChatMessage(q.replace(/</g, '&lt;'), true);
+      const loadingMsg = appendAiChatMessage('<span style="color:var(--fg-muted);">正在檢索 Taiwan.md 知識庫與六都計量模型…</span>', false);
+
+      const cityMap = {
+        '台北': 'taipei', '北市': 'taipei', '蔣萬安': 'taipei', '沈伯洋': 'taipei', '天玉里': 'taipei',
+        '新北': 'newtaipei', '李四川': 'newtaipei', '蘇巧慧': 'newtaipei', '板橋': 'newtaipei',
+        '桃園': 'taoyuan', '張善政': 'taoyuan', '黃世杰': 'taoyuan', '中壢': 'taoyuan',
+        '台中': 'taichung', '江啟臣': 'taichung', '何欣純': 'taichung', '北屯': 'taichung',
+        '台南': 'tainan', '謝龍介': 'tainan', '陳亭妃': 'tainan', '永康': 'tainan',
+        '高雄': 'kaohsiung', '柯志恩': 'kaohsiung', '賴瑞隆': 'kaohsiung', '鳳山': 'kaohsiung'
+      };
+
+      let targetCityId = state.activeCityId;
+      for (const [kw, cid] of Object.entries(cityMap)) {
+        if (q.includes(kw)) {
+          targetCityId = cid;
+          break;
+        }
+      }
+
+      const city = state.computedCities.find(c => c.id === targetCityId) || state.computedCities[0];
+      const meta = BASELINE_2022_TWO_PARTY[city.id] || BASELINE_2022_TWO_PARTY.taipei;
+      const sum2P = Math.max(1, city.kmt + city.dpp);
+      const normKmt = ((city.kmt / sum2P) * 100).toFixed(1);
+      const normDpp = (100 - parseFloat(normKmt)).toFixed(1);
+      const winProbBlue = (normalCdf((parseFloat(normKmt) - 50) / 2.65) * 100).toFixed(1);
+      const winProbGreen = (100 - parseFloat(winProbBlue)).toFixed(1);
+
+      let answerParts = [];
+      let citations = [];
+
+      // 1. Check specific topics (Raking / Methodology, Cognitive Warfare, Absentee / Turnout, Nine-in-One, Voting Guide, or City Forecast)
+      if (/民調差|25%|raking|加權|信民|誤差|演算法|蒙地卡羅/i.test(q)) {
+        answerParts.push(
+          `<strong>【跨機構民調差距與 Raking 加權原理】</strong><br />` +
+          `1. <strong>為什麼台北民調差到 25 個百分點？</strong><br />` +
+          `信民協會（沈伯洋 50.3% vs 蔣萬安 33.3%）僅針對性別、年齡、地區、教育程度加權，<strong>未做政黨傾向加權</strong>，其原始樣本泛綠高達 42.2%、泛藍僅 26.6%；而 TVBS（蔣萬安 49% vs 沈伯洋 41%）則透過 <strong>Raking（反覆成比例加權）</strong>將政黨母體拉回常態（泛綠約 29%）。<br />` +
+          `2. <strong>蒙地卡羅勝率公式</strong>：本站以 <code>σ = 2.65pp</code> 計算標準常態累積分布 <code>Φ((μ - 50)/σ)</code>，換算目前<strong>${city.name}</strong>兩黨歸戶勝率為 <strong>${city.kmtName} ${winProbBlue}% vs ${city.dppName} ${winProbGreen}%</strong>。`
+        );
+        citations.push({
+          title: 'Taiwan.md：2026 九合一選舉・民調與民主壓力測試',
+          url: 'https://taiwan.md/politics/2026%20%E4%B9%9D%E5%90%88%E4%B8%80%E9%81%B8%E8%88%89'
+        });
+      } else if (/認知作戰|假訊息|深偽|ai|中共|介選/i.test(q)) {
+        const excerpt = await fetchTaiwanMdExcerpt('Politics/2026 九合一選舉.md', '認知作戰');
+        answerParts.push(
+          `<strong>【Taiwan.md 專題：2026 選舉與 AI 認知作戰防範】</strong><br />` +
+          (excerpt || `根據 Taiwan.md《2026 九合一選舉》專題記載：OpenAI 2026 年報告揭露國家級 AI 認知作戰系統升級，Citizen Lab 亦披露 123+ 個偽冒新聞網站散播多語系假訊息。最高檢察署已將「AI 深偽假訊息、選舉賭盤、境外介選、賄選暴力」列為四大查察重點。`) +
+          `<br /><br />・<strong>選民防範建議</strong>：遇到來路不明之「突發退選快訊」或「異常極端民調圖卡」，請核對是否具備<strong>調查執行機構、抽樣期間、樣本數與經費來源</strong>四項法定揭露要素。`
+        );
+        citations.push({
+          title: 'Taiwan.md：2026 九合一選舉：在 AI 認知作戰時代的民主基礎建設壓力測試',
+          url: 'https://taiwan.md/politics/2026%20%E4%B9%9D%E5%90%88%E4%B8%80%E9%81%B8%E8%88%89'
+        });
+        citations.push({
+          title: 'Taiwan.md：認知作戰 (Cognitive Warfare)',
+          url: 'https://taiwan.md/society/%E8%AA%8D%E7%9F%A5%E4%BD%9C%E6%88%B0'
+        });
+      } else if (/不在籍|返鄉|投票率|年輕人|青年/i.test(q)) {
+        const excerpt = await fetchTaiwanMdExcerpt('Politics/台灣不在籍投票.md', '不在籍投票');
+        answerParts.push(
+          `<strong>【不在籍投票制度 ＆ 世代投票率不對稱效應】</strong><br />` +
+          `1. <strong>Taiwan.md 制度解析</strong>：${excerpt || '台灣多數選民仍須回戶籍地投票，2026 年地方選舉起實施原住民移轉投票新制。不在籍投票需要在降低青年返鄉成本與維持投開票所公開唱票信任之間取得平衡。'}<br />` +
+          `2. <strong>對${city.name}選情的影響</strong>：中選會實證顯示 60 歲以上投票率達 75%，而 20–39 歲青年平均僅 56%（${meta.ageInsight}）。您可在頁面的「進階研究 I：世代投票率不對稱模型」拉動滑桿模擬青年返鄉率變化。`
+        );
+        citations.push({
+          title: 'Taiwan.md：台灣不在籍投票：返鄉成本看得見，信任成本更難算',
+          url: 'https://taiwan.md/politics/%E5%8F%B0%E7%81%A3%E4%B8%8D%E5%9C%A8%E7%B1%8D%E6%8A%95%E7%A5%A8'
+        });
+      } else if (/九合一選什麼|九種|制度|公投|幾票/i.test(q)) {
+        const excerpt = await fetchTaiwanMdExcerpt('Politics/九合一選舉是什麼.md', '九合一');
+        answerParts.push(
+          `<strong>【Taiwan.md 專題：九合一選舉選什麼？】</strong><br />` +
+          `${excerpt || '2026 年 11 月 28 日全台 22 縣市同日投票選出九種地方公職人員，合計超過 1.1 萬席。'}<br /><br />` +
+          `・<strong>六都選民會領到 3 張地方選票</strong>：① 直轄市長、② 直轄市議員、③ 里長（若居住於山地原住民區則外加區長與區民代表）。<br />` +
+          `・<strong>2026 三大制度新變數</strong>：公投綁大選回歸、原住民族移轉投票新制、《選罷法》第 26 條排黑條款全面適用。`
+        );
+        citations.push({
+          title: 'Taiwan.md：九合一選舉是什麼？九種職位、四次升格、三十年的地方自治演化史',
+          url: 'https://taiwan.md/politics/%E4%B9%9D%E5%90%88%E4%B8%80%E9%81%B8%E8%88%89%E6%98%AF%E4%BB%80%E9%BA%BC'
+        });
+        citations.push({
+          title: 'Taiwan.md：2026 九合一選舉總章',
+          url: 'https://taiwan.md/politics/2026%20%E4%B9%9D%E5%90%88%E4%B8%80%E9%81%B8%E8%88%89'
+        });
+      } else if (/三寶|帶什麼|身分證|封關|11\/18|11\/28|幾點/i.test(q)) {
+        answerParts.push(
+          `<strong>【2026 投票必備三寶 ＆ 11/18 民調封關法規】</strong><br />` +
+          `・<strong>投票時間</strong>：2026 年 11 月 28 日（週六）08:00 – 16:00。<br />` +
+          `・<strong>必備三寶</strong>：<strong>① 國民身分證</strong>（必帶！健保卡或駕照不可代替）、<strong>② 印章</strong>（未帶可簽名或按指印）、<strong>③ 投票通知單</strong>。<br />` +
+          `・<strong>11/18 00:00 民調封關</strong>：依《選罷法》第 53 條，投票日前 10 日起禁止於 LINE、Threads、FB 發布、轉傳或評論任何選舉民調，違者處 10 萬至 100 萬元罰鍰。`
+        );
+        citations.push({
+          title: 'Taiwan.md：選舉過程與公開唱票制度',
+          url: 'https://taiwan.md/politics/%E9%81%B8%E8%88%89%E9%81%8E%E7%A8%8B'
+        });
+        citations.push({
+          title: 'Taiwan.md：中選會制度',
+          url: 'https://taiwan.md/politics/%E4%B8%AD%E9%81%B8%E6%9C%83%E5%88%B6%E5%BA%A6'
+        });
+      } else {
+        // City-specific quantitative + bellwether + live Taiwan.md search
+        const bw = meta.bellwethers ? meta.bellwethers[0] : null;
+        answerParts.push(
+          `<strong>【${city.name}選區・即時定量預測與章魚哥里解析】</strong><br />` +
+          `・<strong>綜合加權民調</strong>：<strong>${city.kmtName} ${city.kmt.toFixed(1)}%</strong> vs <strong>${city.dppName} ${city.dpp.toFixed(1)}%</strong>（未表態 ${city.undecided.toFixed(1)}%）<br />` +
+          `・<strong>蒙地卡羅勝選機率 P(Win)</strong>：<strong>${city.kmtName} ${winProbBlue}%</strong> vs <strong>${city.dppName} ${winProbGreen}%</strong>（兩黨歸戶期望得票 ${normKmt}% : ${normDpp}%）<br />` +
+          `・<strong>世代交叉結構</strong>：${meta.ageInsight}<br />` +
+          (bw ? `・<strong>頭號章魚哥／搖擺指標</strong>：<strong>${bw.name}</strong>（${bw.desc}）` : '')
+        );
+      }
+
+      // 2. Also search Taiwan.md live article index for any matching articles
+      const articles = await loadTaiwanMdIndex();
+      if (articles.length > 0) {
+        const keywords = q.split(/[\s,，？?！!、]+/).filter(w => w.length >= 2);
+        const matched = articles.filter(a => {
+          const hay = `${a.title} ${a.description || ''} ${(a.tags || []).join(' ')}`;
+          return keywords.some(k => hay.includes(k));
+        }).slice(0, 2);
+
+        matched.forEach(m => {
+          if (!citations.some(c => c.url === m.url)) {
+            citations.push({
+              title: `Taiwan.md：${m.title}`,
+              url: m.url
+            });
+          }
+        });
+      }
+
+      if (citations.length === 0) {
+        citations.push({
+          title: 'Taiwan.md：2026 九合一選舉專題',
+          url: 'https://taiwan.md/politics/2026%20%E4%B9%9D%E5%90%88%E4%B8%80%E9%81%B8%E8%88%89'
+        });
+      }
+
+      const citeHtml = `
+        <div class="ai-cite-box">
+          <div style="font-family:var(--font-mono); font-size:10.5px; color:var(--fg-muted); margin-bottom:3px;">📚 知識庫引用來源 (Taiwan.md SSOT)：</div>
+          ${citations.slice(0, 3).map(c => `<div>・<a href="${c.url}" target="_blank" rel="noopener noreferrer">${c.title} ↗</a></div>`).join('')}
+        </div>
+      `;
+
+      loadingMsg.innerHTML = answerParts.join('<br /><br />') + citeHtml;
+    }
+
+    function toggleAiBot(forceState) {
+      const panel = document.getElementById('aiBotPanel');
+      if (!panel) return;
+      state.aiBotOpen = typeof forceState === 'boolean' ? forceState : !state.aiBotOpen;
+      panel.classList.toggle('open', state.aiBotOpen);
+      if (state.aiBotOpen) {
+        loadTaiwanMdIndex();
+        setTimeout(() => {
+          const inp = document.getElementById('aiBotInput');
+          if (inp) inp.focus();
+        }, 180);
+      }
+    }
+
+    document.getElementById('btnToggleAiBot').addEventListener('click', () => toggleAiBot());
+    document.getElementById('btnCloseAiBot').addEventListener('click', () => toggleAiBot(false));
+
+    document.getElementById('aiBotForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const inp = document.getElementById('aiBotInput');
+      if (!inp || !inp.value.trim()) return;
+      const q = inp.value.trim();
+      inp.value = '';
+      handleVoterQuestion(q);
+    });
+
+    document.querySelectorAll('#aiBotQuickChips .ai-chip-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const q = btn.getAttribute('data-q');
+        if (q) handleVoterQuestion(q);
+      });
+    });
 
     function tickClockAndSync() {
       const now = new Date();
