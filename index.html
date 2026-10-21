@@ -1302,9 +1302,22 @@
       font-size: 12px;
       color: var(--fg-muted);
       text-align: center;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      line-height: 1.55;
+    }
+
+    @keyframes newsCardFadeIn {
+      from {
+        opacity: 0.25;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .news-card.news-refresh-anim {
+      animation: newsCardFadeIn 0.42s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
 
     /* ==================== 4. DRAWER CONTROLS & SIX CITIES MATRIX ==================== */
@@ -2806,6 +2819,38 @@
             city: '台北市',
             camp: 'neutral',
             link: 'https://udn.com/vote2026/story/124652/9826978'
+          },
+          {
+            title: '「洋流」逆轉？沈伯洋民調贏17點，為何換個參數就變蔣萬安領先？',
+            source: '端傳媒 Initium Media',
+            pubDate: '2026-10-21 12:01',
+            city: '台北市',
+            camp: 'neutral',
+            link: 'https://news.google.com/rss/articles/CBMijgFBVV95cUxNeVdaMlo3Mmx2amhYVkZyUWJiTzAwZlRaRV81MHdYY0w2RU9KN3BjZVRMRlFTcTBNQTRNbWJYaFUwSEFlUlFObXZ0Y2ZEVVhUME9WMUFUUW5kd0t1cUxZYjBTejB4eGhlZG8wTjZ5RTc5Yi1tNjU3RGM0NGhvVzc5YkIwVGNxdkZpY0tmdVhR?oc=5'
+          },
+          {
+            title: '沈伯洋民調領先蔣萬安17百分點？醫點出2關鍵斷言仍不會贏',
+            source: '聯合新聞網 UDN',
+            pubDate: '2026-10-21 08:10',
+            city: '台北市',
+            camp: 'blue',
+            link: 'https://news.google.com/rss/articles/CBMiU0FVX3lxTFBiZTkxalplWU1oNzlHQXJfaVhqR2ZYOWZxUThWT0NfV0xDSUxGcS1LQ0NzRnhFemp5a2pDUmhSRmktQm9OWnBFNmgwXzZoR3VWbDJB0gFYQVVfeXFMUFJ4ZnY2Q1dhV0ZqRmNGNTN5d05YTC1IZmQ0YV9WUG5FY3BYTXFBT3BKNi1Ea0FDV3FrZ0NYZGo2UU1WeUF2TkVZcXI3RDgxQUdYelhhRkNpYQ?oc=5'
+          },
+          {
+            title: '戴立安民調／沈伯洋支持度50.3%超車蔣萬安33.3%，差距哪來的？',
+            source: '今周刊',
+            pubDate: '2026-10-20 10:23',
+            city: '台北市',
+            camp: 'green',
+            link: 'https://news.google.com/rss/articles/CBMigAFBVV95cUxPNVBxdVJpR1RXTUV4Y1VHcUZKa3Z2dFluREktLUhKXzg3ZmtKcktGSkkwdncxTV9feElCTjJBZEFOOUhEY1dlMlBwZi1BaXJma1Btd0tVOEN0V3Z5T0VFVXYwckZ0Ml9fS3pMX0hOVnYzUkp4eXNMSnBCbEZyTUp0Vg?oc=5'
+          },
+          {
+            title: '民調首見黃金交叉！沈伯洋超車17％ 蔣萬安坦言沒預期到：團隊很著急',
+            source: '自由時報',
+            pubDate: '2026-10-20 20:52',
+            city: '台北市',
+            camp: 'green',
+            link: 'https://news.google.com/rss/articles/CBMiakFVX3lxTFB1QVhocUh5MHFuZGg3YmNMT096ZTNualI3U0c5SnVCUTRKQnhWTDdHMjlpRDdEUFAyTUUwUTZvbW1KQ2I0WUMxOWRhemlzRjI4SDVVY2o0RVEtQkdMdFVxVkswdmg2NlpzX2fSAW9BVV95cUxPNDFiRHNWV3lRVzBMbkhpQ3BSMDByRnhpZlBkUjBINi1KX21ha1lfczlqRC00cmhQLWZGeEViS3dVV0ViSVN4UmZLTVE5Y2tNNkZncExFUzF3cTR2SUdzMVZZSnlxS3FlUVJiajRra0k?oc=5'
           }
         ]
       },
@@ -2911,6 +2956,38 @@
             city: '新北市',
             camp: 'green',
             link: 'https://news.google.com/rss/articles/CBMijwFBVV95cUxNM01rSmVTVzFjQWN1N3RGYUFhdkJJaWtla2lpSnlfS1lMVGdCZENnU3YyWldQT2diR0IweVkyeEZwUU05dTZleloyTFdaRGlwUXFmQkg3ZTNFOFJ2cEhuVUgwSzMwQ0oxb3hwa2ZGbXdsZUIzUk13SnJCX0NZWUhka0Jkb240RTR3OVVBa0oyUQ?oc=5'
+          },
+          {
+            title: 'TPOC模擬民調》AI推測新北選情 李四川領先蘇巧慧5個百分點 小草近半挺李',
+            source: '風傳媒',
+            pubDate: '2026-10-21 15:30',
+            city: '新北市',
+            camp: 'blue',
+            link: 'https://news.google.com/rss/articles/CBMiTkFVX3lxTE9zWFdySnE4cUs4N0s0dm1PbVJvMG9IYUk2Z0VGRlZacDBVWE91bW5GbE1VLWQ2T2hnWXIzaW5HMU03OXRfNWRZaDRjaFpwUQ?oc=5'
+          },
+          {
+            title: '洋流效應襲新北？李四川：與蔣萬安是做事連線一定能勝選',
+            source: '聯合新聞網 UDN',
+            pubDate: '2026-10-21 14:59',
+            city: '新北市',
+            camp: 'blue',
+            link: 'https://news.google.com/rss/articles/CBMiWEFVX3lxTE5ieDgwVnFmREFvbmlLR1JvOUpUbHM4SVc5MVRValNRTFVwSTJ4d3RyWHRhUDlDZEI4OGdHUFA3cE1VYm5aN1lmMnF1YzVTYXlRc29kV3lfX3g?oc=5'
+          },
+          {
+            title: '新北激戰！蘇巧慧掃夜市端「大巨蛋」政見 李四川搶攻三重承諾建雙北自行車橋',
+            source: '知新聞',
+            pubDate: '2026-10-21 13:38',
+            city: '新北市',
+            camp: 'neutral',
+            link: 'https://news.google.com/rss/articles/CBMib0FVX3lxTE50TU1CbEdUaG40eDFJd2FtWW9hOWdFNVFxdVU0TzdyMkFHSHBad3hxajYxd0Q0aGdYUGU3clB3MFU2cUFiQVFsQlVUc1V6empKUzZHTWJZUnJCbHQ3M3hjOUZXOFBmMnZuTmhhV1FMOA?oc=5'
+          },
+          {
+            title: 'AI民意模擬新北市選戰／李四川領先5個百分點 民眾黨支持者成關鍵票源',
+            source: '鏡新聞',
+            pubDate: '2026-10-21 14:10',
+            city: '新北市',
+            camp: 'blue',
+            link: 'https://news.google.com/rss/articles/CBMiUkFVX3lxTE45YzhTYTA2eDJDSDNiSWh0T2ZfcmM0RzdsVlp3VmNva1Fsb1pUNlN1bHpKUHZVUjlmSTd3TmJHWWdCLTlsYXVibWtHVm5PXzdkM2fSAVdBVV95cUxNRXdLZkpZb0JuMnB6YkZWRDk5TWtIV3VEYVVhYlFEOFRJNXRGOGROZkZsdHdJeGplek5tZ1h3ZUJaWExnZmpIS0pzZDhJQjRWSC1BY0VDdzQ?oc=5'
           }
         ]
       },
@@ -3000,6 +3077,38 @@
             city: '桃園市',
             camp: 'blue',
             link: 'https://news.google.com/rss/articles/CBMilwJBVV95cUxOVWZCUk5xeXhfZkgwTktJcFlGR0M4R2hUY1IxM0lkWmNORXBSM0JhV0t5MnFWR0NJWTVvTHJSdEtqb082UGRxa2lfb1o1a3JuVU5jVXJ4SkxJOUpYZE9jeWplODhVNWdzcXItZDJheWFPYUNZVFc3c25rbVdYdG1yc1A0Nk51MnFCU2hjS2oxQTlRNmlGZkc3c0M3dVNPdmp5T0hkWmFsR2ZTSjVpaHFZcnl4UjEzaU1iV3BrZjZNcUhzbmNhT2NhRk9ucEdOS0h3c29kSGNlb2pIZjU1Z3l6dFhEVUhZWkEwR0s1WXZGOEFPMzUzYWg2emhoTDkwb3YxaXFKWGd2ZjkzTG9zOTBoOWZlYlFzTnM?oc=5'
+          },
+          {
+            title: '洋流共伴效應 黃世杰：爭取更多桃園市民認同',
+            source: '自由時報',
+            pubDate: '2026-10-21 05:30',
+            city: '桃園市',
+            camp: 'green',
+            link: 'https://news.google.com/rss/articles/CBMiW0FVX3lxTE5qUWY3Y0ZKakpQdDJDUWt5OFEtTHpwRW1nbjNDaUk4ZWEySWxQZldCanVqajBvUWh5YVhhTUx0R2dmS3otS1pLTjc2ZnVDbU1rYTR1aVFKXzJ6TDjSAWBBVV95cUxQbmZTSDdZcWdOMzg0NHZ6MUkyaml0bkM3RmNUd2JpYmI0X0tCMnF4ZTZERDBibFAwMS1OVVdhbDNxT0xhMGRLLUhyUHlzRkF5c1lUdEMyeEI3TlNPNEFUdWY?oc=5'
+          },
+          {
+            title: '桃園市長選戰聚焦交通住宅 張善政、黃世杰各提政見主張',
+            source: 'Taiwan News',
+            pubDate: '2026-10-19 17:07',
+            city: '桃園市',
+            camp: 'neutral',
+            link: 'https://news.google.com/rss/articles/CBMiWEFVX3lxTE9XZGFreWxxVS0xWGU4UERxamFBcjV5VTVqRFZseVY4YzhlS29lSzdndFBWNkF3WTY0NG5PazItTkd4czBNbXEtUnljbHdlYzZwVlNrRjBEWlo?oc=5'
+          },
+          {
+            title: '23歲創作歌手自發寫歌力挺黃世杰 從Threads留言到助選歌曲成選戰花絮',
+            source: '蕃新聞',
+            pubDate: '2026-10-21 13:52',
+            city: '桃園市',
+            camp: 'green',
+            link: 'https://news.google.com/rss/articles/CBMiUkFVX3lxTE9RUDVydUQ2YXlUS3lBNzdjeEpmeF9qYkdER1owZ2FoRU9uTXZUTzJVM2RmNllUQmx5Qi1jR1ZSOHJsOE5iSzZDa0xBSV9VeGRhS0E?oc=5'
+          },
+          {
+            title: '2026桃園市長選舉誰勝出？專家分析張善政占優勢 點出連任5關鍵',
+            source: '樂聯網',
+            pubDate: '2026-10-19 10:26',
+            city: '桃園市',
+            camp: 'blue',
+            link: 'https://news.google.com/rss/articles/CBMiS0FVX3lxTE1iSTJ1d2dvUUZsYmRPQUJEVEJVWENOMWpCZW1BcGVrX1VmR3MtUDlpcGE1TnVyT0RWR181TWhiSVo0cXlXQ3JlNlI1aw?oc=5'
           }
         ]
       },
@@ -3105,6 +3214,38 @@
             city: '台中市',
             camp: 'blue',
             link: 'https://news.google.com/rss/articles/CBMiU0FVX3lxTE9fQnBMQ09acVViNmgwWWxiM2ZsTm5HNUhBLV9nTXBWUzg3UWwtV3dya2lXZW9xOF9ONGNvRTRoQWltcmRoSi1QNzl4NzF0bzNNc2Zz?oc=5'
+          },
+          {
+            title: '台中市長民調出爐！江啟臣39.8%領先何欣純11.1個百分點 國民黨團：持續爭取支持',
+            source: 'CTWANT',
+            pubDate: '2026-10-21 15:34',
+            city: '台中市',
+            camp: 'blue',
+            link: 'https://news.google.com/rss/articles/CBMiT0FVX3lxTE1XbVQ1b3ZGSEtfTndWeV9zVzJLRW5rRk50eVBmOEZCM283WWJIWWxJeEhrNU5WVFJsc0U0cWx3Ri1IbzI2NlM2TnlNUjlOOWvSAVRBVV95cUxNc2dfMDRTSzhBVUQycG02a1JpUmh0Y3BTZXB5M1Jwak51SWtLQzVVc2c2ajBSOTB0d3RTNWd0akI1M2RLNzFidm1jb0JGeTJpaXhFUU4?oc=5'
+          },
+          {
+            title: '洋流外溢也救不了何欣純選情？學者曝民調難翻盤3關鍵：拚不過盧江雙核心',
+            source: '風傳媒',
+            pubDate: '2026-10-18 17:40',
+            city: '台中市',
+            camp: 'neutral',
+            link: 'https://news.google.com/rss/articles/CBMiTkFVX3lxTE5TRmxuMGxvRUt2aTh0Y3ZnUV9pSHZSYVJtQTEzQWhqSXg3ekpPelcwYklaVFVzOG0wOHItTm11T1VYNkM0Q3pmbzBFNVhOdw?oc=5'
+          },
+          {
+            title: '藍營民調指支持度高於何欣純 江啟臣：最準的民調是選民的投票',
+            source: '自由時報',
+            pubDate: '2026-10-18 20:12',
+            city: '台中市',
+            camp: 'blue',
+            link: 'https://news.google.com/rss/articles/CBMiakFVX3lxTE1nREtuX0Jya0ZRYlFyZkJIb3ptYVFMU0FsaVRhV1NpcXRaSl9NVjZMQ2trWXpWZTZPeTN6d0VQckx4WGhNWTJkV2IteHoxZVZBTThPZW1FZmdWUlotYzBjeUlpMm5jQVh0VUHSAW9BVV95cUxPbjQ0WmlwVV9xUXZJZzkyS19nRkZPZGRTRnA0ZHhLUmg4cTdFdV9iSGpjRTQ1NEt2SThrLXBndTNZcXk2Nm1UX1JqVmZpS0ZvbThZcVBVMHJKZjdrajlTS0VBRUIzSGlBNkdMVEdGc2s?oc=5'
+          },
+          {
+            title: '壹蘋六都週週民調｜倒數5週，你支持誰當台中市長？',
+            source: '壹蘋新聞網',
+            pubDate: '2026-10-21 08:03',
+            city: '台中市',
+            camp: 'neutral',
+            link: 'https://news.google.com/rss/articles/CBMigwFBVV95cUxQSGZ6MnpEWjBSOXBTWTExeW1XNDVLVTRoZl90NUJKb1ljRDI2a3FBNW0tbUNEOG0wbFltMm1hSFJQV2V6Ykh6cFhmdmtjeTZ1QjljS1A2VEc1bEpyalVjSkI2cFh6dE1GZjBSMHFoMFpiYUhmQ3BoaWs2NlF0TEhGUUdkZw?oc=5'
           }
         ]
       },
@@ -3194,6 +3335,38 @@
             city: '台南市',
             camp: 'green',
             link: 'https://news.google.com/rss/articles/CBMigwNBVV95cUxOazBuQUVRU2F2cVFXbmMyQjRJQlFpMF83U1hiSWZkVmhYNTZCek1GWUFPV1BJWGVGWGw0eEZheXZkdmNhTjNMNzhrOFhtY2tJYXFtcnNtZGlxOWhaQm5FdEdPbFZZQkd1YzhVLVItcXF0NTJiREZQeGlTUFpaZ2VUVm1ONzI2eE56Vi0tMFV3Q3dUdHNIRjNSUG9tSG1MTE5OQnJyX3lnYzBYbGk5OTNwdjEzN3FydnJZOUYyZmt5VWYwcEFTV2FYV3VlSk9xUE1UdW5hVk9mdVhURm9pWDYxZHJ2UE9rUUstcm9Sdl9Rd0E3dU5lUkY3NHJmOU5OY3pWZVZNOUZuSGw0d2FXSENrVFdHWnVaTXV4QzdmMXltTVNqM19ycGhLd2RHSTl0Rm9FaHJ3QU8wVmk2QmFLcmI5TGJwejVUSXdMWVJkUzM4a0RDLVZzTjZ6OUpfWkd6ZFZJaVF3R2c2R2xPMkNkQ3JzTkIzQ3J5NmQ4WHdCTS1kM1Q1bUE?oc=5'
+          },
+          {
+            title: '7成台南市民看好她！陳亭妃「民調59.4%」領先謝龍介 2人回應了',
+            source: '三立新聞網',
+            pubDate: '2026-10-21 14:14',
+            city: '台南市',
+            camp: 'green',
+            link: 'https://news.google.com/rss/articles/CBMiSEFVX3lxTE1EaVRqdnpqM1NhRnlldjBOcHNRZ29Ma1Nzbjc0UUlMMGx4LU14Uy13OVZ0aGt4WDlwbDVpbWZwX1NtZWVFZkhyQ9IBTEFVX3lxTE96WDhaeXR0RFRYTHJ0a3hKTUVPZWRtalBUS1J2TDg0T2lGdTBvM091ZG5Ec1RtZ2VwcHF1VWt6OUNIM0xUM2lXY0JZcmM?oc=5'
+          },
+          {
+            title: '台南市長最新民調公布 謝龍介：相信選民心中都有一把尺',
+            source: '聯合新聞網 UDN',
+            pubDate: '2026-10-21 14:34',
+            city: '台南市',
+            camp: 'blue',
+            link: 'https://news.google.com/rss/articles/CBMiU0FVX3lxTE10cUx1OVdFR2Fsb25GYjZZcEs5MEdJUjNidHRxdXNIcjZfc1NTNGRHS05pOHBHVmZ6cFAtajJ6cnJhWTRKcGpTOGV1a2gyTC1YQ1Zz0gFYQVVfeXFMTmlpdDg1Um5meTZHRE1EQ0FWUHJZR1pwX0UzMkd5cHFjNDNIMHVLNHBSRklCY19sVThWdDVrSlR3VHktOFRpSlpwSkx0aHFwcV85UmhyWWFUdA?oc=5'
+          },
+          {
+            title: '新國策民調》陳亭妃支持度領先謝龍介36.8% 學者：民眾黨選民值得關注',
+            source: 'Newtalk新聞',
+            pubDate: '2026-10-21 11:37',
+            city: '台南市',
+            camp: 'green',
+            link: 'https://news.google.com/rss/articles/CBMiW0FVX3lxTE8zcXZJZ2lIaklQQndlX093ZXh5S1JiWi1kYmViNFFRUmtudl91R1VqNGt2TC1UQ2pNdkpxMnA5SzhHbU1BQk5HQU5wVjBSM0M4RHM2NDRmSTBZVnM?oc=5'
+          },
+          {
+            title: '凱達格蘭民調／支持度大輸陳亭妃？謝龍介回應數據引熱議',
+            source: 'TVBS新聞網',
+            pubDate: '2026-10-21 13:36',
+            city: '台南市',
+            camp: 'blue',
+            link: 'https://news.google.com/rss/articles/CBMiU0FVX3lxTFBCTFRialFnVVd6aGRzd29mWWtXMURFaFdmVXZrNUtDOHhobDh6UW1xb1otQVpuN3BQUnprZVpUNDM4VWZfTjhRSWdlRERaVW9iMzk0?oc=5'
           }
         ]
       },
@@ -3299,6 +3472,38 @@
             city: '高雄市',
             camp: 'green',
             link: 'https://news.google.com/rss/articles/CBMi0wJBVV95cUxNQ01JS01tUmprQTVqLWdCQW15MGtGcUVVQTMzLWRjSlVHeUU0U2pNbDd5M3VHMzBGVTZlM3QyVmh2THhQQTl4YUJtNzltS2c3MHRseTVPeFF6d3ozU09ldUVWQU1zVWE1S2xXRXMyc2c2SEpmTVAtZnJkQ2JQWUV3U21wNWlldXE0NmhvS2w0NjRwMUttczByYWhNRXYtRmowQjc4dWJxQ3BYTGxUcFgtZW82LWw3TUV0RDJ1cEVEY3dpRlMzUTFza1h3VlBxcE1EeEJ0d014eUJFZGdnd1RBZ01ISjJPRXp2TFpNZGNnd2RIZW9rTnNuVHdLQzIwUUdjQVJ3NjFnN0RBWVVSRWFoRTJHaHRpYy1hV3huYnVGd3hrNGZhQ3c1Y2pCSnFrdU90YjhyM29Vd3NmVFRHS3FLT1djeW1VR1kweEhpdS1zbXB5eHc?oc=5'
+          },
+          {
+            title: '影／賴瑞隆選情穩了？ 陳其邁：倒吃甘蔗、漸入佳境',
+            source: '聯合新聞網 UDN',
+            pubDate: '2026-10-21 15:47',
+            city: '高雄市',
+            camp: 'green',
+            link: 'https://news.google.com/rss/articles/CBMiWEFVX3lxTFBaVnV3S1BIRkR4U1RwenVEYmtGWWNnNWliSGJxbm1faG1CLWR4TjF0bTBhUm5SQW10aXJBRlBhanVSdjk0WHJYMjJ2MVFlY0tPUTZzSWFSS2s?oc=5'
+          },
+          {
+            title: 'AI民意模擬高雄市選戰／賴瑞隆占優勢 柯志恩跨黨派搶攻中間選民',
+            source: '鏡新聞',
+            pubDate: '2026-10-21 14:10',
+            city: '高雄市',
+            camp: 'neutral',
+            link: 'https://news.google.com/rss/articles/CBMiUkFVX3lxTE5qWmZhRS1YZ1lnOXhfdm9HQWtob2V6elh6akhZUkZ2SkhsaHdHbEVNMlNtTVlmVUNfNXdpakRkRHRLTGlJZXVuNkN1MEk2N01GSWfSAVdBVV95cUxNQlpYeUlvRVZFVHBJM0YzQXRPaVRIRTFwX1o5LVd6NWZvbjlYZ0VMM3RKWkx2bklGczFOUGpqQ1l1WmxtQUZtdnhkVUdSYVZ0OE5lbjJ1bGM?oc=5'
+          },
+          {
+            title: '高雄市長5候選人財產申報 柯志恩有心投資、賴瑞隆以妻為貴',
+            source: '自由電子報 / LINE TODAY',
+            pubDate: '2026-10-19 18:45',
+            city: '高雄市',
+            camp: 'neutral',
+            link: 'https://news.google.com/rss/articles/CBMiVkFVX3lxTFBhcXRRNzUxZjRYbnNWckx2SmYzdThiREp5VVRrLUFiUVR4Nm1nc1J3bTdUeGNxS2RCclVzNHFMWlFCRjQyTkZrUm0zaGVNeU5uMEk0NzVn?oc=5'
+          },
+          {
+            title: '距離投票僅剩一個月 高雄藍綠市長參選人路口戰、大咖牌齊發',
+            source: '梅花新聞網',
+            pubDate: '2026-10-19 11:27',
+            city: '高雄市',
+            camp: 'blue',
+            link: 'https://news.google.com/rss/articles/CBMiWEFVX3lxTE5oNjYwbGM2amhpS2ZkLWFnNWhSTW5uVC1SbFFLM3YyQW5RX0M5TGZUYmJIT0NFT29Ec0JhS2RzUWZrZ0VBbUJEU2RPdm02R0ZhNWlNR2tsZHE?oc=5'
           }
         ]
       }
@@ -3319,6 +3524,9 @@
       deviceFingerprint: '',
       computedCities: [],
       liveNewsByCity: {},
+      newsOffsetByCity: {},
+      lastNewsSyncTime: '',
+      cfWorkerAvailable: null,
       secondsUntilNextSync: 60
     };
 
@@ -3448,6 +3656,16 @@
       return `${votesMap.kmt}-${votesMap.dpp}-${votesMap.other}-${votesMap.undecided}`;
     }
 
+    async function fetchWithTimeout(url, options = {}, timeoutMs = 4500) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), timeoutMs);
+      try {
+        return await fetch(url, { ...options, signal: controller.signal });
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
     // Fetch real-time shared cloud vote counts for a city so all visitors see identical numbers
     // Priority 1: Cloudflare Worker bound to ELECTION_BALLOT_KV (7a8600a9984b42888435f8836f0a67c6)
     // Priority 2: Automatic fallback to shared global Cloud KV
@@ -3458,42 +3676,55 @@
       const todayKey = getTaipeiDateKey();
       let syncedViaWorker = false;
 
-      // 1. Try Cloudflare Worker + ELECTION_BALLOT_KV first
-      try {
-        const cfRes = await fetch(
-          `${CF_WORKER_API_URL}?cityId=${encodeURIComponent(cityId)}&fp=${encodeURIComponent(state.deviceFingerprint)}&dateKey=${encodeURIComponent(todayKey)}`
-        );
-        if (cfRes.ok) {
-          const cfData = await cfRes.json();
-          if (cfData && cfData.ok && cfData.votesMap) {
-            ballotRecords[cityId].votesMap = cfData.votesMap;
-            if (cfData.votedOpt && ['kmt', 'dpp', 'other', 'undecided'].includes(cfData.votedOpt)) {
-              ballotRecords[cityId].lastVotedDate = todayKey;
-              ballotRecords[cityId].lastVotedOpt = cfData.votedOpt;
-              setCookieVote(cityId, todayKey, cfData.votedOpt);
+      // 1. Try Cloudflare Worker + ELECTION_BALLOT_KV first (skip if already detected 404 on static host)
+      if (state.cfWorkerAvailable !== false) {
+        try {
+          const cfRes = await fetchWithTimeout(
+            `${CF_WORKER_API_URL}?cityId=${encodeURIComponent(cityId)}&fp=${encodeURIComponent(state.deviceFingerprint)}&dateKey=${encodeURIComponent(todayKey)}&_t=${Date.now()}`,
+            { cache: 'no-store' },
+            3200
+          );
+          if (cfRes.status === 404) {
+            state.cfWorkerAvailable = false;
+          } else if (cfRes.ok) {
+            const cfData = await cfRes.json();
+            if (cfData && cfData.ok && cfData.votesMap) {
+              state.cfWorkerAvailable = true;
+              ballotRecords[cityId].votesMap = cfData.votesMap;
+              if (cfData.votedOpt && ['kmt', 'dpp', 'other', 'undecided'].includes(cfData.votedOpt)) {
+                ballotRecords[cityId].lastVotedDate = todayKey;
+                ballotRecords[cityId].lastVotedOpt = cfData.votedOpt;
+                setCookieVote(cityId, todayKey, cfData.votedOpt);
+              }
+              syncedViaWorker = true;
             }
-            syncedViaWorker = true;
           }
+        } catch (e) {
+          state.cfWorkerAvailable = false;
         }
-      } catch (e) {
-        // Worker route not active yet; proceed to shared Cloud KV
       }
 
       // 2. Fallback to live shared Cloud KV if Worker route is not active yet
       if (!syncedViaWorker) {
         const key = `tw2026_udn_votes_${cityId}`;
         const fpLockKey = `tw2026_lock_${cityId}_${todayKey}_${state.deviceFingerprint}`;
+        const cacheBust = `?_t=${Date.now()}`;
 
         try {
           const [resVotes, resLock] = await Promise.all([
-            fetch(`${CLOUD_KV_BASE}/GetValue/${CLOUD_KV_APP_KEY}/${key}`),
-            fetch(`${CLOUD_KV_BASE}/GetValue/${CLOUD_KV_APP_KEY}/${fpLockKey}`)
+            fetchWithTimeout(`${CLOUD_KV_BASE}/GetValue/${CLOUD_KV_APP_KEY}/${key}${cacheBust}`, { cache: 'no-store' }, 5000),
+            fetchWithTimeout(`${CLOUD_KV_BASE}/GetValue/${CLOUD_KV_APP_KEY}/${fpLockKey}${cacheBust}`, { cache: 'no-store' }, 5000)
           ]);
 
           if (resVotes.ok) {
             const text = await resVotes.text();
             const parsed = parseCloudVoteString(text, cityObj);
             if (parsed) {
+              const localMap = ballotRecords[cityId].votesMap || {};
+              if (hasVotedToday(cityId) && ballotRecords[cityId].lastVotedOpt) {
+                const vOpt = ballotRecords[cityId].lastVotedOpt;
+                parsed[vOpt] = Math.max(parsed[vOpt] || 0, localMap[vOpt] || 0);
+              }
               ballotRecords[cityId].votesMap = parsed;
             } else {
               const initStr = formatCloudVoteString(ballotRecords[cityId].votesMap);
@@ -3529,28 +3760,41 @@
       const syncText = document.getElementById('cloudSyncText');
       if (syncText) syncText.textContent = '雲端寫入同步中...';
 
+      // Optimistic instant +1 update so UI reflects the new vote immediately
+      const optimisticVal = (ballotRecords[cityId].votesMap[optId] || 0) + 1;
+      ballotRecords[cityId].votesMap[optId] = optimisticVal;
+      saveBallotRecords();
+      renderBallotBox();
+
       let writtenViaWorker = false;
 
       // 1. Try Cloudflare Worker + ELECTION_BALLOT_KV first
-      try {
-        const cfRes = await fetch(CF_WORKER_API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            cityId,
-            optId,
-            fingerprint: state.deviceFingerprint,
-            dateKey: todayKey
-          })
-        });
-        const cfData = await cfRes.json();
-        if (cfData && cfData.votesMap) {
-          ballotRecords[cityId].votesMap = cfData.votesMap;
-          writtenViaWorker = true;
-          if (syncText) syncText.textContent = '全網雲端即時同步';
+      if (state.cfWorkerAvailable !== false) {
+        try {
+          const cfRes = await fetchWithTimeout(CF_WORKER_API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              cityId,
+              optId,
+              fingerprint: state.deviceFingerprint,
+              dateKey: todayKey
+            })
+          }, 3500);
+          if (cfRes.status === 404) {
+            state.cfWorkerAvailable = false;
+          } else {
+            const cfData = await cfRes.json();
+            if (cfData && cfData.votesMap) {
+              state.cfWorkerAvailable = true;
+              ballotRecords[cityId].votesMap = cfData.votesMap;
+              writtenViaWorker = true;
+              if (syncText) syncText.textContent = '全網雲端即時同步';
+            }
+          }
+        } catch (e) {
+          state.cfWorkerAvailable = false;
         }
-      } catch (e) {
-        // Proceed to shared Cloud KV
       }
 
       // 2. Fallback to shared Cloud KV if Worker route is not active yet
@@ -3559,21 +3803,25 @@
         const fpLockKey = `tw2026_lock_${cityId}_${todayKey}_${state.deviceFingerprint}`;
 
         try {
-          const resLatest = await fetch(`${CLOUD_KV_BASE}/GetValue/${CLOUD_KV_APP_KEY}/${key}`);
+          const resLatest = await fetchWithTimeout(
+            `${CLOUD_KV_BASE}/GetValue/${CLOUD_KV_APP_KEY}/${key}?_t=${Date.now()}`,
+            { cache: 'no-store' },
+            5000
+          );
           if (resLatest.ok) {
             const latestText = await resLatest.text();
             const parsed = parseCloudVoteString(latestText, cityObj);
             if (parsed) {
+              parsed[optId] = Math.max(optimisticVal, (parsed[optId] || 0) + 1);
               ballotRecords[cityId].votesMap = parsed;
             }
           }
 
-          ballotRecords[cityId].votesMap[optId] = (ballotRecords[cityId].votesMap[optId] || 0) + 1;
           const updatedStr = formatCloudVoteString(ballotRecords[cityId].votesMap);
 
           await Promise.all([
-            fetch(`${CLOUD_KV_BASE}/UpdateValue/${CLOUD_KV_APP_KEY}/${key}/${updatedStr}`, { method: 'POST' }),
-            fetch(`${CLOUD_KV_BASE}/UpdateValue/${CLOUD_KV_APP_KEY}/${fpLockKey}/${optId}`, { method: 'POST' })
+            fetchWithTimeout(`${CLOUD_KV_BASE}/UpdateValue/${CLOUD_KV_APP_KEY}/${key}/${updatedStr}`, { method: 'POST' }, 5000),
+            fetchWithTimeout(`${CLOUD_KV_BASE}/UpdateValue/${CLOUD_KV_APP_KEY}/${fpLockKey}/${optId}`, { method: 'POST' }, 5000)
           ]);
 
           if (syncText) syncText.textContent = '全網雲端即時同步';
@@ -3994,12 +4242,12 @@
         btnText.textContent = '今日已完成投票';
         iconPath.setAttribute('d', 'M20 6L9 17l-5-5');
         const chosenName = city.ballot.options.find(o => o.id === rec.lastVotedOpt)?.name || '';
-        note.innerHTML = `<span style="color:var(--green-badge-fg); display:inline-flex; align-items:center; gap:5px; justify-content:center; flex-wrap:wrap;"><svg class="morph-svg" viewBox="0 0 24 24" style="width:13px; height:13px; stroke:currentColor;"><path d="M20 6L9 17l-5-5"/></svg>您今日已投給「${chosenName}」｜總計 ${totalVotes.toLocaleString()} 票（含 <a href="${city.udnUrl}" target="_blank" rel="noopener noreferrer" style="color:var(--accent-warm); text-decoration:underline;">UDN 民調儀表板</a> 基底 ${baseTotalVotes.toLocaleString()} 票 ＋ 本站即時選票 +${liveAddedVotes.toLocaleString()} 票）</span>`;
+        note.innerHTML = `<span style="color:var(--green-badge-fg); display:inline-flex; align-items:center; gap:5px; justify-content:center; flex-wrap:wrap;"><svg class="morph-svg" viewBox="0 0 24 24" style="width:13px; height:13px; stroke:currentColor;"><path d="M20 6L9 17l-5-5"/></svg>您今日已投給「${chosenName}」｜總計 ${totalVotes.toLocaleString()} 票（含<a href="${city.udnUrl}" target="_blank" rel="noopener noreferrer" style="color:var(--accent-warm); text-decoration:underline;">UDN 民調儀表板</a>基底 ${baseTotalVotes.toLocaleString()} 票 ＋ 本站即時選票 ）｜每人每日限投一次</span>`;
       } else {
         btn.disabled = false;
         btnText.textContent = '投票看結果';
         iconPath.setAttribute('d', 'M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11');
-        note.innerHTML = `總計 ${totalVotes.toLocaleString()} 票（含 <a href="${city.udnUrl}" target="_blank" rel="noopener noreferrer" style="color:var(--accent-warm); text-decoration:underline;">UDN 民調儀表板</a> 基底 ${baseTotalVotes.toLocaleString()} 票 ＋ 本站即時選票 +${liveAddedVotes.toLocaleString()} 票）｜每人每日限投一次`;
+        note.innerHTML = `總計 ${totalVotes.toLocaleString()} 票（含<a href="${city.udnUrl}" target="_blank" rel="noopener noreferrer" style="color:var(--accent-warm); text-decoration:underline;">UDN 民調儀表板</a>基底 ${baseTotalVotes.toLocaleString()} 票 ＋ 本站即時選票 ）｜每人每日限投一次`;
       }
     }
 
@@ -4141,30 +4389,70 @@
     /*************************************************************************
      * 6. REAL-TIME NEWS FETCHER & 60-SECOND AUTO-REFRESH PIPELINE
      *************************************************************************/
-    function renderNewsSection() {
-      const city = CITIES_DATA.find(c => c.id === state.activeCityId) || CITIES_DATA[0];
-      document.getElementById('newsSectionTitle').textContent = `即時民調與選情新聞・${city.name}`;
+    function getMergedNewsPool(city) {
+      const pool = [];
+      const seenTitles = new Set();
 
-      let items = state.liveNewsByCity[city.id] ? [...state.liveNewsByCity[city.id]] : [];
-      if (items.length < 4) {
-        const extra = [];
-        city.fallbackNews.forEach(n => extra.push(n));
-        CITIES_DATA.forEach(otherCity => {
+      const liveItems = state.liveNewsByCity[city.id] || [];
+      for (const item of liveItems) {
+        const key = (item.title || '').slice(0, 22);
+        if (key && !seenTitles.has(key)) {
+          seenTitles.add(key);
+          pool.push(item);
+        }
+      }
+
+      for (const item of (city.fallbackNews || [])) {
+        const key = (item.title || '').slice(0, 22);
+        if (key && !seenTitles.has(key)) {
+          seenTitles.add(key);
+          pool.push(item);
+        }
+      }
+
+      if (pool.length < 4) {
+        for (const otherCity of CITIES_DATA) {
           if (otherCity.id !== city.id) {
-            otherCity.fallbackNews.forEach(n => extra.push(n));
-          }
-        });
-        const existingTitles = new Set(items.map(i => i.title));
-        for (const ex of extra) {
-          if (!existingTitles.has(ex.title) && items.length < 4) {
-            items.push(ex);
-            existingTitles.add(ex.title);
+            for (const item of (otherCity.fallbackNews || [])) {
+              const key = (item.title || '').slice(0, 22);
+              if (key && !seenTitles.has(key) && pool.length < 8) {
+                seenTitles.add(key);
+                pool.push(item);
+              }
+            }
           }
         }
       }
 
+      return pool;
+    }
+
+    function renderNewsSection(withAnim = false) {
+      const city = CITIES_DATA.find(c => c.id === state.activeCityId) || CITIES_DATA[0];
+      document.getElementById('newsSectionTitle').textContent = `即時民調與選情新聞・${city.name}`;
+
+      const pool = getMergedNewsPool(city);
+      const totalLen = Math.max(1, pool.length);
+      const rawOffset = state.newsOffsetByCity[city.id] || 0;
+      const offset = rawOffset % totalLen;
+
+      const displayItems = [];
+      const count = Math.min(4, totalLen);
+      for (let i = 0; i < count; i++) {
+        displayItems.push(pool[(offset + i) % totalLen]);
+      }
+
+      const totalBatches = Math.max(1, Math.ceil(totalLen / 4));
+      const currentBatch = (Math.floor(offset / 4) % totalBatches) + 1;
+      const syncTimeStr = state.lastNewsSyncTime || new Date().toLocaleTimeString('zh-TW', { timeZone: 'Asia/Taipei', hour12: false });
+
+      const subEl = document.getElementById('newsSyncSubtitle');
+      if (subEl) {
+        subEl.textContent = `串接 Google News 即時選情 RSS（最後同步：${syncTimeStr}｜輪播批次 ${currentBatch}/${totalBatches}｜每 60 秒自動刷新）`;
+      }
+
       const newsEl = document.getElementById('liveNewsContainer');
-      newsEl.innerHTML = items.slice(0, 4).map(item => {
+      newsEl.innerHTML = displayItems.map(item => {
         const dotColor = item.camp === 'blue'
           ? 'var(--blue-main)'
           : item.camp === 'green'
@@ -4172,7 +4460,7 @@
           : 'var(--terracotta)';
 
         return `
-          <a class="news-card" href="${item.link}" target="_blank" rel="noopener noreferrer">
+          <a class="news-card ${withAnim ? 'news-refresh-anim' : ''}" href="${item.link}" target="_blank" rel="noopener noreferrer">
             <div>
               <div class="news-meta-top">
                 <span class="news-source-tag">${item.source}</span>
@@ -4192,11 +4480,73 @@
       }).join('');
     }
 
+    function normalizeNewsEntry(rawTitle, rawLink, rawSource, rawDate, city) {
+      const parts = (rawTitle || '').split(' - ');
+      const fallbackSource = parts.length > 1 ? parts.pop().trim() : '即時新聞';
+      const cleanTitle = (parts.join(' - ').trim() || rawTitle || '').replace(/<!\[CDATA\[|\]\]>/g, '');
+      const source = rawSource || fallbackSource;
+
+      let formattedDate = getTaipeiDateKey();
+      if (rawDate) {
+        const d = new Date(rawDate);
+        if (!Number.isNaN(d.getTime())) {
+          const dStr = d.toLocaleDateString('sv-SE', { timeZone: 'Asia/Taipei' });
+          const tStr = d.toLocaleTimeString('zh-TW', { timeZone: 'Asia/Taipei', hour12: false, hour: '2-digit', minute: '2-digit' });
+          formattedDate = `${dStr} ${tStr}`;
+        }
+      }
+
+      const camp = cleanTitle.includes(city.kmtName) && !cleanTitle.includes(city.dppName)
+        ? 'blue'
+        : cleanTitle.includes(city.dppName) && !cleanTitle.includes(city.kmtName)
+        ? 'green'
+        : 'neutral';
+
+      return {
+        title: cleanTitle,
+        source,
+        pubDate: formattedDate,
+        city: city.name,
+        camp,
+        link: rawLink || city.fallbackNews[0]?.link
+      };
+    }
+
+    function parseFeed2JsonItems(rawText, city) {
+      if (!rawText) return null;
+      try {
+        let jsonStr = rawText.trim();
+        const mdIdx = jsonStr.indexOf('Markdown Content:');
+        if (mdIdx >= 0) {
+          jsonStr = jsonStr.slice(mdIdx + 'Markdown Content:'.length).trim();
+        }
+        const firstBrace = jsonStr.indexOf('{');
+        if (firstBrace > 0) {
+          jsonStr = jsonStr.slice(firstBrace);
+        }
+        const data = JSON.parse(jsonStr);
+        const list = Array.isArray(data.items) ? data.items.slice(0, 12) : [];
+        if (list.length === 0) return null;
+
+        return list
+          .map(item => normalizeNewsEntry(
+            item.title || '',
+            item.url || item.link || '',
+            item.author?.name && !item.author.name.includes('@') ? item.author.name : '',
+            item.date_published || item.pubDate || '',
+            city
+          ))
+          .filter(item => item.title.length > 4);
+      } catch (e) {
+        return null;
+      }
+    }
+
     function parseRssXmlItems(xmlText, city) {
       if (!xmlText || !xmlText.includes('<item>')) return null;
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
-      const itemNodes = Array.from(xmlDoc.querySelectorAll('item')).slice(0, 4);
+      const itemNodes = Array.from(xmlDoc.querySelectorAll('item')).slice(0, 12);
       if (itemNodes.length === 0) return null;
 
       return itemNodes.map(node => {
@@ -4204,73 +4554,75 @@
         const link = node.querySelector('link')?.textContent?.trim() || '';
         const sourceNode = node.querySelector('source')?.textContent?.trim();
         const rawPubDate = node.querySelector('pubDate')?.textContent || '';
-
-        const parts = rawTitle.split(' - ');
-        const fallbackSource = parts.length > 1 ? parts.pop().trim() : '即時新聞';
-        const cleanTitle = (parts.join(' - ').trim() || rawTitle).replace(/<!\[CDATA\[|\]\]>/g, '');
-        const source = sourceNode || fallbackSource;
-
-        let formattedDate = getTaipeiDateKey();
-        if (rawPubDate) {
-          const d = new Date(rawPubDate);
-          if (!Number.isNaN(d.getTime())) {
-            const dStr = d.toLocaleDateString('sv-SE', { timeZone: 'Asia/Taipei' });
-            const tStr = d.toLocaleTimeString('zh-TW', { timeZone: 'Asia/Taipei', hour12: false, hour: '2-digit', minute: '2-digit' });
-            formattedDate = `${dStr} ${tStr}`;
-          }
-        }
-
-        const camp = cleanTitle.includes(city.kmtName) && !cleanTitle.includes(city.dppName)
-          ? 'blue'
-          : cleanTitle.includes(city.dppName) && !cleanTitle.includes(city.kmtName)
-          ? 'green'
-          : 'neutral';
-
-        return {
-          title: cleanTitle,
-          source,
-          pubDate: formattedDate,
-          city: city.name,
-          camp,
-          link: link || city.fallbackNews[0]?.link
-        };
+        return normalizeNewsEntry(rawTitle, link, sourceNode, rawPubDate, city);
       });
     }
 
-    async function fetchLiveElectionNews(cityId) {
+    async function fetchLiveElectionNews(cityId, advanceBatch = false) {
       const city = CITIES_DATA.find(c => c.id === cityId) || CITIES_DATA[0];
+      const btnRefresh = document.getElementById('btnRefreshNews');
+      if (btnRefresh) {
+        btnRefresh.classList.add('spinning');
+        setTimeout(() => btnRefresh.classList.remove('spinning'), 520);
+      }
+
+      // Immediately rotate news batch on auto-refresh or manual refresh click so UI updates at 0ms
+      if (advanceBatch) {
+        const currentPoolLen = Math.max(4, getMergedNewsPool(city).length);
+        state.newsOffsetByCity[city.id] = ((state.newsOffsetByCity[city.id] || 0) + 4) % currentPoolLen;
+        state.lastNewsSyncTime = new Date().toLocaleTimeString('zh-TW', { timeZone: 'Asia/Taipei', hour12: false });
+        if (cityId === state.activeCityId) {
+          renderNewsSection(true);
+        }
+      }
+
       const googleRssUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(city.rssQuery)}&hl=zh-TW&gl=TW&ceid=TW:zh-Hant`;
-      const proxyEndpoints = [
-        `https://api.allorigins.win/raw?url=${encodeURIComponent(googleRssUrl)}`,
-        `https://corsproxy.io/?url=${encodeURIComponent(googleRssUrl)}`
+      const doubleEncRss = encodeURIComponent(encodeURIComponent(googleRssUrl));
+      const singleEncRss = encodeURIComponent(googleRssUrl);
+
+      const endpoints = [
+        {
+          url: `https://r.jina.ai/https://www.toptal.com/developers/feed2json/convert?url=${doubleEncRss}`,
+          type: 'json'
+        },
+        {
+          url: `https://api.rss2json.com/v1/api.json?rss_url=${singleEncRss}`,
+          type: 'json'
+        },
+        {
+          url: `https://api.allorigins.win/raw?url=${singleEncRss}`,
+          type: 'xml'
+        }
       ];
 
-      for (const endpoint of proxyEndpoints) {
+      for (const ep of endpoints) {
         try {
-          const res = await fetch(endpoint);
+          const res = await fetchWithTimeout(ep.url, { cache: 'no-store' }, 4500);
           if (res.ok) {
-            const xmlText = await res.text();
-            const parsedItems = parseRssXmlItems(xmlText, city);
+            const rawText = await res.text();
+            const parsedItems = ep.type === 'json'
+              ? parseFeed2JsonItems(rawText, city)
+              : parseRssXmlItems(rawText, city);
             if (parsedItems && parsedItems.length > 0) {
               state.liveNewsByCity[city.id] = parsedItems;
               break;
             }
           }
         } catch (err) {
-          // Try next proxy endpoint or use pre-fetched direct article links in fallbackNews
+          // Try next endpoint or fall back to built-in multi-page real news pool
         }
       }
 
-      const nowStr = new Date().toLocaleTimeString('zh-TW', { timeZone: 'Asia/Taipei', hour12: false });
-      document.getElementById('newsSyncSubtitle').textContent =
-        `串接 Google News 即時選情 RSS（最後同步：${nowStr}｜每 60 秒自動刷新）`;
-      renderNewsSection();
+      state.lastNewsSyncTime = new Date().toLocaleTimeString('zh-TW', { timeZone: 'Asia/Taipei', hour12: false });
+      if (cityId === state.activeCityId) {
+        renderNewsSection(!advanceBatch);
+      }
     }
 
-    async function syncAllLiveFeeds() {
+    async function syncAllLiveFeeds(advanceNewsBatch = true) {
       state.secondsUntilNextSync = 60;
       await Promise.all([
-        fetchLiveElectionNews(state.activeCityId),
+        fetchLiveElectionNews(state.activeCityId, advanceNewsBatch),
         fetchCloudVotesForCity(state.activeCityId)
       ]);
     }
@@ -4613,7 +4965,7 @@
     document.getElementById('btnRedrawAll').addEventListener('click', () => {
       const activeCity = state.computedCities.find(c => c.id === state.activeCityId) || state.computedCities[0];
       triggerArtisticRedraw(activeCity.kmt >= activeCity.dpp);
-      syncAllLiveFeeds();
+      syncAllLiveFeeds(true);
     });
 
     document.getElementById('btnOpenShareModal').addEventListener('click', () => openShareModal());
@@ -4656,7 +5008,7 @@
     });
 
     document.getElementById('btnRefreshNews').addEventListener('click', () => {
-      fetchLiveElectionNews(state.activeCityId);
+      fetchLiveElectionNews(state.activeCityId, true);
     });
 
     document.querySelectorAll('.preset-card').forEach(btn => {
@@ -4699,7 +5051,7 @@
 
       state.secondsUntilNextSync -= 1;
       if (state.secondsUntilNextSync <= 0) {
-        syncAllLiveFeeds();
+        syncAllLiveFeeds(true);
       }
       document.getElementById('navSyncCountdown').textContent = `${state.secondsUntilNextSync}s 刷新`;
 
@@ -4734,7 +5086,7 @@
     initThreeArtisticBg();
     initScrollAutoHideNav();
     updateAllViews(true);
-    syncAllLiveFeeds();
+    syncAllLiveFeeds(false);
     tickClockAndSync();
     setInterval(tickClockAndSync, 1000);
   </script>
