@@ -56,6 +56,17 @@ export default {
     const clientIp = request.headers.get('CF-Connecting-IP') || '0.0.0.0';
 
     if (request.method === 'GET') {
+      if (cityId === 'all') {
+        const allVotes = {};
+        for (const c of ['taipei', 'newtaipei', 'taoyuan', 'taichung', 'tainan', 'kaohsiung']) {
+          allVotes[c] = (await env.ELECTION_BALLOT_KV.get(`votes_${c}`, 'json')) || INITIAL_VOTES[c];
+        }
+        return new Response(
+          JSON.stringify({ ok: true, allVotes }),
+          { headers: CORS_HEADERS }
+        );
+      }
+
       let votesMap = await env.ELECTION_BALLOT_KV.get(`votes_${cityId}`, 'json');
       if (!votesMap) {
         votesMap = INITIAL_VOTES[cityId] || INITIAL_VOTES.taipei;

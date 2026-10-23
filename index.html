@@ -3209,7 +3209,7 @@
       <strong>2026 台灣六都選情觀測站</strong>（2026 Taiwan Election Neural Visualizer）｜中選會審定名單、跨機構民調加權模擬與即時選情視覺化平台
     </div>
     <div>
-      資料來源：<a href="https://udn.com/vote2026/pollboard?city=Taipei" target="_blank" rel="noopener noreferrer">UDN 2026民調儀表板</a>・<a href="https://www.cec.gov.tw/" target="_blank" rel="noopener noreferrer">中央選舉委員會</a>・<a href="https://taiwan.md/" target="_blank" rel="noopener noreferrer">Taiwan.md 開源台灣知識庫</a>・<a href="https://monochromelab.idv.tw/2026-Taiwan-Election-Neural-Visualizer/llms.txt" target="_blank" rel="noopener noreferrer">LLMs.txt (AI 檢索索引)</a>
+      資料來源：<a href="https://udn.com/vote2026/pollboard?city=Taipei" target="_blank" rel="noopener noreferrer">UDN 2026民調儀表板</a>・<a href="https://www.cec.gov.tw/" target="_blank" rel="noopener noreferrer">中央選舉委員會</a>・<a href="https://taiwan.md/" target="_blank" rel="noopener noreferrer">Taiwan.md 開源台灣知識庫</a>・<a href="https://monochromelab.idv.tw/2026-Taiwan-Election-Neural-Visualizer/llms.txt" target="_blank" rel="noopener noreferrer">LLMs.txt (AI 檢索索引)</a>・<a href="admin/" style="opacity:0.45; text-decoration:none;" title="民意調查箱管理後台 (Admin)">後台管理</a>
     </div>
   </footer>
 
@@ -3335,7 +3335,7 @@
     const CANONICAL_SITE_URL = 'https://monochromelab.idv.tw/2026-Taiwan-Election-Neural-Visualizer/';
     const CF_KV_NAMESPACE = 'ELECTION_BALLOT_KV';
     const CF_KV_NAMESPACE_ID = '7a8600a9984b42888435f8836f0a67c6';
-    const CF_WORKER_API_URL = window.CF_WORKER_BALLOT_URL || 'https://monochromelab.idv.tw/api/ballot';
+    const CF_WORKER_API_URL = (window.CF_WORKER_BALLOT_URL || 'https://2026-taiwan-election-neural-visualizer.842679135jjj.workers.dev').replace(/\/+$/, '');
     const CLOUD_KV_BASE = 'https://keyvalue.immanuel.co/api/KeyVal';
     const CLOUD_KV_APP_KEY = 'xztsybjj';
 
@@ -4991,7 +4991,7 @@
         btnText.textContent = '今日已完成投票';
         iconPath.setAttribute('d', 'M20 6L9 17l-5-5');
         const chosenName = city.ballot.options.find(o => o.id === rec.lastVotedOpt)?.name || '';
-        note.innerHTML = `<span style="color:var(--green-badge-fg); display:inline-flex; align-items:center; gap:5px; justify-content:center; flex-wrap:wrap;"><svg class="morph-svg" viewBox="0 0 24 24" style="width:13px; height:13px; stroke:currentColor;"><path d="M20 6L9 17l-5-5"/></svg>您今日已投給「${chosenName}」｜明日 00:00 可再次投票｜總計 ${totalVotes.toLocaleString()} 票（含 <a href="${city.udnUrl}" target="_blank" rel="noopener noreferrer" style="color:var(--accent-warm); text-decoration:underline;">UDN 民調儀表板</a> 基底 ${baseTotalVotes.toLocaleString()} 票 ＋ 本站即時累積選票 +${liveAddedVotes.toLocaleString()} 票）</span>`;
+        note.innerHTML = `<span style="color:var(--green-badge-fg); display:inline-flex; align-items:center; gap:5px; justify-content:center; flex-wrap:wrap;"><svg class="morph-svg" viewBox="0 0 24 24" style="width:13px; height:13px; stroke:currentColor;"><path d="M20 6L9 17l-5-5"/></svg>您今日已投給「${chosenName}」｜明日 00:00 可再次投票｜總計 ${totalVotes.toLocaleString()} 票（基準資料：<a href="${city.udnUrl}" target="_blank" rel="noopener noreferrer" style="color:var(--accent-warm); text-decoration:underline;">UDN 民調儀表板</a>）</span>`;
       } else {
         btn.disabled = false;
         btnText.textContent = '投下今日選票 (看結果)';
@@ -5003,7 +5003,7 @@
           prevHistoryNote = `您上次於 ${rec.lastVotedDate} 曾投給「${prevName}」・`;
         }
 
-        note.innerHTML = `總計 ${totalVotes.toLocaleString()} 票（含 <a href="${city.udnUrl}" target="_blank" rel="noopener noreferrer" style="color:var(--accent-warm); text-decoration:underline;">UDN 民調儀表板</a> 基底 ${baseTotalVotes.toLocaleString()} 票 ＋ 本站即時累積選票 +${liveAddedVotes.toLocaleString()} 票）｜${prevHistoryNote}每人每日可投 1 票參與累計`;
+        note.innerHTML = `總計 ${totalVotes.toLocaleString()} 票（基準資料：<a href="${city.udnUrl}" target="_blank" rel="noopener noreferrer" style="color:var(--accent-warm); text-decoration:underline;">UDN 民調儀表板</a>）｜${prevHistoryNote}每人每日可投 1 票參與累計`;
       }
     }
 

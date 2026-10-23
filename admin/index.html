@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 台灣選情觀測站・民意調查箱管理後台 (Admin Dashboard)</title>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <!-- Google Fonts: Editorial Serif + Clean Sans + Numeric Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@600;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-canvas: #0a0c10;
+      --bg-primary: #0e1117;
+      --bg-card: rgba(20, 24, 32, 0.92);
+      --bg-card-solid: #151922;
+      --bg-elevated: rgba(28, 34, 45, 0.88);
+      --fg-primary: #eceae4;
+      --fg-secondary: #a6a9b0;
+      --fg-muted: #6e727d;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-card: rgba(255, 255, 255, 0.12);
+      --border-warm: rgba(196, 122, 98, 0.35);
+      --blue-main: #487bb6;
+      --blue-bright: #6699d4;
+      --green-main: #439256;
+      --green-bright: #60b073;
+      --terracotta: #c2745d;
+      --terracotta-hover: #d1836c;
+      --font-serif: 'Noto Serif TC', Georgia, serif;
+      --font-sans: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--fg-primary);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      line-height: 1.5;
+      padding-bottom: 60px;
+    }
+
+    .admin-header {
+      background: rgba(14, 17, 23, 0.95);
+      border-bottom: 1px solid var(--border-card);
+      padding: 16px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+    .header-inner {
+      max-width: 1360px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .brand-title {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .badge-admin {
+      background: rgba(194, 116, 93, 0.2);
+      border: 1px solid var(--border-warm);
+      color: var(--terracotta);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--border-card);
+      background: var(--bg-card-solid);
+      color: var(--fg-primary);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .btn:hover {
+      border-color: var(--terracotta);
+      background: rgba(194, 116, 93, 0.15);
+    }
+    .btn-primary {
+      background: var(--terracotta);
+      border-color: var(--terracotta);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: var(--terracotta-hover);
+    }
+
+    .main-wrap {
+      max-width: 1360px;
+      margin: 24px auto;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* KPI Summary Row */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .kpi-label {
+      font-size: 12.5px;
+      color: var(--fg-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .kpi-value {
+      font-family: var(--font-mono);
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--fg-primary);
+    }
+    .kpi-sub {
+      font-size: 12px;
+      color: var(--fg-muted);
+    }
+
+    /* City Detailed Cards */
+    .city-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .city-card-header {
+      padding: 16px 20px;
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .city-name {
+      font-size: 18px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .city-stats-pill {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border-subtle);
+      color: var(--fg-secondary);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    th, td {
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 13.5px;
+    }
+    th {
+      font-size: 12px;
+      color: var(--fg-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      background: rgba(0, 0, 0, 0.2);
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    .col-num {
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+    .added-badge {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 12px;
+    }
+    .added-badge.green {
+      background: rgba(67, 146, 86, 0.2);
+      color: #96dfb5;
+      border: 1px solid rgba(67, 146, 86, 0.4);
+    }
+    .added-badge.blue {
+      background: rgba(72, 123, 182, 0.2);
+      color: #9cc4f2;
+      border: 1px solid rgba(72, 123, 182, 0.4);
+    }
+    .added-badge.neutral {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--fg-secondary);
+    }
+
+    .camp-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+    .camp-dot.blue { background: var(--blue-main); }
+    .camp-dot.green { background: var(--green-main); }
+    .camp-dot.other { background: var(--fg-muted); }
+
+    /* Worker status pill */
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+    }
+    .status-pill.online {
+      background: rgba(67, 146, 86, 0.15);
+      border: 1px solid rgba(67, 146, 86, 0.4);
+      color: #96dfb5;
+    }
+    .status-pill.offline {
+      background: rgba(214, 69, 69, 0.15);
+      border: 1px solid rgba(214, 69, 69, 0.4);
+      color: #ff9b9b;
+    }
+    .pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 6px currentColor;
+    }
+
+    .toast-msg {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1c212b;
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 8px;
+      border: 1px solid var(--border-warm);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      font-size: 13px;
+      display: none;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="admin-header">
+    <div class="header-inner">
+      <div class="brand-title">
+        <span>2026 台灣選情觀測站</span>
+        <span class="badge-admin">民意調查箱後台 (ADMIN)</span>
+      </div>
+
+      <div class="header-actions">
+        <span class="status-pill online" id="workerStatusPill">
+          <span class="pulse-dot"></span>
+          <span id="workerStatusText">Cloudflare KV 偵測中...</span>
+        </span>
+        <button class="btn btn-primary" id="btnRefreshAll">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <polyline points="1 20 1 14 7 14"></polyline>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+          </svg>
+          <span>即時拉取六都最新</span>
+        </button>
+        <button class="btn" id="btnExportCsv">匯出 CSV 報表</button>
+        <button class="btn" id="btnExportJson">匯出 JSON</button>
+        <a class="btn" href="../">返回前台首頁</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-wrap">
+
+    <!-- KPI Summary Row -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">
+          <span>本站真實訪客累積增量</span>
+          <span class="badge-admin">NET ADDED</span>
+        </div>
+        <div class="kpi-value" id="kpiNetAdded" style="color:var(--terracotta);">--</div>
+        <div class="kpi-sub" id="kpiNetAddedSub">全網訪客於本站累積投下之實體票數</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-label">
+          <span>六都全網總累計票數</span>
+          <span>TOTAL VOTES</span>
+        </div>
+        <div class="kpi-value" id="kpiTotalVotes">--</div>
+        <div class="kpi-sub">含 UDN 民調儀表板基底 + 本站訪客累計</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-label">
+          <span>六都公開民調基底票數</span>
+          <span>BASE BENCHMARK</span>
+        </div>
+        <div class="kpi-value" id="kpiBaseVotes">33,087</div>
+        <div class="kpi-sub">UDN 2026九合一民調儀表板初始樣本基底</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-label">
+          <span>連線後端 API</span>
+          <span>WORKER ENDPOINT</span>
+        </div>
+        <div class="kpi-value" style="font-size:15px; word-break:break-all;" id="kpiWorkerUrl">
+          workers.dev
+        </div>
+        <div class="kpi-sub" id="kpiLatencyText">延遲：-- ms｜Namespace: ELECTION_BALLOT_KV</div>
+      </div>
+    </div>
+
+    <!-- 6 Cities Breakdown -->
+    <div id="citiesBreakdownStack" style="display:flex; flex-direction:column; gap:20px;">
+      <!-- Populated dynamically -->
+    </div>
+
+  </main>
+
+  <div class="toast-msg" id="toastMsg"></div>
+
+  <script>
+    const CF_WORKER_API_URL = 'https://2026-taiwan-election-neural-visualizer.842679135jjj.workers.dev';
+    const VOTE_STORAGE_KEY = 'tw2026_public_ballot_records_v4';
+
+    const CITIES_DATA = [
+      {
+        id: 'taipei',
+        name: '台北市',
+        udnUrl: 'https://udn.com/vote2026/pollboard?city=Taipei',
+        options: [
+          { id: 'kmt', name: '蔣萬安', camp: 'blue', baseVotes: 4337 },
+          { id: 'dpp', name: '沈伯洋', camp: 'green', baseVotes: 2596 },
+          { id: 'other', name: '其他', camp: 'other', baseVotes: 34 },
+          { id: 'undecided', name: '不知道 / 沒意見', camp: 'other', baseVotes: 85 }
+        ]
+      },
+      {
+        id: 'newtaipei',
+        name: '新北市',
+        udnUrl: 'https://udn.com/vote2026/pollboard?city=NewTaipei',
+        options: [
+          { id: 'kmt', name: '李四川', camp: 'blue', baseVotes: 3004 },
+          { id: 'dpp', name: '蘇巧慧', camp: 'green', baseVotes: 2532 },
+          { id: 'other', name: '其他', camp: 'other', baseVotes: 54 },
+          { id: 'undecided', name: '不知道 / 沒意見', camp: 'other', baseVotes: 162 }
+        ]
+      },
+      {
+        id: 'taoyuan',
+        name: '桃園市',
+        udnUrl: 'https://udn.com/vote2026/pollboard?city=Taoyuan',
+        options: [
+          { id: 'kmt', name: '張善政', camp: 'blue', baseVotes: 3120 },
+          { id: 'dpp', name: '黃世杰', camp: 'green', baseVotes: 972 },
+          { id: 'other', name: '其他', camp: 'other', baseVotes: 19 },
+          { id: 'undecided', name: '不知道 / 沒意見', camp: 'other', baseVotes: 104 }
+        ]
+      },
+      {
+        id: 'taichung',
+        name: '台中市',
+        udnUrl: 'https://udn.com/vote2026/pollboard?city=Taichung',
+        options: [
+          { id: 'kmt', name: '江啟臣', camp: 'blue', baseVotes: 2630 },
+          { id: 'dpp', name: '何欣純', camp: 'green', baseVotes: 2207 },
+          { id: 'other', name: '其他', camp: 'other', baseVotes: 41 },
+          { id: 'undecided', name: '不知道 / 沒意見', camp: 'other', baseVotes: 154 }
+        ]
+      },
+      {
+        id: 'tainan',
+        name: '台南市',
+        udnUrl: 'https://udn.com/vote2026/pollboard?city=Tainan',
+        options: [
+          { id: 'kmt', name: '謝龍介', camp: 'blue', baseVotes: 1812 },
+          { id: 'dpp', name: '陳亭妃', camp: 'green', baseVotes: 3201 },
+          { id: 'other', name: '其他', camp: 'other', baseVotes: 38 },
+          { id: 'undecided', name: '不知道 / 沒意見', camp: 'other', baseVotes: 112 }
+        ]
+      },
+      {
+        id: 'kaohsiung',
+        name: '高雄市',
+        udnUrl: 'https://udn.com/vote2026/pollboard?city=Kaohsiung',
+        options: [
+          { id: 'kmt', name: '柯志恩', camp: 'blue', baseVotes: 2865 },
+          { id: 'dpp', name: '賴瑞隆', camp: 'green', baseVotes: 2845 },
+          { id: 'other', name: '其他', camp: 'other', baseVotes: 49 },
+          { id: 'undecided', name: '不知道 / 沒意見', camp: 'other', baseVotes: 114 }
+        ]
+      }
+    ];
+
+    let liveData = {};
+
+    function showToast(msg) {
+      const el = document.getElementById('toastMsg');
+      el.textContent = msg;
+      el.style.display = 'block';
+      setTimeout(() => { el.style.display = 'none'; }, 2600);
+    }
+
+    async function fetchCityData(city) {
+      const startTime = performance.now();
+      try {
+        const res = await fetch(`${CF_WORKER_API_URL}?cityId=${city.id}&_t=${Date.now()}`, { cache: 'no-store' });
+        const latency = Math.round(performance.now() - startTime);
+        if (res.ok) {
+          const json = await res.json();
+          if (json && json.votesMap) {
+            return { votesMap: json.votesMap, source: 'Cloudflare KV (Online)', latency };
+          }
+        }
+      } catch (e) {}
+
+      // Fallback to local storage if worker network is blocked
+      let localMap = {};
+      try {
+        const saved = JSON.parse(localStorage.getItem(VOTE_STORAGE_KEY) || '{}');
+        if (saved[city.id] && saved[city.id].votesMap) {
+          localMap = saved[city.id].votesMap;
+        }
+      } catch (e) {}
+
+      const fallbackMap = {};
+      city.options.forEach(o => {
+        fallbackMap[o.id] = Math.max(o.baseVotes, localMap[o.id] || 0);
+      });
+      return { votesMap: fallbackMap, source: 'Local Cache (Offline)', latency: 0 };
+    }
+
+    async function loadAllCities() {
+      document.getElementById('workerStatusText').textContent = '同步中...';
+      const container = document.getElementById('citiesBreakdownStack');
+
+      let globalTotalVotes = 0;
+      let globalBaseVotes = 0;
+      let globalNetAdded = 0;
+      let lastLatency = 0;
+      let isAllOnline = true;
+
+      const promises = CITIES_DATA.map(async city => {
+        const result = await fetchCityData(city);
+        if (result.source.includes('Offline')) isAllOnline = false;
+        if (result.latency > 0) lastLatency = result.latency;
+        return { city, ...result };
+      });
+
+      const results = await Promise.all(promises);
+      container.innerHTML = '';
+
+      results.forEach(({ city, votesMap, source, latency }) => {
+        const cityTotal = city.options.reduce((sum, o) => sum + (votesMap[o.id] || 0), 0);
+        const cityBase = city.options.reduce((sum, o) => sum + o.baseVotes, 0);
+        const cityNetAdded = Math.max(0, cityTotal - cityBase);
+
+        globalTotalVotes += cityTotal;
+        globalBaseVotes += cityBase;
+        globalNetAdded += cityNetAdded;
+        liveData[city.id] = { city, votesMap, cityTotal, cityBase, cityNetAdded };
+
+        const rowsHtml = city.options.map(opt => {
+          const currentCount = votesMap[opt.id] || opt.baseVotes;
+          const addedCount = Math.max(0, currentCount - opt.baseVotes);
+          const currentPct = cityTotal > 0 ? ((currentCount / cityTotal) * 100).toFixed(1) : '0.0';
+          const basePct = cityBase > 0 ? ((opt.baseVotes / cityBase) * 100).toFixed(1) : '0.0';
+          const shiftPp = (parseFloat(currentPct) - parseFloat(basePct)).toFixed(1);
+          const shiftStr = parseFloat(shiftPp) >= 0 ? `+${shiftPp}pp` : `${shiftPp}pp`;
+
+          let addedBadgeClass = 'neutral';
+          if (opt.camp === 'blue' && addedCount > 0) addedBadgeClass = 'blue';
+          else if (opt.camp === 'green' && addedCount > 0) addedBadgeClass = 'green';
+
+          return `
+            <tr>
+              <td>
+                <span class="camp-dot ${opt.camp}"></span>
+                <strong>${opt.name}</strong>
+              </td>
+              <td class="col-num" style="color:var(--fg-secondary);">${opt.baseVotes.toLocaleString()}</td>
+              <td class="col-num">
+                <span class="added-badge ${addedBadgeClass}">
+                  ${addedCount > 0 ? `+${addedCount.toLocaleString()} 票` : '0 票'}
+                </span>
+              </td>
+              <td class="col-num" style="color:var(--fg-primary); font-size:15px;">
+                ${currentCount.toLocaleString()}
+              </td>
+              <td class="col-num" style="color:var(--terracotta);">
+                <strong>${currentPct}%</strong>
+                <span style="font-size:11px; color:var(--fg-muted); margin-left:4px;">(基底 ${basePct}%)</span>
+              </td>
+              <td class="col-num" style="color:${parseFloat(shiftPp) >= 0 ? '#96dfb5' : '#ff9b9b'};">
+                ${shiftStr}
+              </td>
+            </tr>
+          `;
+        }).join('');
+
+        const card = document.createElement('div');
+        card.className = 'city-card';
+        card.innerHTML = `
+          <div class="city-card-header">
+            <div class="city-name">
+              <span>${city.name}</span>
+              <a href="${city.udnUrl}" target="_blank" rel="noopener noreferrer" style="font-size:12px; color:var(--terracotta); text-decoration:none;">
+                [UDN 儀表板 ↗]
+              </a>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+              <span class="city-stats-pill">
+                基底：${cityBase.toLocaleString()} 票 ｜ 本站增量：<strong style="color:var(--terracotta);">+${cityNetAdded.toLocaleString()} 票</strong> ｜ 總計：${cityTotal.toLocaleString()} 票
+              </span>
+              <span style="font-size:11.5px; color:var(--fg-muted);">(${source})</span>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>候選人／選項</th>
+                  <th>UDN 公開基底票數</th>
+                  <th>本站訪客即時增量 (+NET)</th>
+                  <th>當前累積總票數</th>
+                  <th>當前得票率 (基底得票率)</th>
+                  <th>板塊位移 (Δpp)</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rowsHtml}
+              </tbody>
+            </table>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      // Update KPI
+      document.getElementById('kpiNetAdded').textContent = `+${globalNetAdded.toLocaleString()} 票`;
+      document.getElementById('kpiNetAddedSub').textContent = `本站全網訪客累計投下 ${globalNetAdded.toLocaleString()} 票`;
+      document.getElementById('kpiTotalVotes').textContent = globalTotalVotes.toLocaleString();
+      document.getElementById('kpiBaseVotes').textContent = globalBaseVotes.toLocaleString();
+      document.getElementById('kpiWorkerUrl').textContent = CF_WORKER_API_URL.replace('https://', '');
+      document.getElementById('kpiLatencyText').textContent = `連線延遲：${lastLatency || '--'} ms ｜ Cloudflare KV 線上`;
+
+      const statusPill = document.getElementById('workerStatusPill');
+      const statusText = document.getElementById('workerStatusText');
+      if (isAllOnline) {
+        statusPill.className = 'status-pill online';
+        statusText.textContent = `Cloudflare KV 已連線 (${lastLatency}ms)`;
+      } else {
+        statusPill.className = 'status-pill offline';
+        statusText.textContent = 'Worker 離線或快取中';
+      }
+
+      showToast(`已成功同步六都最新票數（本站訪客總增量 +${globalNetAdded.toLocaleString()} 票）`);
+    }
+
+    // Export CSV
+    document.getElementById('btnExportCsv').addEventListener('click', () => {
+      const rows = [
+        ['選區', '候選人', '陣營', 'UDN基底票數', '本站即時增量', '當前累積總票數', '當前得票率', '基準來源']
+      ];
+      CITIES_DATA.forEach(city => {
+        const item = liveData[city.id];
+        if (!item) return;
+        city.options.forEach(opt => {
+          const count = item.votesMap[opt.id] || opt.baseVotes;
+          const added = Math.max(0, count - opt.baseVotes);
+          const pct = item.cityTotal > 0 ? ((count / item.cityTotal) * 100).toFixed(2) + '%' : '0%';
+          rows.push([city.name, opt.name, opt.camp, opt.baseVotes, added, count, pct, city.udnUrl]);
+        });
+      });
+
+      const csvContent = 'data:text/csv;charset=utf-8,\uFEFF' + rows.map(e => e.join(',')).join('\n');
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement('a');
+      link.setAttribute('href', encodedUri);
+      link.setAttribute('download', `2026_Taiwan_Election_Ballot_Admin_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+
+    // Export JSON
+    document.getElementById('btnExportJson').addEventListener('click', () => {
+      const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(liveData, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute('href', dataStr);
+      downloadAnchor.setAttribute('download', `2026_Taiwan_Election_Ballot_Admin_${new Date().toISOString().slice(0,10)}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    });
+
+    document.getElementById('btnRefreshAll').addEventListener('click', () => loadAllCities());
+
+    // Auto-load on open
+    loadAllCities();
+    // Auto-refresh every 30 seconds
+    setInterval(loadAllCities, 30000);
+  </script>
+</body>
+</html>
