@@ -2785,8 +2785,8 @@
 
           <div>
             <div class="ballot-info-bar">
-              <span class="ballot-info-item" id="ballotTimeRemaining">剩餘時間： 28天 0小時</span>
-              <span class="ballot-info-item">投票頻率： 1天一次</span>
+              <span class="ballot-info-item" id="ballotTimeRemaining">剩餘時間： 計算中...</span>
+              <span class="ballot-info-item">投票頻率： 1天一次 (累積計票)</span>
             </div>
 
             <div class="ballot-footer-center">
@@ -4273,13 +4273,55 @@
 
     let ballotRecords = {};
 
+    // Monotonic vote counter merge (CRDT Grow-Only counter: guarantees vote count NEVER resets or drops)
+    function mergeVotesMap(baseOptions, currentMap, incomingMap) {
+      const merged = {};
+      baseOptions.forEach(opt => {
+        const base = opt.baseVotes || 0;
+        const cur = (currentMap && typeof currentMap[opt.id] === 'number') ? currentMap[opt.id] : 0;
+        const inc = (incomingMap && typeof incomingMap[opt.id] === 'number') ? incomingMap[opt.id] : 0;
+        merged[opt.id] = Math.max(base, cur, inc);
+      });
+      return merged;
+    }
+
     function loadBallotRecords() {
       state.deviceFingerprint = computeDeviceFingerprint();
-      try {
-        const saved = localStorage.getItem(VOTE_STORAGE_KEY);
-        if (saved) ballotRecords = JSON.parse(saved);
-      } catch (e) {
-        ballotRecords = {};
+      ballotRecords = {};
+
+      // Migrate from any existing localStorage versions so no votes are ever lost across updates
+      const storageKeys = [
+        VOTE_STORAGE_KEY,
+        'tw2026_public_ballot_records_v4',
+        'tw2026_public_ballot_records_v3',
+        'tw2026_public_ballot_records_v2',
+        'tw2026_public_ballot_records'
+      ];
+      for (const k of storageKeys) {
+        try {
+          const s = localStorage.getItem(k);
+          if (s) {
+            const parsed = JSON.parse(s);
+            if (parsed && typeof parsed === 'object') {
+              for (const cId in parsed) {
+                if (!ballotRecords[cId]) {
+                  ballotRecords[cId] = parsed[cId];
+                } else if (parsed[cId] && parsed[cId].votesMap) {
+                  const curMap = ballotRecords[cId].votesMap || {};
+                  const prevMap = parsed[cId].votesMap || {};
+                  for (const optId in prevMap) {
+                    curMap[optId] = Math.max(curMap[optId] || 0, prevMap[optId] || 0);
+                  }
+                  ballotRecords[cId].votesMap = curMap;
+                  if (!ballotRecords[cId].lastVotedDate && parsed[cId].lastVotedDate) {
+                    ballotRecords[cId].lastVotedDate = parsed[cId].lastVotedDate;
+                    ballotRecords[cId].lastVotedOpt = parsed[cId].lastVotedOpt;
+                  }
+                }
+              }
+            }
+          }
+        } catch (e) {}
       }
 
       const todayKey = getTaipeiDateKey();
@@ -4290,18 +4332,25 @@
             votesMap: {},
             lastVotedDate: null,
             lastVotedOpt: null,
+            voteHistory: [],
             fingerprint: state.deviceFingerprint
           };
-          city.ballot.options.forEach(o => {
-            ballotRecords[city.id].votesMap[o.id] = o.baseVotes;
-          });
         }
+        if (!ballotRecords[city.id].votesMap) {
+          ballotRecords[city.id].votesMap = {};
+        }
+
+        // Monotonic initialization: always ensure base votes are preserved and past votes never decrease
+        ballotRecords[city.id].votesMap = mergeVotesMap(city.ballot.options, ballotRecords[city.id].votesMap, null);
+
         const cookieOpt = getCookieVote(city.id, todayKey);
-        if (cookieOpt && ballotRecords[city.id].lastVotedDate !== todayKey) {
+        if (cookieOpt) {
           ballotRecords[city.id].lastVotedDate = todayKey;
           ballotRecords[city.id].lastVotedOpt = cookieOpt;
         }
       });
+
+      saveBallotRecords();
     }
 
     function saveBallotRecords() {
@@ -4352,6 +4401,7 @@
     // Fetch real-time shared cloud vote counts for a city so all visitors see identical numbers
     // Priority 1: Cloudflare Worker bound to ELECTION_BALLOT_KV (7a8600a9984b42888435f8836f0a67c6)
     // Priority 2: Automatic fallback to shared global Cloud KV
+    // Monotonic Guarantee: Votes across days, devices and cloud are merged with Math.max, NEVER overwritten to lower!
     async function fetchCloudVotesForCity(cityId) {
       const cityObj = CITIES_DATA.find(c => c.id === cityId);
       if (!cityObj) return;
@@ -4373,7 +4423,8 @@
             const cfData = await cfRes.json();
             if (cfData && cfData.ok && cfData.votesMap) {
               state.cfWorkerAvailable = true;
-              ballotRecords[cityId].votesMap = cfData.votesMap;
+              // Monotonically merge remote with local votesMap (never drops local votes)
+              ballotRecords[cityId].votesMap = mergeVotesMap(cityObj.ballot.options, ballotRecords[cityId].votesMap, cfData.votesMap);
               if (cfData.votedOpt && ['kmt', 'dpp', 'other', 'undecided'].includes(cfData.votedOpt)) {
                 ballotRecords[cityId].lastVotedDate = todayKey;
                 ballotRecords[cityId].lastVotedOpt = cfData.votedOpt;
@@ -4395,20 +4446,16 @@
 
         try {
           const [resVotes, resLock] = await Promise.all([
-            fetchWithTimeout(`${CLOUD_KV_BASE}/GetValue/${CLOUD_KV_APP_KEY}/${key}${cacheBust}`, { cache: 'no-store' }, 5000),
-            fetchWithTimeout(`${CLOUD_KV_BASE}/GetValue/${CLOUD_KV_APP_KEY}/${fpLockKey}${cacheBust}`, { cache: 'no-store' }, 5000)
+            fetchWithTimeout(`${CLOUD_KV_BASE}/GetValue/${CLOUD_KV_APP_KEY}/${key}${cacheBust}`, { cache: 'no-store' }, 4000),
+            fetchWithTimeout(`${CLOUD_KV_BASE}/GetValue/${CLOUD_KV_APP_KEY}/${fpLockKey}${cacheBust}`, { cache: 'no-store' }, 4000)
           ]);
 
           if (resVotes.ok) {
             const text = await resVotes.text();
             const parsed = parseCloudVoteString(text, cityObj);
             if (parsed) {
-              const localMap = ballotRecords[cityId].votesMap || {};
-              if (hasVotedToday(cityId) && ballotRecords[cityId].lastVotedOpt) {
-                const vOpt = ballotRecords[cityId].lastVotedOpt;
-                parsed[vOpt] = Math.max(parsed[vOpt] || 0, localMap[vOpt] || 0);
-              }
-              ballotRecords[cityId].votesMap = parsed;
+              // Monotonically merge: take the MAX across base, local, and remote!
+              ballotRecords[cityId].votesMap = mergeVotesMap(cityObj.ballot.options, ballotRecords[cityId].votesMap, parsed);
             } else {
               const initStr = formatCloudVoteString(ballotRecords[cityId].votesMap);
               fetch(`${CLOUD_KV_BASE}/UpdateValue/${CLOUD_KV_APP_KEY}/${key}/${initStr}`, { method: 'POST' }).catch(() => {});
@@ -4443,15 +4490,18 @@
       const syncText = document.getElementById('cloudSyncText');
       if (syncText) syncText.textContent = '雲端寫入同步中...';
 
-      // Optimistic instant +1 update so UI reflects the new vote immediately
-      const optimisticVal = (ballotRecords[cityId].votesMap[optId] || 0) + 1;
-      ballotRecords[cityId].votesMap[optId] = optimisticVal;
+      // 1. Optimistic instant increment
+      const currentVal = ballotRecords[cityId].votesMap[optId] || cityObj.ballot.options.find(o => o.id === optId)?.baseVotes || 0;
+      ballotRecords[cityId].votesMap[optId] = currentVal + 1;
+      ballotRecords[cityId].lastVotedDate = todayKey;
+      ballotRecords[cityId].lastVotedOpt = optId;
+      setCookieVote(cityId, todayKey, optId);
       saveBallotRecords();
       renderBallotBox();
 
       let writtenViaWorker = false;
 
-      // 1. Try Cloudflare Worker + ELECTION_BALLOT_KV first
+      // 2. Try Cloudflare Worker + ELECTION_BALLOT_KV first
       if (state.cfWorkerAvailable !== false) {
         try {
           const cfRes = await fetchWithTimeout(CF_WORKER_API_URL, {
@@ -4470,7 +4520,7 @@
             const cfData = await cfRes.json();
             if (cfData && cfData.votesMap) {
               state.cfWorkerAvailable = true;
-              ballotRecords[cityId].votesMap = cfData.votesMap;
+              ballotRecords[cityId].votesMap = mergeVotesMap(cityObj.ballot.options, ballotRecords[cityId].votesMap, cfData.votesMap);
               writtenViaWorker = true;
               if (syncText) syncText.textContent = '全網雲端即時同步';
             }
@@ -4480,7 +4530,7 @@
         }
       }
 
-      // 2. Fallback to shared Cloud KV if Worker route is not active yet
+      // 3. Fallback to shared Cloud KV if Worker route is not active yet
       if (!writtenViaWorker) {
         const key = `tw2026_udn_votes_${cityId}`;
         const fpLockKey = `tw2026_lock_${cityId}_${todayKey}_${state.deviceFingerprint}`;
@@ -4489,27 +4539,26 @@
           const resLatest = await fetchWithTimeout(
             `${CLOUD_KV_BASE}/GetValue/${CLOUD_KV_APP_KEY}/${key}?_t=${Date.now()}`,
             { cache: 'no-store' },
-            5000
+            4000
           );
           if (resLatest.ok) {
             const latestText = await resLatest.text();
             const parsed = parseCloudVoteString(latestText, cityObj);
             if (parsed) {
-              parsed[optId] = Math.max(optimisticVal, (parsed[optId] || 0) + 1);
-              ballotRecords[cityId].votesMap = parsed;
+              ballotRecords[cityId].votesMap = mergeVotesMap(cityObj.ballot.options, ballotRecords[cityId].votesMap, parsed);
             }
           }
 
           const updatedStr = formatCloudVoteString(ballotRecords[cityId].votesMap);
 
           await Promise.all([
-            fetchWithTimeout(`${CLOUD_KV_BASE}/UpdateValue/${CLOUD_KV_APP_KEY}/${key}/${updatedStr}`, { method: 'POST' }, 5000),
-            fetchWithTimeout(`${CLOUD_KV_BASE}/UpdateValue/${CLOUD_KV_APP_KEY}/${fpLockKey}/${optId}`, { method: 'POST' }, 5000)
+            fetchWithTimeout(`${CLOUD_KV_BASE}/UpdateValue/${CLOUD_KV_APP_KEY}/${key}/${updatedStr}`, { method: 'POST' }, 4000),
+            fetchWithTimeout(`${CLOUD_KV_BASE}/UpdateValue/${CLOUD_KV_APP_KEY}/${fpLockKey}/${optId}`, { method: 'POST' }, 4000)
           ]);
 
           if (syncText) syncText.textContent = '全網雲端即時同步';
         } catch (e) {
-          if (syncText) syncText.textContent = '已記錄選票';
+          if (syncText) syncText.textContent = '本機已安全記錄選票';
         }
       }
 
@@ -4873,6 +4922,7 @@
       const city = CITIES_DATA.find(c => c.id === state.activeCityId) || CITIES_DATA[0];
       const rec = ballotRecords[city.id];
       const votedToday = hasVotedToday(city.id);
+      const todayKey = getTaipeiDateKey();
 
       if (votedToday && rec.lastVotedOpt) {
         state.selectedBallotOpt = rec.lastVotedOpt;
@@ -4912,7 +4962,7 @@
                 <span class="ballot-opt-name">${opt.name} ${campDot}</span>
               </div>
               <div class="ballot-opt-stats">
-                <strong>${pct}%</strong> <span class="votes-num">(${count}票 )</span>
+                <strong>${pct}%</strong> <span class="votes-num">(${count.toLocaleString()} 票)</span>
               </div>
             </div>
             <div class="ballot-bar-bg">
@@ -4941,12 +4991,19 @@
         btnText.textContent = '今日已完成投票';
         iconPath.setAttribute('d', 'M20 6L9 17l-5-5');
         const chosenName = city.ballot.options.find(o => o.id === rec.lastVotedOpt)?.name || '';
-        note.innerHTML = `<span style="color:var(--green-badge-fg); display:inline-flex; align-items:center; gap:5px; justify-content:center; flex-wrap:wrap;"><svg class="morph-svg" viewBox="0 0 24 24" style="width:13px; height:13px; stroke:currentColor;"><path d="M20 6L9 17l-5-5"/></svg>您今日已投給「${chosenName}」｜總計 ${totalVotes.toLocaleString()} 票（含<a href="${city.udnUrl}" target="_blank" rel="noopener noreferrer" style="color:var(--accent-warm); text-decoration:underline;">UDN 民調儀表板</a>基底 ${baseTotalVotes.toLocaleString()} 票 ＋ 本站即時選票 ）｜每人每日限投一次</span>`;
+        note.innerHTML = `<span style="color:var(--green-badge-fg); display:inline-flex; align-items:center; gap:5px; justify-content:center; flex-wrap:wrap;"><svg class="morph-svg" viewBox="0 0 24 24" style="width:13px; height:13px; stroke:currentColor;"><path d="M20 6L9 17l-5-5"/></svg>您今日已投給「${chosenName}」｜明日 00:00 可再次投票｜總計 ${totalVotes.toLocaleString()} 票（含 <a href="${city.udnUrl}" target="_blank" rel="noopener noreferrer" style="color:var(--accent-warm); text-decoration:underline;">UDN 民調儀表板</a> 基底 ${baseTotalVotes.toLocaleString()} 票 ＋ 本站即時累積選票 +${liveAddedVotes.toLocaleString()} 票）</span>`;
       } else {
         btn.disabled = false;
-        btnText.textContent = '投票看結果';
+        btnText.textContent = '投下今日選票 (看結果)';
         iconPath.setAttribute('d', 'M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11');
-        note.innerHTML = `總計 ${totalVotes.toLocaleString()} 票（含<a href="${city.udnUrl}" target="_blank" rel="noopener noreferrer" style="color:var(--accent-warm); text-decoration:underline;">UDN 民調儀表板</a>基底 ${baseTotalVotes.toLocaleString()} 票 ＋ 本站即時選票 ）｜每人每日限投一次`;
+
+        let prevHistoryNote = '';
+        if (rec.lastVotedDate && rec.lastVotedDate !== todayKey && rec.lastVotedOpt) {
+          const prevName = city.ballot.options.find(o => o.id === rec.lastVotedOpt)?.name || '';
+          prevHistoryNote = `您上次於 ${rec.lastVotedDate} 曾投給「${prevName}」・`;
+        }
+
+        note.innerHTML = `總計 ${totalVotes.toLocaleString()} 票（含 <a href="${city.udnUrl}" target="_blank" rel="noopener noreferrer" style="color:var(--accent-warm); text-decoration:underline;">UDN 民調儀表板</a> 基底 ${baseTotalVotes.toLocaleString()} 票 ＋ 本站即時累積選票 +${liveAddedVotes.toLocaleString()} 票）｜${prevHistoryNote}每人每日可投 1 票參與累計`;
       }
     }
 
@@ -6485,7 +6542,7 @@
       const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
       const hours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       document.getElementById('electionCountdown').textContent = `${days} 天 ${hours} 小時`;
-      document.getElementById('ballotTimeRemaining').textContent = `剩餘時間： 28天 0小時`;
+      document.getElementById('ballotTimeRemaining').textContent = `剩餘時間： ${days}天 ${hours}小時`;
 
       const blackoutDate = new Date('2026-11-18T00:00:00+08:00').getTime();
       const blackoutDiff = Math.max(0, blackoutDate - now.getTime());
