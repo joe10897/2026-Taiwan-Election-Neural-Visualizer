@@ -26,7 +26,8 @@ const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type',
-  'Content-Type': 'application/json; charset=utf-8'
+  'Content-Type': 'application/json; charset=utf-8',
+  'Cache-Control': 'no-cache, no-store, must-revalidate'
 };
 
 async function sha256Hex(message) {
@@ -85,6 +86,25 @@ export default {
 
     if (request.method === 'POST') {
       const body = await request.json();
+
+      // 管理者後台一鍵校準 / 更新雲端票數 (Admin Set Votes)
+      if (body.action === 'ADMIN_SET_VOTES') {
+        const updateCity = body.cityId || 'taipei';
+        const newVotes = body.votesMap;
+        if (newVotes && typeof newVotes === 'object') {
+          const base = INITIAL_VOTES[updateCity] || INITIAL_VOTES.taipei;
+          const sanitized = {};
+          for (const k in base) {
+            sanitized[k] = Math.max(base[k], parseInt(newVotes[k], 10) || 0);
+          }
+          await env.ELECTION_BALLOT_KV.put(`votes_${updateCity}`, JSON.stringify(sanitized));
+          return new Response(
+            JSON.stringify({ ok: true, cityId: updateCity, votesMap: sanitized }),
+            { headers: CORS_HEADERS }
+          );
+        }
+      }
+
       const targetCity = body.cityId || 'taipei';
       const optId = body.optId || 'kmt';
       const fingerprint = body.fingerprint || 'unknown_fp';

@@ -375,6 +375,24 @@
 
   </main>
 
+  <!-- Calibrate Modal -->
+  <div id="calibrateModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); backdrop-filter:blur(4px); z-index:999; align-items:center; justify-content:center; padding:20px;">
+    <div style="background:var(--bg-card-solid); border:1px solid var(--border-card); border-radius:12px; max-width:480px; width:100%; padding:24px; box-shadow:0 20px 40px rgba(0,0,0,0.6);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h3 id="calibrateModalTitle" style="font-family:var(--font-serif); font-size:18px;">校準票數</h3>
+        <button onclick="closeCalibrateModal()" style="background:none; border:none; color:var(--fg-muted); font-size:22px; cursor:pointer;">&times;</button>
+      </div>
+      <p style="color:var(--fg-secondary); font-size:12.5px; margin-bottom:16px;">
+        可直接自訂或校準該市在 Cloudflare KV 中的票數（保證不低於 UDN 官方基底），儲存後全網設備（手機、電腦）與前台訪客將自動同步。
+      </p>
+      <div id="calibrateModalInputs" style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;"></div>
+      <div style="display:flex; justify-content:flex-end; gap:10px;">
+        <button class="btn" onclick="closeCalibrateModal()">取消</button>
+        <button class="btn btn-primary" id="btnSaveCalibrate" onclick="submitCalibrate()">儲存並發布至雲端</button>
+      </div>
+    </div>
+  </div>
+
   <div class="toast-msg" id="toastMsg"></div>
 
   <script>
@@ -570,6 +588,9 @@
               <span class="city-stats-pill">
                 基底：${cityBase.toLocaleString()} 票 ｜ 本站增量：<strong style="color:var(--terracotta);">+${cityNetAdded.toLocaleString()} 票</strong> ｜ 總計：${cityTotal.toLocaleString()} 票
               </span>
+              <button class="btn" onclick="openCalibrateModal('${city.id}')" style="padding:4px 10px; font-size:12px;" title="微調或校準該市在 Cloudflare KV 的即時票數">
+                ✏️ 校準票數
+              </button>
               <span style="font-size:11.5px; color:var(--fg-muted);">(${source})</span>
             </div>
           </div>
@@ -651,6 +672,74 @@
       downloadAnchor.click();
       downloadAnchor.remove();
     });
+
+    // Modal calibration logic
+    let activeCalibrateCityId = null;
+    window.openCalibrateModal = function(cityId) {
+      activeCalibrateCityId = cityId;
+      const data = liveData[cityId];
+      if (!data) return;
+      document.getElementById('calibrateModalTitle').textContent = `校準【${data.city.name}】雲端票數`;
+      const inputsContainer = document.getElementById('calibrateModalInputs');
+      inputsContainer.innerHTML = data.city.options.map(opt => {
+        const cur = data.votesMap[opt.id] || opt.baseVotes;
+        return `
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; background:var(--bg-card); padding:8px 12px; border-radius:8px; border:1px solid var(--border-card);">
+            <label style="font-size:13px; font-weight:600; display:flex; align-items:center; gap:6px;">
+              <span class="camp-dot ${opt.camp}"></span>${opt.name}
+              <span style="font-size:11px; color:var(--fg-muted);">(基底 ${opt.baseVotes.toLocaleString()})</span>
+            </label>
+            <input type="number" id="calInput_${opt.id}" value="${cur}" min="${opt.baseVotes}" style="width:120px; background:var(--bg-elevated); border:1px solid var(--border-card); color:var(--fg-primary); padding:6px 10px; border-radius:6px; font-family:var(--font-mono); font-size:13px; text-align:right;" />
+          </div>
+        `;
+      }).join('');
+      document.getElementById('calibrateModal').style.display = 'flex';
+    };
+
+    window.closeCalibrateModal = function() {
+      document.getElementById('calibrateModal').style.display = 'none';
+      activeCalibrateCityId = null;
+    };
+
+    window.submitCalibrate = async function() {
+      if (!activeCalibrateCityId) return;
+      const data = liveData[activeCalibrateCityId];
+      if (!data) return;
+      const btn = document.getElementById('btnSaveCalibrate');
+      btn.disabled = true;
+      btn.textContent = '寫入 Cloudflare KV 中...';
+
+      const updatedVotes = {};
+      data.city.options.forEach(opt => {
+        const input = document.getElementById(`calInput_${opt.id}`);
+        const val = input ? parseInt(input.value, 10) : opt.baseVotes;
+        updatedVotes[opt.id] = Math.max(opt.baseVotes, isNaN(val) ? opt.baseVotes : val);
+      });
+
+      try {
+        const res = await fetch(CF_WORKER_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'ADMIN_SET_VOTES',
+            cityId: activeCalibrateCityId,
+            votesMap: updatedVotes
+          })
+        });
+        if (res.ok) {
+          showToast(`已成功同步【${data.city.name}】票數至 Cloudflare KV！`);
+          closeCalibrateModal();
+          await loadAllCities();
+        } else {
+          showToast('寫入失敗，請確認 Worker 端點與網路狀態');
+        }
+      } catch (e) {
+        showToast('寫入失敗：' + e.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '儲存並發布至雲端';
+      }
+    };
 
     document.getElementById('btnRefreshAll').addEventListener('click', () => loadAllCities());
 

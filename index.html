@@ -4273,7 +4273,18 @@
 
     let ballotRecords = {};
 
-    // Monotonic vote counter merge (CRDT Grow-Only counter: guarantees vote count NEVER resets or drops)
+    // Authoritative cloud vote sanitizer (ensures votes never fall below official UDN base votes)
+    function sanitizeServerVotes(baseOptions, remoteMap) {
+      const sanitized = {};
+      baseOptions.forEach(opt => {
+        const base = opt.baseVotes || 0;
+        const rem = (remoteMap && typeof remoteMap[opt.id] === 'number') ? remoteMap[opt.id] : 0;
+        sanitized[opt.id] = Math.max(base, rem);
+      });
+      return sanitized;
+    }
+
+    // Monotonic vote counter merge for local offline fallback
     function mergeVotesMap(baseOptions, currentMap, incomingMap) {
       const merged = {};
       baseOptions.forEach(opt => {
@@ -4423,8 +4434,8 @@
             const cfData = await cfRes.json();
             if (cfData && cfData.ok && cfData.votesMap) {
               state.cfWorkerAvailable = true;
-              // Monotonically merge remote with local votesMap (never drops local votes)
-              ballotRecords[cityId].votesMap = mergeVotesMap(cityObj.ballot.options, ballotRecords[cityId].votesMap, cfData.votesMap);
+              // Synchronize with authoritative Cloudflare KV data across all devices
+              ballotRecords[cityId].votesMap = sanitizeServerVotes(cityObj.ballot.options, cfData.votesMap);
               if (cfData.votedOpt && ['kmt', 'dpp', 'other', 'undecided'].includes(cfData.votedOpt)) {
                 ballotRecords[cityId].lastVotedDate = todayKey;
                 ballotRecords[cityId].lastVotedOpt = cfData.votedOpt;
@@ -4520,7 +4531,7 @@
             const cfData = await cfRes.json();
             if (cfData && cfData.votesMap) {
               state.cfWorkerAvailable = true;
-              ballotRecords[cityId].votesMap = mergeVotesMap(cityObj.ballot.options, ballotRecords[cityId].votesMap, cfData.votesMap);
+              ballotRecords[cityId].votesMap = sanitizeServerVotes(cityObj.ballot.options, cfData.votesMap);
               writtenViaWorker = true;
               if (syncText) syncText.textContent = '全網雲端即時同步';
             }
